@@ -3,10 +3,12 @@
   "packages": [
     "packages/*"
   ],
-  "command": {
-    "bootstrap": {
-      "npmClientArgs": ["--no-package-lock"]
+  "commands": {
+    "bootrap": {
+      "npmClientArgs": ["--no-lockfile"]
     }
   },
+  "npmClient": "yarn",
+  "useWorkspaces": true,
   "version": "0.2.0"
 }
