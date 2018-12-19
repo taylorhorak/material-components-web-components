@@ -17,6 +17,7 @@
     "build": "npm run build-styling && npm run build-typescript",
     "build-styling": "./scripts/build-styling.sh",
     "build-typescript": "tsc -b --verbose packages/**/tsconfig.json",
+    "rescope:auth": "./scripts/rescope-authx.sh",
     "update-gh-pages": "npm run bootstrap && ./scripts/publish-demos.sh",
     "watch": "npm run bootstrap && node scripts/watcher.js"
   },
