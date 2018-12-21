@@ -26,15 +26,15 @@ A [Material Components](https://material.io/develop/) top app bar implementation
 
   1. Add mwc-top-app-bar to your project:
 
-      ```npm i @material/mwc-top-app-bar```
+      ```npm i @authentic/mwc-top-app-bar```
 
   1. Import the mwc-top-app-bar definition into your HTML page:
 
-      ```<script type="module" src="@material/mwc-top-app-bar/index.js"></script>```
+      ```<script type="module" src="@authentic/mwc-top-app-bar/index.js"></script>```
 
       Or into your module script:
 
-      ```import {Switch} from "@material/mwc-top-app-bar"```
+      ```import {Switch} from "@authentic/mwc-top-app-bar"```
 
   1. Create an instance of mwc-top-app-bar in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -48,7 +48,7 @@ A [Material Components](https://material.io/develop/) top app bar implementation
 
       ```polymer serve```
 
-  > mwc-top-app-bar is published on [npm](https://www.npmjs.com/package/@material/mwc-top-app-bar) using JavaScript Modules.
+  > mwc-top-app-bar is published on [npm](https://www.npmjs.com/package/@authentic/mwc-top-app-bar) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-top-app-bar uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.

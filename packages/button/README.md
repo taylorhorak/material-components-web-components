@@ -26,15 +26,15 @@ A [Material Components](https://material.io/components/) icon implementation usi
 
   1. Add mwc-button to your project:
 
-      ```npm i @material/mwc-button```
+      ```npm i @authentic/mwc-button```
 
   1. Import the mwc-button definition into your HTML page:
 
-      ```<script type="module" src="@material/mwc-button/index.js"></script>```
+      ```<script type="module" src="@authentic/mwc-button/index.js"></script>```
 
       Or into your module script:
 
-      ```import {Button} from "@material/mwc-button"```
+      ```import {Button} from "@authentic/mwc-button"```
 
   1. Create an instance of mwc-button in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -48,7 +48,7 @@ A [Material Components](https://material.io/components/) icon implementation usi
 
       ```polymer serve```
 
-  > mwc-button is published on [npm](https://www.npmjs.com/package/@material/mwc-button) using JavaScript Modules.
+  > mwc-button is published on [npm](https://www.npmjs.com/package/@authentic/mwc-button) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-button uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.

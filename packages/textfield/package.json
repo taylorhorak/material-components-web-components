@@ -1,5 +1,5 @@
 {
-  "name": "@material/mwc-textfield",
+  "name": "@authentic/mwc-textfield",
   "version": "0.3.4",
   "description": "",
   "main": "mwc-textfield.js",
@@ -9,8 +9,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@material/mwc-base": "^0.3.4",
-    "@material/mwc-icon": "^0.3.4",
+    "@authentic/mwc-base": "^0.3.4",
+    "@authentic/mwc-icon": "^0.3.4",
     "@material/textfield": "^0.35.0",
     "@polymer/lit-element": "^0.6.5"
   },

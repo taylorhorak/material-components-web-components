@@ -16,7 +16,7 @@ limitations under the License.
 */
 import {LitElement, html} from '@polymer/lit-element/lit-element.js';
 import {style} from './mwc-list-item-css.js';
-import '@material/mwc-icon/mwc-icon-font.js';
+import '@authentic/mwc-icon/mwc-icon-font.js';
 
 function renderAttributes(element, attrInfo) {
   for (const a in attrInfo) {

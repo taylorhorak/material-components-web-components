@@ -14,14 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {ComponentElement, html, MDCWebComponentMixin} from '@material/mwc-base/component-element.js';
+import {ComponentElement, html, MDCWebComponentMixin} from '@authentic/mwc-base/component-element.js';
 import {MDCMenu, Corner} from '@material/menu';
 import {style} from './mwc-menu-css.js';
 
 // this element depend on the `mwc-list-item` and `mwc-list-item-separator`
 // elements to be registered ahead of time
-import '@material/mwc-list/mwc-list-item.js';
-import '@material/mwc-list/mwc-list-item-separator.js';
+import '@authentic/mwc-list/mwc-list-item.js';
+import '@authentic/mwc-list/mwc-list-item-separator.js';
 
 export class MDCWCMenu extends MDCWebComponentMixin(MDCMenu) {
   get items() {

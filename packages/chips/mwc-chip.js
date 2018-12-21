@@ -14,11 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {ComponentElement, MDCWebComponentMixin, html} from '@material/mwc-base/component-element.js';
+import {ComponentElement, MDCWebComponentMixin, html} from '@authentic/mwc-base/component-element.js';
 import {classMap} from 'lit-html/directives/classMap.js';
 import {style} from './mwc-chip-css.js';
 import {MDCChip} from '@material/chips';
-import '@material/mwc-icon/mwc-icon-font.js';
+import '@authentic/mwc-icon/mwc-icon-font.js';
 
 export class MDCWCChip extends MDCWebComponentMixin(MDCChip) {}
 

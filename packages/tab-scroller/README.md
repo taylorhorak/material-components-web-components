@@ -26,15 +26,15 @@ A [Material Components](https://material.io/develop/) tab scroller implementatio
 
   1. Add mwc-tab-scroller to your project:
 
-      ```npm i @material/mwc-tab-scroller```
+      ```npm i @authentic/mwc-tab-scroller```
 
   1. Import the mwc-tab-scroller definition into your HTML page:
 
-      ```<script type="module" src="@material/mwc-tab-scroller/index.js"></script>```
+      ```<script type="module" src="@authentic/mwc-tab-scroller/index.js"></script>```
 
       Or into your module script:
 
-      ```import {Switch} from "@material/mwc-tab-scroller"```
+      ```import {Switch} from "@authentic/mwc-tab-scroller"```
 
   1. Create an instance of mwc-tab-scroller in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -48,7 +48,7 @@ A [Material Components](https://material.io/develop/) tab scroller implementatio
 
       ```polymer serve```
 
-  > mwc-tab-scroller is published on [npm](https://www.npmjs.com/package/@material/mwc-tab-scroller) using JavaScript Modules.
+  > mwc-tab-scroller is published on [npm](https://www.npmjs.com/package/@authentic/mwc-tab-scroller) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-tab-scroller uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.

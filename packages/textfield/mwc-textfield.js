@@ -14,12 +14,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {ComponentElement, html} from '@material/mwc-base/component-element.js';
+import {ComponentElement, html} from '@authentic/mwc-base/component-element.js';
 import {classMap} from 'lit-html/directives/classMap.js';
-import {MDCWebComponentMixin} from '@material/mwc-base/mdc-web-component.js';
+import {MDCWebComponentMixin} from '@authentic/mwc-base/mdc-web-component.js';
 import {MDCTextField} from '@material/textfield';
 import {style} from './mwc-textfield-css.js';
-import '@material/mwc-icon/mwc-icon-font.js';
+import '@authentic/mwc-icon/mwc-icon-font.js';
 
 class MDCWCTextField extends MDCWebComponentMixin(MDCTextField) {}
 

@@ -26,15 +26,15 @@ A [Material Components](https://material.io/develop/) tab implementation using [
 
   1. Add mwc-tab to your project:
 
-      ```npm i @material/mwc-tab```
+      ```npm i @authentic/mwc-tab```
 
   1. Import the mwc-tab definition into your HTML page:
 
-      ```<script type="module" src="@material/mwc-tab/index.js"></script>```
+      ```<script type="module" src="@authentic/mwc-tab/index.js"></script>```
 
       Or into your module script:
 
-      ```import {Switch} from "@material/mwc-tab"```
+      ```import {Switch} from "@authentic/mwc-tab"```
 
   1. Create an instance of mwc-tab in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -48,7 +48,7 @@ A [Material Components](https://material.io/develop/) tab implementation using [
 
       ```polymer serve```
 
-  > mwc-tab is published on [npm](https://www.npmjs.com/package/@material/mwc-tab) using JavaScript Modules.
+  > mwc-tab is published on [npm](https://www.npmjs.com/package/@authentic/mwc-tab) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-tab uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.

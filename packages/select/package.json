@@ -1,5 +1,5 @@
 {
-  "name": "@material/mwc-select",
+  "name": "@authentic/mwc-select",
   "version": "0.3.4",
   "description": "",
   "main": "mwc-select.js",
@@ -9,9 +9,9 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@material/mwc-base": "^0.3.4",
-    "@material/mwc-list": "^0.3.4",
-    "@material/mwc-menu": "^0.3.4",
+    "@authentic/mwc-base": "^0.3.4",
+    "@authentic/mwc-list": "^0.3.4",
+    "@authentic/mwc-menu": "^0.3.4",
     "@material/select": "^0.35.0",
     "@polymer/lit-element": "^0.6.5"
   },

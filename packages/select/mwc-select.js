@@ -16,16 +16,16 @@ limitations under the License.
 */
 import {LitElement, html} from '@polymer/lit-element/lit-element.js';
 import {classMap} from 'lit-html/directives/classMap.js';
-import {MDCWebComponentMixin} from '@material/mwc-base/mdc-web-component.js';
-import {MDCWCMenu} from '@material/mwc-menu/mwc-menu.js';
+import {MDCWebComponentMixin} from '@authentic/mwc-base/mdc-web-component.js';
+import {MDCWCMenu} from '@authentic/mwc-menu/mwc-menu.js';
 import {MDCSelect} from '@material/select';
 import {style} from './mwc-select-css.js';
-import {style as menuStyle} from '@material/mwc-menu/mwc-menu-css.js';
+import {style as menuStyle} from '@authentic/mwc-menu/mwc-menu-css.js';
 
 // this element depend on the `mwc-list-item` and `mwc-list-item-separator`
 // elements to be registered ahead of time
-import '@material/mwc-list';
-import '@material/mwc-list/mwc-list-item-separator.js';
+import '@authentic/mwc-list';
+import '@authentic/mwc-list/mwc-list-item-separator.js';
 
 class MDCWSelect extends MDCWebComponentMixin(MDCSelect) {
   get items() {
