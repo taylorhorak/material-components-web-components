@@ -20,6 +20,8 @@ rm -Rf node_modules
 npm run rescope:auth
 npm run bootstrap
 npm run dev
+
+lerna publish from-package
 ````
 
 Then check the demos at the dev server address with `/demos` on the end

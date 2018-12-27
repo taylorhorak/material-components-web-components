@@ -15,17 +15,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@import '@material/textfield/mdc-text-field.scss';
-@import '@authentic/mwc-icon/src/mwc-icon-host.scss';
-
-.material-icons {
-  @extend %material-icons;
-}
-
-:host {
-  outline: none;
-}
-
-:host(:not([fullwidth])) {
-  display: inline-block;
-}
+@import '@material/line-ripple/mdc-line-ripple.scss';
