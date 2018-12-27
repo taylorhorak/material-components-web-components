@@ -14,6 +14,17 @@ Insert screenshot of a demo page, including a code snippet.
 
 **[Demos](https://material-components.github.io/material-components-web-components/demos/index.html)**
 
+## Authentic publishing instructions
+````
+rm -Rf node_modules
+npm run rescope:auth
+npm run bootstrap
+npm run dev
+````
+
+Then check the demos at the dev server address with `/demos` on the end
+
+
 ## Quick start
 
 > Note: This guide assumes you have npm installed locally.
