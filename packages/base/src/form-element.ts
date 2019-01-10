@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import {BaseElement} from './base-element';
+import { BaseElement } from './base-element';
 export * from './base-element';
 
 export interface RippleSurface {
@@ -36,7 +36,7 @@ export abstract class FormElement extends BaseElement {
   protected abstract formElement: HTMLElement;
 
   createRenderRoot() {
-    return this.attachShadow({mode: 'open', delegatesFocus: true});
+    return this.attachShadow({ mode: 'open', delegatesFocus: true });
   }
 
   /**

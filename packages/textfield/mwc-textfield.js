@@ -20,15 +20,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import { html, query, observer, property, customElement, FormElement } from '@authentic/mwc-base/form-element.js';
-import { classMap } from 'lit-html/directives/class-map.js';
+import { FormElement, customElement, query, html, classMap, property, observer } from '@authentic/mwc-base/form-element.js';
+import MDCTextFieldFoundation from '@material/textfield/foundation.js';
+import { MDCLineRipple } from '@material/line-ripple';
+import { MDCFloatingLabel } from '@material/floating-label/index';
+import { MDCNotchedOutline } from '@material/notched-outline/index';
+import { ripple } from '@authentic/mwc-ripple/ripple-directive.js';
 import { style } from './mwc-textfield-css.js';
-import { lineRipple } from '@authentic/mwc-line-ripple/line-ripple-directive';
-import MDCTextfieldFoundation from '@material/textfield/foundation.js';
-let Textfield = class Textfield extends FormElement {
+// elements to be registered ahead of time
+import '@authentic/mwc-icon/mwc-icon-font.js';
+let TextField = class TextField extends FormElement {
     constructor() {
         super(...arguments);
         this.value = '';
+        this.label = '';
         this.icon = '';
         this.iconTrailing = false;
         this.box = false;
@@ -38,147 +43,212 @@ let Textfield = class Textfield extends FormElement {
         this.required = false;
         this.helperText = '';
         this.placeHolder = '';
-        this.type = '';
-        this.mdcFoundationClass = MDCTextfieldFoundation;
+        this.type = 'input';
+        this.mdcFoundationClass = MDCTextFieldFoundation;
     }
-    createAdapter() {
-        return Object.assign({}, super.createAdapter(), { addClass: () => { }, removeClass: () => { }, hasClass: () => { }, registerInputInteractionHandler: (type, handler) => {
-                this.formElement.addEventListener(type, handler);
-            }, deregisterInputInteractionHandler: (type, handler) => {
-                this.formElement.removeEventListener(type, handler);
-            }, registerTextFieldInteractionHandler: (type, handler) => {
-                this.formElement.addEventListener(type, handler);
-            }, deregisterTextFieldInteractionHandler: (type, handler) => {
-                this.formElement.removeEventListener(type, handler);
-            }, registerInteractionHandler: (type, handler) => {
-                this.label.addEventListener(type, handler);
-            }, deregisterInteractionHandler: (type, handler) => {
-                this.label.removeEventListener(type, handler);
-            }, registerValidationAttributeChangeHandler: () => { }, deregisterValidationAttributeChangeHandler: () => { }, getNativeInput: () => {
-                return this.formElement;
-            }, isFocused: () => { }, isRtl: () => { }, activateLineRipple: () => {
-                if (this.ripple) {
-                    this.ripple.activate();
-                }
-            }, deactivateLineRipple: () => {
-                if (this.ripple) {
-                    this.ripple.deactivate();
-                }
-            }, setLineRippleTransformOrigin: () => { }, shakeLabel: () => { }, floatLabel: () => { }, hasLabel: () => { }, getLabelWidth: () => { }, hasOutline: () => { }, notchOutline: () => { }, closeOutline: () => { } });
+    get _lineRipple() {
+        if (!this.outlined && this.lineRippleElement) {
+            this._lineRippleInstance = this._lineRippleInstance || new MDCLineRipple(this.lineRippleElement);
+        }
+        return this._lineRippleInstance;
+    }
+    get _label() {
+        if (this.label && this.labelElement) {
+            this._labelInstance = this._labelInstance || new MDCFloatingLabel(this.labelElement);
+        }
+        return this._labelInstance;
+    }
+    get _outline() {
+        if (this.outlined && this.outlineElement) {
+            this._outlineInstance = this._outlineInstance || new MDCNotchedOutline(this.outlineElement);
+        }
+        return this._outlineInstance;
     }
     renderStyle() {
         return style;
     }
-    get ripple() {
-        return this.rippleNode ? this.rippleNode.ripple : undefined;
+    createAdapter() {
+        return Object.assign({}, super.createAdapter(), { 
+            /* Text Field Adapter Methods */
+            registerTextFieldInteractionHandler: (evtType, handler) => this.mdcRoot.addEventListener(evtType, handler), deregisterTextFieldInteractionHandler: (evtType, handler) => this.mdcRoot.removeEventListener(evtType, handler), registerValidationAttributeChangeHandler: (handler) => {
+                const observer = new MutationObserver(handler);
+                const targetNode = this.formElement;
+                const config = { attributes: true };
+                observer.observe(targetNode, config);
+                return observer;
+            }, deregisterValidationAttributeChangeHandler: (observer) => observer.disconnect(), isFocused: () => {
+                return document.activeElement === this.formElement;
+            }, isRtl: () => window.getComputedStyle(this.mdcRoot).getPropertyValue('direction') === 'rtl', 
+            /* Input Adapter Methods */
+            registerInputInteractionHandler: (evtType, handler) => this.formElement.addEventListener(evtType, handler), deregisterInputInteractionHandler: (evtType, handler) => this.formElement.removeEventListener(evtType, handler), getNativeInput: () => this.formElement, 
+            /* Floating Label Adapter Methods */
+            shakeLabel: (shouldShake) => this._label && this._label.shake(shouldShake), floatLabel: (shouldFloat) => this._label && this._label.float(shouldFloat), hasLabel: () => !!this._label || !!this.outlined, getLabelWidth: () => !!this._label ? this._label.getWidth() : -12, 
+            /* Line Ripple Adapter Methods */
+            activateLineRipple: () => {
+                if (this._lineRipple) {
+                    this._lineRipple.activate();
+                }
+            }, deactivateLineRipple: () => {
+                if (this._lineRipple) {
+                    this._lineRipple.deactivate();
+                }
+            }, setLineRippleTransformOrigin: (normalizedX) => {
+                if (this._lineRipple) {
+                    this._lineRipple.setRippleCenter(normalizedX);
+                }
+            }, 
+            /* Notched Outline Adapter Methods */
+            notchOutline: (labelWidth, isRtl) => this._outline.notch(labelWidth, isRtl), closeOutline: () => this._outline.closeNotch(), hasOutline: () => !!this._outline });
     }
     render() {
-        const { value, label, box, outlined, disabled, icon, iconTrailing, fullWidth, required, placeHolder, helperText, type } = this;
+        const { value, label, box, outlined, disabled, icon, iconTrailing, fullWidth, required, placeHolder, helperText, type, pattern, minLength, maxLength, min, max, step } = this;
         const hostClassInfo = {
             'mdc-text-field--with-leading-icon': icon && !iconTrailing,
             'mdc-text-field--with-trailing-icon': icon && iconTrailing,
-            'mdc-text-field--box': !fullWidth && box,
-            'mdc-text-field--outlined': !fullWidth && outlined,
+            'mdc-text-field--box': box,
+            'mdc-text-field--no-label': !label,
+            'mdc-text-field--outlined': outlined,
             'mdc-text-field--disabled': disabled,
-            'mdc-text-field--fullwidth': fullWidth,
+            'mdc-text-field--fullwidth': fullWidth
+        };
+        const labelClassInfo = {
+            'mdc-floating-label--float-above': !!value
+        };
+        const inputOptions = {
+            value,
+            required,
+            type,
+            placeHolder,
+            label,
+            disabled,
+            pattern,
+            minLength,
+            maxLength,
+            min,
+            max,
+            step
         };
         return html `
-            ${this.renderStyle()}
-            <div class="mdc-text-field mdc-text-field--upgraded ${classMap(hostClassInfo)}">
-                ${this._renderIcon({ icon, fullWidth })}
-                ${this._renderInput({ value, required, type, placeHolder, label })}
-                ${this._renderLabel({ label, value, fullWidth })}
-                ${this._renderSVG({ fullWidth, outlined })}
-            </div>
-            ${this._renderHelperText({ helperText })}
-        `;
-    }
-    _renderIcon({ icon, fullWidth }) {
-        return !fullWidth && icon
-            ? html `<i class="material-icons mdc-text-field__icon" tabindex="0">${icon}</i>`
-            : '';
-    }
-    _renderInput({ value, required, type, placeHolder, label }) {
-        return html `<input type="${type}" placeholder="${placeHolder}" ?required="${required}" class="mdc-text-field__input ${value ? 'mdc-text-field--upgraded' : ''}" id="text-field" .value="${value}" aria-label="${label}">`;
-    }
-    _renderLabel({ label, value, fullWidth }) {
-        return !fullWidth && label
-            ? html `<label class="mdc-floating-label ${value ? 'mdc-floating-label--float-above' : ''} for=" text-field">${label}</label>`
-            : '';
-    }
-    _renderSVG({ outlined, fullWidth }) {
-        return !fullWidth && outlined
+      ${this.renderStyle()}
+      <div class="mdc-text-field mdc-text-field--upgraded ${classMap(hostClassInfo)}" .ripple="${!outlined ? ripple({ unbounded: false }) : undefined}">
+        ${icon ? html `<i class="material-icons mdc-text-field__icon">${icon}</i>` : ''}
+        ${this._renderInput(inputOptions)}
+        ${label ? html `<label class="mdc-floating-label ${classMap(labelClassInfo)}" for="text-field">${label}</label>` : ''}
+        ${outlined
             ? html `
-                <div class="mdc-notched-outline">
-                    <svg>
-                        <path class="mdc-notched-outline__path" /></svg>
-                </div>
-                <div class="mdc-notched-outline__idle"></div>
-            `
-            : html `<div class="mdc-line-ripple" .ripple="${lineRipple({})}"></div>`;
+            <div class="mdc-notched-outline">
+              <svg><path class="mdc-notched-outline__path"/></svg>
+            </div>
+            <div class="mdc-notched-outline__idle"></div>`
+            : html `<div class="mdc-line-ripple"></div>`}
+      </div>
+      ${helperText ? html `<p class="mdc-text-field-helper-text" aria-hidden="true">${helperText}</p>` : ''}
+    `;
     }
-    _renderHelperText({ helperText }) {
-        return helperText
-            ? html `<p class="mdc-text-field-helper-text" aria-hidden="true">${helperText}</p>`
-            : '';
+    _renderInput({ value, required, type, placeHolder, label, disabled, pattern, minLength, maxLength, min, max, step }) {
+        return html `<input
+      id="text-field"
+      class="mdc-text-field__input ${value ? 'mdc-text-field--upgraded' : ''}"
+      type="${type}"
+      placeholder="${placeHolder}"
+      aria-label="${label}"
+      .value="${value}"
+      ?required="${required}"
+      ?disabled="${disabled}"
+      ?pattern="${pattern}"
+      ?minlength="${minLength}"
+      ?maxlength="${maxLength}"
+      ?min="${min}"
+      ?max="${max}"
+      ?step="${step}"
+      @focus="${this.handleInteractiveEvent}"
+      @blur="${this.handleInteractiveEvent}">`;
+    }
+    handleInteractiveEvent(evt) {
+        const event = new CustomEvent(evt.type);
+        this.mdcRoot.dispatchEvent(event);
     }
 };
 __decorate([
-    query('.mdc-textfield')
-], Textfield.prototype, "mdcRoot", void 0);
+    query('.mdc-text-field')
+], TextField.prototype, "mdcRoot", void 0);
 __decorate([
     query('input')
-], Textfield.prototype, "formElement", void 0);
+], TextField.prototype, "formElement", void 0);
 __decorate([
-    query('label')
-], Textfield.prototype, "label", void 0);
+    query('.mdc-line-ripple')
+], TextField.prototype, "lineRippleElement", void 0);
 __decorate([
-    property({ type: String }),
+    query('.mdc-floating-label')
+], TextField.prototype, "labelElement", void 0);
+__decorate([
+    query('.mdc-notched-outline')
+], TextField.prototype, "outlineElement", void 0);
+__decorate([
+    property({ type: String, reflect: true }),
     observer(function (value) {
         this.mdcFoundation.setValue(value);
     })
-], Textfield.prototype, "value", void 0);
+], TextField.prototype, "value", void 0);
 __decorate([
     property({ type: String })
-], Textfield.prototype, "icon", void 0);
+], TextField.prototype, "label", void 0);
+__decorate([
+    property({ type: String })
+], TextField.prototype, "icon", void 0);
 __decorate([
     property({ type: Boolean })
-], Textfield.prototype, "iconTrailing", void 0);
+], TextField.prototype, "iconTrailing", void 0);
 __decorate([
     property({ type: Boolean })
-], Textfield.prototype, "box", void 0);
+], TextField.prototype, "box", void 0);
 __decorate([
     property({ type: Boolean })
-], Textfield.prototype, "outlined", void 0);
+], TextField.prototype, "outlined", void 0);
 __decorate([
     property({ type: Boolean }),
     observer(function (value) {
         this.mdcFoundation.setDisabled(value);
     })
-], Textfield.prototype, "disabled", void 0);
+], TextField.prototype, "disabled", void 0);
 __decorate([
     property({ type: Boolean })
-], Textfield.prototype, "fullWidth", void 0);
+], TextField.prototype, "fullWidth", void 0);
 __decorate([
     property({ type: Boolean })
-], Textfield.prototype, "required", void 0);
+], TextField.prototype, "required", void 0);
 __decorate([
     property({ type: String }),
     observer(function (value) {
         this.mdcFoundation.setHelperTextContent(value);
     })
-], Textfield.prototype, "helperText", void 0);
+], TextField.prototype, "helperText", void 0);
 __decorate([
     property({ type: String })
-], Textfield.prototype, "placeHolder", void 0);
+], TextField.prototype, "placeHolder", void 0);
 __decorate([
     property({ type: String })
-], Textfield.prototype, "type", void 0);
+], TextField.prototype, "type", void 0);
 __decorate([
-    query('.mdc-line-ripple')
-], Textfield.prototype, "rippleNode", void 0);
-Textfield = __decorate([
+    property({ type: String })
+], TextField.prototype, "pattern", void 0);
+__decorate([
+    property({ type: Number })
+], TextField.prototype, "minLength", void 0);
+__decorate([
+    property({ type: Number })
+], TextField.prototype, "maxLength", void 0);
+__decorate([
+    property()
+], TextField.prototype, "min", void 0);
+__decorate([
+    property()
+], TextField.prototype, "max", void 0);
+__decorate([
+    property({ type: Number })
+], TextField.prototype, "step", void 0);
+TextField = __decorate([
     customElement('mwc-textfield')
-], Textfield);
-export { Textfield };
+], TextField);
+export { TextField };
 //# sourceMappingURL=mwc-textfield.js.map
