@@ -168,6 +168,9 @@ let TextField = class TextField extends FormElement {
       @blur="${this.handleInteractionEvent}">`;
     }
     handleInteractionEvent(evt) {
+        if (evt.type === 'input') {
+            this.value = this.formElement.value;
+        }
         emit(this.mdcRoot, evt.type);
     }
 };
