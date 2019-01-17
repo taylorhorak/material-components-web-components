@@ -22,7 +22,7 @@ import {
   html,
   Adapter,
   property
-} from "@material/mwc-base/base-element";
+} from "@authentic/mwc-base/base-element";
 import { classMap } from "lit-html/directives/class-map.js";
 import { style } from "./mwc-chip-set-css.js";
 import MDCChipFoundation from "@material/chips/chip/foundation.js";
