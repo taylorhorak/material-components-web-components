@@ -26,6 +26,7 @@ import { MDCLineRipple } from '@material/line-ripple';
 import { MDCFloatingLabel } from '@material/floating-label/index';
 import { MDCNotchedOutline } from '@material/notched-outline/index';
 import { ripple } from '@authentic/mwc-ripple/ripple-directive.js';
+import { emit } from '@authentic/mwc-base/utils';
 import { style } from './mwc-textfield-css.js';
 // elements to be registered ahead of time
 import '@authentic/mwc-icon/mwc-icon-font.js';
@@ -161,12 +162,13 @@ let TextField = class TextField extends FormElement {
       ?min="${min}"
       ?max="${max}"
       ?step="${step}"
-      @focus="${this.handleInteractiveEvent}"
-      @blur="${this.handleInteractiveEvent}">`;
+      @input="${this.handleInteractionEvent}"
+      @change="${this.handleInteractionEvent}"
+      @focus="${this.handleInteractionEvent}"
+      @blur="${this.handleInteractionEvent}">`;
     }
-    handleInteractiveEvent(evt) {
-        const event = new CustomEvent(evt.type);
-        this.mdcRoot.dispatchEvent(event);
+    handleInteractionEvent(evt) {
+        emit(this.mdcRoot, evt.type);
     }
 };
 __decorate([
