@@ -339,4 +339,8 @@ export class TextField extends FormElement {
 
     emit(this.mdcRoot, evt.type);
   }
+
+  simulateFocus(focused: Boolean) {
+    emit(this.formElement, focused ? 'focus' : 'blur');
+  }
 }
