@@ -78,6 +78,9 @@ export class Menu extends BaseElement {
   @property({ type: Boolean })
   autofocus = false;
 
+  @property({ type: Boolean })
+  autoclose = false;
+
   protected _selectedIndex: number = -1;
   get selectedIndex() {
     return this._selectedIndex;
@@ -136,7 +139,7 @@ export class Menu extends BaseElement {
       };
 
       this._menuSurfaceInstance.foundation_.adapter_.isElementInContainer = el => {
-        return this === el || this.contains(el);
+        return this === el || this.contains(el) || !this.autoclose;
       };
     }
 
@@ -384,13 +387,13 @@ export class Menu extends BaseElement {
   }
 
   _afterOpenedCallback() {
-    if (this.autofocus && this.enabledItems.length > 0) {
-      this.items[this.selectedIndex !== -1 ? this.selectedIndex : 0].focus();
+    if (this.autofocus) {
+      this.setFocus();
     }
 
     emit(this, 'MDCMenu:opened');
 
-    document.addEventListener('keydown', this._handleKeydown);
+    this.addEventListener('keydown', this._handleKeydown);
     this.addEventListener('click', this._handleClick);
   }
 
@@ -398,7 +401,13 @@ export class Menu extends BaseElement {
     this.open = false;
     emit(this, 'MDCMenu:closed');
 
-    document.removeEventListener('keydown', this._handleKeydown);
+    this.removeEventListener('keydown', this._handleKeydown);
     this.removeEventListener('click', this._handleClick);
+  }
+
+  setFocus() {
+    if (this.enabledItems.length > 0) {
+      this.items[this.selectedIndex !== -1 ? this.selectedIndex : 0].focus();
+    }
   }
 }
