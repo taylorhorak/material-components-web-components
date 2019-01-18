@@ -26,9 +26,8 @@ import {
 import { classMap } from "lit-html/directives/class-map";
 import { style } from "./mwc-card-css.js";
 import MDCFoundation from "@material/base/foundation";
-// import { ripple } from "@material/mwc-ripple/ripple-directive";
-
 import "@material/mwc-icon/mwc-icon-font";
+import "@material/mwc-ripple/mwc-ripple";
 
 export interface CardFoundation extends Foundation {}
 
@@ -55,34 +54,31 @@ export class Card extends BaseElement {
   @query('slot[name="menu"]')
   protected slotMenu!: HTMLSlotElement;
 
-  // protected get cardElements() {
-  //   return [...this.slotEl.assignedNodes()];
-  // }
-
-  // firstUpdated() {
-  //   super.firstUpdated();
-
-  //   this.cardElements.forEach(el => {
-  //     console.log(el);
-  //     new MDCRipple(el);
-  //   });
-  // }
+  @property({ type: String })
+  aspectRatio =  '';
 
   renderStyle() {
     return style;
   }
 
   render() {
+    const mediaStyles = this.aspectRatio ? 'mdc-card__media--' + this.aspectRatio : '';
+
     return html`
       ${this.renderStyle()}
-      <div class="mdc-card ${classMap({ "mdc-card--stroked": this.stroke })}"
+      <div 
+      class="mdc-card ${classMap({ "mdc-card--stroked": this.stroke })}"
       >
-        <div class="mdc-card__primary-action" tabindex="0">
-          <slot name="media" class="mdc-card__media mdc-card__media--16-9">
-            <slot class="mdc-card__media-content"></slot>
-          </slot>
+      <div class="mdc-card__primary-action" tabindex="0"
+        >
+          <div class="mdc-card__media ${mediaStyles}">
+            <div class="mdc-card__media-content">
+              <slot name="media"></slot>
+            </div>
+          </div>
 
-          <slot name="content" class="content"></slot>
+          <slot name="content"></slot>
+          <mwc-ripple></mwc-ripple>
         </div>
         
         <div class="mdc-card__actions">

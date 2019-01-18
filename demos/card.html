@@ -28,10 +28,9 @@ limitations under the License.
       type="module"
       src="../node_modules/@material/mwc-icon/mwc-icon.js"
     ></script>
-    <!-- <script type="module" src="../node_modules/@material/mwc-icon-toggle/mwc-icon-toggle.js"></script> -->
     <script
       type="module"
-      src="../node_modules/@material/mwc-ripple/mwc-ripple.js"
+      src="../node_modules/@material/mwc-icon-button/mwc-icon-button.js"
     ></script>
     <script
       type="module"
@@ -53,95 +52,32 @@ limitations under the License.
         border-radius: 8px;
         overflow: hidden;
       }
+
+      .my-media {
+        background-image: url("https://material-components-web.appspot.com/images/16-9.jpg");
+        height: 100%;
+        background-size: cover;
+        background-position: center center;
+      }
+      .subtext {
+        color: rgba(0, 0, 0, 0.54);
+      }
+
+      .content {
+        display: block;
+        padding: 1rem;
+      }
     </style>
   </head>
   <body class="unresolved">
-    <!-- <script type="module">
-    import {style as cardStyle} from '../node_modules/@material/mwc-card/mwc-card-css.js';
-    import {style as typographyStyle} from '../node_modules/@material/mwc-typography/mwc-typography-css.js';
-    import {LitElement, html} from '../node_modules/lit-element/lit-element.js';
-    import '../node_modules/@material/mwc-button/mwc-button.js';
-    import '../node_modules/@material/mwc-icon/mwc-icon.js';
-    import '../node_modules/@material/mwc-icon-toggle/mwc-icon-toggle.js';
-    import '../node_modules/@material/mwc-ripple/mwc-ripple.js';
-
-    class DemoCard extends LitElement {
-      render() {
-        return html`
-          ${cardStyle}${typographyStyle}
-          <style>
-            :host {
-              display: inline-block;
-            }
-
-            .mdc-card {
-              max-width: 350px;
-            }
-
-            .my-media {
-              background-image: url('https://material-components-web.appspot.com/images/16-9.jpg');
-            }
-
-            .content {
-              padding: 1rem;
-            }
-
-            .subtext {
-              color: rgba(0, 0, 0, 0.54);
-            }
-          </style>
-          <div class="mdc-card">
-            <div class="mdc-card__primary-action">
-              <div class="mdc-card__media mdc-card__media--16-9 my-media"></div>
-              <div class="content">
-                <h2 class="mdc-typography--title">Our Changing Planet</h2>
-                <h3 class="mdc-typography--subheading1 subtext">by Kurt Wagner</h3>
-                <div class="mdc-typography--body1 subtext">Visit ten places on our planet that are undergoing the biggest changes today.</div>
-              </div>
-              <mdc-ripple></mdc-ripple>
-            </div>
-
-            <div class="mdc-card__actions">
-              <div class="mdc-card__action-buttons">
-                <mwc-button dense class="mdc-card__action--button">Read</mwc-button>
-                <mwc-button dense class="mdc-card__action--button">Save</mwc-button>
-              </div>
-              <div class="mdc-card__action-icons">
-                // <mwc-icon-toggle title="Share" icon="share"></mwc-icon-toggle>
-                // <mwc-icon-toggle title="More options" icon="more_vert"></mwc-icon-toggle>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    customElements.define('demo-card', DemoCard);
-  </script>
-  <div class="presentCard">
-    <demo-card></demo-card>
-  </div> -->
-
     <div class="presentCard">
-      <mwc-card>
-        <style>
-          .my-media {
-            background-image: url("https://material-components-web.appspot.com/images/16-9.jpg");
-          }
-          .subtext {
-            color: rgba(0, 0, 0, 0.54);
-          }
-        </style>
-        <div slot="media">
-          <div class="my-media">
-              <div>Title</div>
-          </div>
-        </div>
+      <mwc-card aspectRatio="16-9">
+        <div slot="media" class="my-media"></div>
 
-        <div slot="content">
-          <h2 class="mdc-typography--title">Our Changing Planet</h2>
-          <h3 class="mdc-typography--subheading1 subtext">by Kurt Wagner</h3>
-          <div class="mdc-typography--body1 subtext">
+        <div slot="content" class="content">
+          <h2 class="">Our Changing Planet</h2>
+          <h3 class="subtext">by Kurt Wagner</h3>
+          <div class="subtext">
             Visit ten places on our planet that are undergoing the biggest
             changes today.
           </div>
@@ -152,11 +88,12 @@ limitations under the License.
           <mwc-button dense class="mdc-card__action--button">Save</mwc-button>
         </div>
         <div slot="action-icons">
-          <!-- <mwc-icon-toggle title="Share" icon="share"></mwc-icon-toggle> -->
-          <!-- <mwc-icon-toggle
-              title="More options"
-              icon="more_vert"
-            ></mwc-icon-toggle> -->
+          <mwc-icon-button title="Favorite" icon="favorite"></mwc-icon-button>
+          <mwc-icon-button title="Share" icon="share"></mwc-icon-button>
+          <mwc-icon-button
+            title="More options"
+            icon="more_vert"
+          ></mwc-icon-button>
         </div>
       </mwc-card>
     </div>
