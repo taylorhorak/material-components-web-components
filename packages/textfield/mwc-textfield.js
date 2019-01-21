@@ -173,6 +173,9 @@ let TextField = class TextField extends FormElement {
         }
         emit(this.mdcRoot, evt.type);
     }
+    simulateFocus(focused) {
+        emit(this.formElement, focused ? 'focus' : 'blur');
+    }
 };
 __decorate([
     query('.mdc-text-field')
