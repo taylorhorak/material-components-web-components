@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-list",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "",
   "main": "mwc-list-item.js",
   "scripts": {
@@ -9,10 +9,11 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@authentic/mwc-base": "^0.3.8",
+    "@authentic/mwc-icon": "^0.3.8",
     "@material/list": "^0.40.1",
-    "@authentic/mwc-base": "^0.3.4",
-    "@authentic/mwc-icon": "^0.3.4",
-    "@polymer/lit-element": "^0.6.5"
+    "lit-element": "^2.0.0-rc.2",
+    "lit-html": "^1.0.0-rc.2"
   },
   "publishConfig": {
     "access": "public"
