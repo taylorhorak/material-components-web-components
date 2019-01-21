@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-ripple",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "",
   "main": "mwc-ripple.js",
   "repository": {
@@ -13,7 +13,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.8",
+    "@authentic/mwc-base": "^0.3.9",
     "@material/ripple": "^0.40.1",
     "lit-element": "^2.0.0-rc.2",
     "lit-html": "^1.0.0-rc.2"
