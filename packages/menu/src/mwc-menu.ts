@@ -36,6 +36,10 @@ import { style } from './mwc-menu-css.js';
 export interface MenuFoundation extends Foundation {
   handleKeydown(evt: KeyboardEvent): void;
   handleClick(evt: MouseEvent): void;
+  addClassToElementAtIndex(index: number): void;
+  removeClassFromElementAtIndex(index: number): void;
+  addAttributeToElementAtIndex(index: number): void;
+  removeAttributeFromElementAtIndex(index: number): void;
 }
 
 export declare var MenuFoundation: {
@@ -139,7 +143,7 @@ export class Menu extends BaseElement {
       };
 
       this._menuSurfaceInstance.foundation_.adapter_.isElementInContainer = el => {
-        return this === el || this.contains(el) || !this.autoclose;
+        return this === el || this.contains(el as Node) || !this.autoclose;
       };
     }
 
@@ -242,6 +246,8 @@ export class Menu extends BaseElement {
 
   protected mdcFoundation!: MenuFoundation;
 
+  protected _preventClose = false;
+
   renderStyle() {
     return style;
   }
@@ -269,7 +275,11 @@ export class Menu extends BaseElement {
         return element && element.classList.contains(className);
       },
       closeSurface: () => {
-        this.open = false;
+        if (this._preventClose) {
+          this._preventClose = false;
+        } else {
+          this.open = false;
+        }
       },
       getElementIndex: element => this.items.indexOf(element),
       getParentElement: element => {
@@ -302,7 +312,10 @@ export class Menu extends BaseElement {
       this.mdcFoundation.handleKeydown(evt);
       this._list.handleKeydown_(evt);
     }
-    this._handleClick = evt => this.mdcFoundation.handleClick(evt);
+    this._handleClick = evt => {
+      this._preventClose = !this.autoclose;
+      this.mdcFoundation.handleClick(evt)
+    };
 
     this._menuSurface.listen('MDCMenuSurface:opened', () => this._afterOpenedCallback());
     this._menuSurface.listen('MDCMenuSurface:closed', () => this._afterClosedCallback());
@@ -351,11 +364,11 @@ export class Menu extends BaseElement {
     }
   }
 
-  set quickOpen(quickOpen: Boolean) {
+  set quickOpen(quickOpen: boolean) {
     this._menuSurface.quickOpen = quickOpen;
   }
 
-  setFixedPosition(isFixed: Boolean) {
+  setFixedPosition(isFixed: boolean) {
     this._menuSurface.setFixedPosition(isFixed);
   }
 
@@ -374,11 +387,11 @@ export class Menu extends BaseElement {
     this._menuSurface.hoistMenuToBody();
   }
 
-  setIsHoisted(isHoisted: Boolean) {
+  setIsHoisted(isHoisted: boolean) {
     this._menuSurface.setIsHoisted(isHoisted);
   }
 
-  setAbsolutePosition(x: Number, y: Number) {
+  setAbsolutePosition(x: number, y: number) {
     this._menuSurface.setAbsolutePosition(x, y);
   }
 
