@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 // @ts-ignore: Lit-Element extra imports
-import { LitElement, html, property, customElement } from '@polymer/lit-element';
+import { LitElement, html, property, customElement } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { style } from './mwc-dialog-css.js';
 import 'wicg-inert/dist/inert.js';

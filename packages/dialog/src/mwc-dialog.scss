@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 @import '@material/button/mdc-button.scss';
-@import '@material/dialog/mdc-dialog.scss';
+// @import '@material/dialog/mdc-dialog.scss';
 
 .mdc-dialog__body--scrollable {
     max-height: var(--mwc-dialog-maxHeight, 195px);
