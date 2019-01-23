@@ -16,8 +16,19 @@ limitations under the License.
 */
 
 // @ts-ignore: Lit-Element extra imports
-import { LitElement, html, property, customElement } from 'lit-element';
+import {
+    BaseElement,
+    customElement,
+    Foundation,
+    Adapter,
+    html,
+    property,
+    query
+} from "@material/mwc-base/base-element";
+// import { ComponentElement } from '@material/mwc-base/component-element.js';
 import { classMap } from 'lit-html/directives/class-map.js';
+import MDCDialogFoundation from "@material/dialog/foundation";
+
 import { style } from './mwc-dialog-css.js';
 import 'wicg-inert/dist/inert.js';
 import 'blocking-elements/blocking-elements.js';
@@ -25,8 +36,24 @@ import 'blocking-elements/blocking-elements.js';
 // import {ComponentElement, MDCWebComponentMixin, html} from '@material/mwc-base/component-element.js';
 // import {MDCDialog} from './mdc-dialog.js';
 
+export interface DialogFoundation extends Foundation {
+    opened(): boolean;
+}
+
+export declare var DialogFoundation: {
+    prototype: DialogFoundation;
+    new (adapter: Adapter): DialogFoundation;
+};
+
 @customElement('mwc-dialog' as any)
-export class Dialog extends LitElement {
+export class Dialog extends BaseElement {
+
+    protected mdcFoundation!: DialogFoundation;
+
+    protected readonly mdcFoundationClass: typeof DialogFoundation = MDCDialogFoundation;
+
+    @query('.mdc-dialog')
+    protected mdcRoot!: HTMLElement
 
     @property({type: String})
     headerLabel = '';
@@ -43,6 +70,13 @@ export class Dialog extends LitElement {
     @property({type: Boolean})
     opened = false;
 
+    protected createAdapter() {
+        return {
+            ...super.createAdapter(),
+            trapFocus: () => {},
+            releaseFocus: () => {},
+        }
+    }
 
     renderStyle() {
         return style;
@@ -53,169 +87,78 @@ export class Dialog extends LitElement {
         return html`
             ${this.renderStyle()}
             <aside
-                class="mdc-dialog"
+                class="mdc-dialog ${this.opened ? 'mdc-dialog--open' : ''}"
                 role="alertdialog"
-                aria-labelledby="my-mdc-dialog-label"
-                aria-describedby="my-mdc-dialog-description">
-                <div class="mdc-dialog__surface">
-                    <header class="mdc-dialog__header">
-                        <h2 id="my-mdc-dialog-label" class="mdc-dialog__header__title">${headerLabel}</h2>
-                        <slot name="header"></slot>
-                    </header>
-                    <section id="my-mdc-dialog-description" class="mdc-dialog__body ${classMap({'mdc-dialog__body--scrollable': scrollable})}">
-                        <slot></slot>
-                    </section>
-                    <footer class="mdc-dialog__footer">
-                        <slot name="footer"></slot>
-                        <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--cancel">${declineLabel}</button>
-                        <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">${acceptLabel}</button>
-                    </footer>
+                aria-labelledby="my-dialog-title"
+                aria-describedby="my-dialog-content"
+                >
+                <div class="mdc-dialog__container" @keyup="${this.listenForESC}">
+                    <div class="mdc-dialog__surface">
+                        <header class="mdc-dialog__header">
+                            <h2 id="my-dialog-title" class="mdc-dialog__title">${headerLabel}</h2>
+                            <slot name="header"></slot>
+                        </header>
+                        <section id="my-dialog-content" class="mdc-dialog__content ${classMap({'mdc-dialog__body--scrollable': scrollable})}">
+                            <slot></slot>
+                        </section>
+                        <footer class="mdc-dialog__actions">
+                            <slot name="footer"></slot>
+                            <button type="button"
+                                class="mdc-button mdc-dialog__button mdc-dialog__button--cancel mdc-ripple-upgraded"
+                                @click="${this.cancel}"
+                                >
+                                ${declineLabel}
+                            </button>
+                            <button type="button"
+                                class="mdc-button mdc-dialog__button mdc-dialog__button--accept mdc-ripple-upgraded"
+                                @click="${this.accept}">
+                                ${acceptLabel}
+                            </button>
+                        </footer>
+                    </div>
                 </div>
-                <div class="mdc-dialog__backdrop"></div>
+                <div class="mdc-dialog__scrim"></div>
             </aside>
         `;
     }
 
     get _backDrop() {
-        return this.__backDrop || (this.__backDrop = this.shadowRoot.querySelector('.mdc-dialog__backdrop'));
+        return this.shadowRoot!.querySelector('.mdc-dialog__scrim');
     }
 
-    get opened() {
-        return this._component && this._component.open;
+    accept(e) {
+        console.log("Accepted", e);
+        this.close()
     }
 
-    set opened(value) {
-        if (value) {
-            this.show();
-        } else {
-            this.close();
+    cancel(e) {
+        console.log("Cancelled", e);
+        this.close()
+    }
+
+    listenForESC(e) {
+        console.log("button pressed", e)
+        if (e.key === "ESC") {
+            this.close()
         }
     }
 
-    show() {
-        this.componentReady().then((component) => {
-            component.show();
-        });
-    }
-
     close() {
-        this.componentReady().then((component) => {
-            component.close();
-        });
+        this.opened = false;
     }
+
+    // show() {
+    //     this.componentReady().then((component) => {
+    //         component.show();
+    //     });
+    // }
+
+    // close() {
+    //     this.componentReady().then((component) => {
+    //         component.close();
+    //     });
+    // }
 }
-// export class MDCWCDialog extends MDCWebComponentMixin(MDCDialog) {
-//   createAdapter() {
-//     return {
-//       trapFocusOnSurface: () => {
-//         this.trapFocus(this.acceptButton_);
-//       },
-//       untrapFocusOnSurface: () => {
-//         this.untrapFocus();
-//       },
-//     };
-//   }
-
-//   trapFocus(element) {
-//     document.$blockingElements.push(this.host);
-//     element.focus();
-//   }
-
-//   untrapFocus() {
-//     document.$blockingElements.remove(this.host);
-//   }
-// }
-
-// export class Dialog extends ComponentElement {
-//   static get ComponentClass() {
-//     return MDCWCDialog;
-//   }
-
-//   static get componentSelector() {
-//     return '.mdc-dialog';
-//   }
-
-//   static get properties() {
-//     return {
-//       headerLabel: {type: String},
-//       acceptLabel: {type: String},
-//       declineLabel: {type: String},
-//       scrollable: {type: Boolean},
-//       opened: {type: Boolean},
-//     };
-//   }
-
-//   constructor() {
-//     super();
-//     this._asyncComponent = true;
-//     this.headerLabel = '';
-//     this.acceptLabel = 'OK';
-//     this.declineLabel = 'Cancel';
-//     this.scrollable = false;
-//   }
-
-//   renderStyle() {
-//     return style;
-//   }
-
-//   // TODO(sorvell): DialogFoundation's `isOff` method does not work with Shadow DOM
-//   // because it assumes a parentNode is parentElement (thing you can call getComputedStyle on)
-//   // TODO(sorvell) #css: added custom property
-//   render() {
-//     const {headerLabel, acceptLabel, declineLabel, scrollable} = this;
-//     return html`
-//       ${this.renderStyle()}
-//       <aside
-//         class="mdc-dialog"
-//         role="alertdialog"
-//         aria-labelledby="my-mdc-dialog-label"
-//         aria-describedby="my-mdc-dialog-description">
-//         <div class="mdc-dialog__surface">
-//           <header class="mdc-dialog__header">
-//             <h2 id="my-mdc-dialog-label" class="mdc-dialog__header__title">${headerLabel}</h2>
-//             <slot name="header"></slot>
-//           </header>
-//           <section id="my-mdc-dialog-description" class="mdc-dialog__body ${classMap({'mdc-dialog__body--scrollable': scrollable})}">
-//             <slot></slot>
-//           </section>
-//           <footer class="mdc-dialog__footer">
-//             <slot name="footer"></slot>
-//             <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--cancel">${declineLabel}</button>
-//       <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">${acceptLabel}</button>
-//           </footer>
-//         </div>
-//         <div class="mdc-dialog__backdrop"></div>
-//       </aside>`;
-//   }
-
-//   get _backDrop() {
-//     return this.__backDrop || (this.__backDrop = this.shadowRoot.querySelector('.mdc-dialog__backdrop'));
-//   }
-
-//   get opened() {
-//     return this._component && this._component.open;
-//   }
-
-//   set opened(value) {
-//     if (value) {
-//       this.show();
-//     } else {
-//       this.close();
-//     }
-//   }
-
-//   show() {
-//     this.componentReady().then((component) => {
-//       component.show();
-//     });
-//   }
-
-//   close() {
-//     this.componentReady().then((component) => {
-//       component.close();
-//     });
-//   }
-// }
 
 declare global {
     interface HTMLElementTagNameMap {

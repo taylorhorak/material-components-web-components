@@ -21,3 +21,9 @@ limitations under the License.
 .mdc-dialog__body--scrollable {
     max-height: var(--mwc-dialog-maxHeight, 195px);
 }
+.mdc-dialog__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-right: 24px;
+}
