@@ -25,6 +25,7 @@ import {
     property,
     query
 } from "@material/mwc-base/base-element";
+import { emit } from '@material/mwc-base/utils';
 // import { ComponentElement } from '@material/mwc-base/component-element.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import MDCDialogFoundation from "@material/dialog/foundation";
@@ -127,19 +128,18 @@ export class Dialog extends BaseElement {
     }
 
     accept(e) {
-        console.log("Accepted", e);
+        emit(this, 'MDCDialog:accept', e.detail);
         this.close()
     }
 
     cancel(e) {
-        console.log("Cancelled", e);
+        emit(this, 'MDCDialog:cancel', e.detail);
         this.close()
     }
 
     listenForESC(e) {
-        console.log("button pressed", e)
         if (e.key === "ESC") {
-            this.close()
+            this.cancel(e)
         }
     }
 
@@ -147,17 +147,6 @@ export class Dialog extends BaseElement {
         this.opened = false;
     }
 
-    // show() {
-    //     this.componentReady().then((component) => {
-    //         component.show();
-    //     });
-    // }
-
-    // close() {
-    //     this.componentReady().then((component) => {
-    //         component.close();
-    //     });
-    // }
 }
 
 declare global {
