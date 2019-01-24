@@ -75,6 +75,11 @@ export class Dialog extends BaseElement {
         }
     }
 
+    constructor() {
+        super();
+        document.addEventListener('keyup', this.listenForESC.bind(this));
+    }
+
     renderStyle() {
         return style;
     }
@@ -130,7 +135,8 @@ export class Dialog extends BaseElement {
     }
 
     listenForESC(e) {
-        if (e.key === "ESC") {
+        e = e || window.event;
+        if (e.keyCode == 27 && this.opened) {
             this.cancel(e)
         }
     }

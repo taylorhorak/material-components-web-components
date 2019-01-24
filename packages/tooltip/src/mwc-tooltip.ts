@@ -28,10 +28,7 @@ import {
 import { emit } from '@material/mwc-base/utils';
 import { classMap } from 'lit-html/directives/class-map.js';
 import MDCDialogFoundation from "@material/dialog/foundation";
-
-import { style } from './mwc-dialog-css.js';
-import 'wicg-inert/dist/inert.js';
-import 'blocking-elements/blocking-elements.js';
+import { style } from './mwc-tooltip-css.js';
 
 export interface DialogFoundation extends Foundation {
     opened(): boolean;
