@@ -89,8 +89,5 @@
         ]
       }
     }
-  },
-  "dependencies": {
-    "@authentic/mwc-drawer": "^0.3.4"
   }
 }

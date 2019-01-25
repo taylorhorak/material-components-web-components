@@ -20,16 +20,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import { FormElement, customElement, query, html, classMap, property, observer } from '@authentic/mwc-base/form-element.js';
-import MDCTextFieldFoundation from '@material/textfield/foundation.js';
+import { FormElement, customElement, query, html, classMap, property, observer } from '@authentic/mwc-base/form-element';
+import MDCTextFieldFoundation from '@material/textfield/foundation';
+import { cssClasses } from '@material/textfield/constants';
 import { MDCLineRipple } from '@material/line-ripple';
 import { MDCFloatingLabel } from '@material/floating-label/index';
 import { MDCNotchedOutline } from '@material/notched-outline/index';
-import { ripple } from '@authentic/mwc-ripple/ripple-directive.js';
+import { ripple } from '@authentic/mwc-ripple/ripple-directive';
 import { emit } from '@authentic/mwc-base/utils';
-import { style } from './mwc-textfield-css.js';
+import { style } from './mwc-textfield-css';
 // elements to be registered ahead of time
-import '@authentic/mwc-icon/mwc-icon-font.js';
+import '@authentic/mwc-icon/mwc-icon-font';
 let TextField = class TextField extends FormElement {
     constructor() {
         super(...arguments);
@@ -39,28 +40,59 @@ let TextField = class TextField extends FormElement {
         this.iconTrailing = false;
         this.box = false;
         this.outlined = false;
+        this.dense = false;
         this.disabled = false;
         this.fullWidth = false;
         this.required = false;
         this.helperText = '';
-        this.placeHolder = '';
+        this.persistentHelperText = false;
+        this.validationMessage = '';
+        this.placeholder = '';
         this.type = 'input';
+        this._canDisplayPlaceholder = !this.hasLabel;
         this.mdcFoundationClass = MDCTextFieldFoundation;
     }
+    get formElement() {
+        return this.input || this.textarea;
+    }
+    get isTextArea() {
+        return this.type === 'textarea';
+    }
+    get canOutline() {
+        return (this.outlined && !this.fullWidth) || this.isTextArea;
+    }
+    get canNotch() {
+        return this.mdcFoundation && this.mdcFoundation.adapter_.hasLabel() && this.mdcFoundation.shouldFloat;
+    }
+    get canDisplayPlaceholder() {
+        return this._canDisplayPlaceholder;
+    }
+    set canDisplayPlaceholder(value) {
+        if (this._canDisplayPlaceholder !== value) {
+            this._canDisplayPlaceholder = value;
+            this.requestUpdate();
+        }
+    }
+    get hasLabel() {
+        return this.label && !this.fullWidth;
+    }
+    get valid() {
+        return this.mdcFoundation && !this.mdcFoundation.adapter_.hasClass(cssClasses.INVALID);
+    }
     get _lineRipple() {
-        if (!this.outlined && this.lineRippleElement) {
+        if (!this.canOutline && this.lineRippleElement) {
             this._lineRippleInstance = this._lineRippleInstance || new MDCLineRipple(this.lineRippleElement);
         }
         return this._lineRippleInstance;
     }
     get _label() {
-        if (this.label && this.labelElement) {
+        if (this.hasLabel && this.labelElement) {
             this._labelInstance = this._labelInstance || new MDCFloatingLabel(this.labelElement);
         }
         return this._labelInstance;
     }
     get _outline() {
-        if (this.outlined && this.outlineElement) {
+        if (this.canOutline && this.outlineElement) {
             this._outlineInstance = this._outlineInstance || new MDCNotchedOutline(this.outlineElement);
         }
         return this._outlineInstance;
@@ -83,7 +115,12 @@ let TextField = class TextField extends FormElement {
             /* Input Adapter Methods */
             registerInputInteractionHandler: (evtType, handler) => this.formElement.addEventListener(evtType, handler), deregisterInputInteractionHandler: (evtType, handler) => this.formElement.removeEventListener(evtType, handler), getNativeInput: () => this.formElement, 
             /* Floating Label Adapter Methods */
-            shakeLabel: (shouldShake) => this._label && this._label.shake(shouldShake), floatLabel: (shouldFloat) => this._label && this._label.float(shouldFloat), hasLabel: () => !!this._label || !!this.outlined, getLabelWidth: () => !!this._label ? this._label.getWidth() : -12, 
+            shakeLabel: (shouldShake) => this.hasLabel && this._label.shake(shouldShake), floatLabel: (shouldFloat) => {
+                if (this.hasLabel) {
+                    this._label.float(shouldFloat);
+                    this.canDisplayPlaceholder = shouldFloat;
+                }
+            }, hasLabel: () => this.hasLabel || this.canOutline, getLabelWidth: () => this.hasLabel ? this._label.getWidth() + 1 : -12, 
             /* Line Ripple Adapter Methods */
             activateLineRipple: () => {
                 if (this._lineRipple) {
@@ -99,27 +136,46 @@ let TextField = class TextField extends FormElement {
                 }
             }, 
             /* Notched Outline Adapter Methods */
-            notchOutline: (labelWidth, isRtl) => this._outline.notch(labelWidth, isRtl), closeOutline: () => this._outline.closeNotch(), hasOutline: () => !!this._outline });
+            notchOutline: (labelWidth, isRtl) => {
+                this._outline.notch(labelWidth, isRtl);
+            }, closeOutline: () => {
+                this._outline.closeNotch();
+            }, hasOutline: () => !!this._outline });
+    }
+    firstUpdated() {
+        super.firstUpdated();
+        this._bindedUpdateNotch = this.updateNotch.bind(this);
+        window.addEventListener('resize', () => {
+            if (this.canNotch) {
+                this.updateNotch();
+            }
+        });
+        if (this.canNotch) {
+            setTimeout(() => {
+                this.updateNotch();
+            }, 0);
+        }
     }
     render() {
-        const { value, label, box, outlined, disabled, icon, iconTrailing, fullWidth, required, placeHolder, helperText, type, pattern, minLength, maxLength, min, max, step } = this;
+        const { value, label, box, outlined, disabled, icon, iconTrailing, dense, fullWidth, required, placeholder, type, pattern, minLength, maxLength, min, max, step, cols, rows, wrap } = this;
         const hostClassInfo = {
+            'mdc-text-field': true,
+            'mdc-text-field--upgraded': !!value,
             'mdc-text-field--with-leading-icon': icon && !iconTrailing,
             'mdc-text-field--with-trailing-icon': icon && iconTrailing,
             'mdc-text-field--box': box,
-            'mdc-text-field--no-label': !label,
-            'mdc-text-field--outlined': outlined,
+            'mdc-text-field--no-label': !this.hasLabel,
+            'mdc-text-field--outlined': outlined && type !== 'textarea',
+            'mdc-text-field--textarea': this.isTextArea,
             'mdc-text-field--disabled': disabled,
+            'mdc-text-field--dense': dense,
             'mdc-text-field--fullwidth': fullWidth
-        };
-        const labelClassInfo = {
-            'mdc-floating-label--float-above': !!value
         };
         const inputOptions = {
             value,
             required,
             type,
-            placeHolder,
+            placeholder,
             label,
             disabled,
             pattern,
@@ -127,51 +183,127 @@ let TextField = class TextField extends FormElement {
             maxLength,
             min,
             max,
-            step
+            step,
+            cols,
+            rows,
+            wrap
         };
         return html `
       ${this.renderStyle()}
-      <div class="mdc-text-field mdc-text-field--upgraded ${classMap(hostClassInfo)}" .ripple="${!outlined ? ripple({ unbounded: false }) : undefined}">
+      <div class="${classMap(hostClassInfo)}" .ripple="${!outlined ? ripple({ unbounded: false }) : null}">
         ${icon ? html `<i class="material-icons mdc-text-field__icon">${icon}</i>` : ''}
-        ${this._renderInput(inputOptions)}
-        ${label ? html `<label class="mdc-floating-label ${classMap(labelClassInfo)}" for="text-field">${label}</label>` : ''}
-        ${outlined
-            ? html `
-            <div class="mdc-notched-outline">
-              <svg><path class="mdc-notched-outline__path"/></svg>
-            </div>
-            <div class="mdc-notched-outline__idle"></div>`
-            : html `<div class="mdc-line-ripple"></div>`}
+        ${this.isTextArea ? this._renderTextarea(inputOptions) : this._renderInput(inputOptions)}
+        ${this._renderLabel()}
+        ${this._renderOutline()}
       </div>
-      ${helperText ? html `<p class="mdc-text-field-helper-text" aria-hidden="true">${helperText}</p>` : ''}
+      ${this._renderHelperText()}
     `;
     }
-    _renderInput({ value, required, type, placeHolder, label, disabled, pattern, minLength, maxLength, min, max, step }) {
-        return html `<input
-      id="text-field"
-      class="mdc-text-field__input ${value ? 'mdc-text-field--upgraded' : ''}"
-      type="${type}"
-      placeholder="${placeHolder}"
-      aria-label="${label}"
-      .value="${value}"
-      ?required="${required}"
-      ?disabled="${disabled}"
-      ?pattern="${pattern}"
-      ?minlength="${minLength}"
-      ?maxlength="${maxLength}"
-      ?min="${min}"
-      ?max="${max}"
-      ?step="${step}"
-      @input="${this.handleInteractionEvent}"
-      @change="${this.handleInteractionEvent}"
-      @focus="${this.handleInteractionEvent}"
-      @blur="${this.handleInteractionEvent}">`;
+    _renderLabel() {
+        const classes = {
+            'mdc-floating-label': true,
+            'mdc-floating-label--float-above': !!this.value
+        };
+        return this.hasLabel
+            ? html `<label class="${classMap(classes)}" for="text-field">${this.label}</label>`
+            : null;
     }
-    handleInteractionEvent(evt) {
+    _renderHelperText() {
+        const isValidationMessage = !this.valid && !!this.validationMessage;
+        const classes = {
+            'mdc-text-field-helper-text': true,
+            'mdc-text-field-helper-text--persistent': this.persistentHelperText,
+            'mdc-text-field-helper-text--validation-msg': !this.valid && !!this.validationMessage,
+        };
+        const message = isValidationMessage ? this.validationMessage : this.helperText;
+        return this.helperText || isValidationMessage
+            ? html `<p class="${classMap(classes)}" aria-hidden="true">${message}</p>`
+            : null;
+    }
+    _renderOutline() {
+        return html `${this.canOutline
+            ? html `
+          <div class="mdc-notched-outline">
+            <svg><path class="mdc-notched-outline__path"/></svg>
+          </div>
+          <div class="mdc-notched-outline__idle"></div>`
+            : html `<div class="mdc-line-ripple"></div>`}`;
+    }
+    _renderTextarea({ value, required, cols, placeholder, label, disabled, maxLength, rows, wrap }) {
+        return html `
+      <textarea
+        id="text-field"
+        class="mdc-text-field__input"
+        placeholder="${this.canDisplayPlaceholder ? placeholder : ''}"
+        aria-label="${label}"
+        .value="${value}"
+        ?cols="${cols}"
+        ?required="${required}"
+        ?disabled="${disabled}"
+        ?maxlength="${maxLength}"
+        ?rows="${rows}"
+        ?wrap="${wrap}"
+        @input="${this._handleInteractionEvent}"
+        @mousedown="${this._handleTextAreaMouseDown}"
+        @change="${this._handleInteractionEvent}"
+        @focus="${this._handleFocusEvent}"
+        @blur="${this._handleBlurEvent}"
+      ></textarea>
+    `;
+    }
+    _renderInput({ value, required, type, placeholder, label, disabled, pattern, minLength, maxLength, min, max, step }) {
+        return html `
+      <input
+        id="text-field"
+        class="mdc-text-field__input"
+        type="${type}"
+        placeholder="${this.canDisplayPlaceholder ? placeholder : ''}"
+        aria-label="${label}"
+        .value="${value}"
+        ?required="${required}"
+        ?disabled="${disabled}"
+        ?pattern="${pattern}"
+        ?minlength="${minLength}"
+        ?maxlength="${maxLength}"
+        ?min="${min}"
+        ?max="${max}"
+        ?step="${step}"
+        @input="${this._handleInteractionEvent}"
+        @change="${this._handleInteractionEvent}"
+        @focus="${this._handleFocusEvent}"
+        @blur="${this._handleBlurEvent}">
+    `;
+    }
+    _handleInteractionEvent(evt) {
         if (evt.type === 'input') {
             this.value = this.formElement.value;
         }
         emit(this.mdcRoot, evt.type);
+    }
+    _handleFocusEvent(evt) {
+        this._handleInteractionEvent(evt);
+        this.requestUpdate();
+    }
+    _handleBlurEvent(evt) {
+        this._handleInteractionEvent(evt);
+        this.requestUpdate();
+    }
+    /**
+     * Recalculates Notch after resize textarea
+     */
+    _handleTextAreaMouseDown() {
+        if (this.canNotch) {
+            document.addEventListener('mousemove', this._bindedUpdateNotch);
+            document.addEventListener('mouseup', () => {
+                document.removeEventListener('mousemove', this._bindedUpdateNotch);
+            }, { once: true });
+        }
+    }
+    updateNotch() {
+        this.mdcFoundation.notchOutline(true);
+    }
+    setFocus() {
+        this.formElement.focus();
     }
     simulateFocus(focused) {
         emit(this.formElement, focused ? 'focus' : 'blur');
@@ -182,7 +314,10 @@ __decorate([
 ], TextField.prototype, "mdcRoot", void 0);
 __decorate([
     query('input')
-], TextField.prototype, "formElement", void 0);
+], TextField.prototype, "input", void 0);
+__decorate([
+    query('textarea')
+], TextField.prototype, "textarea", void 0);
 __decorate([
     query('.mdc-line-ripple')
 ], TextField.prototype, "lineRippleElement", void 0);
@@ -214,6 +349,9 @@ __decorate([
     property({ type: Boolean })
 ], TextField.prototype, "outlined", void 0);
 __decorate([
+    property({ type: Boolean })
+], TextField.prototype, "dense", void 0);
+__decorate([
     property({ type: Boolean }),
     observer(function (value) {
         this.mdcFoundation.setDisabled(value);
@@ -232,8 +370,14 @@ __decorate([
     })
 ], TextField.prototype, "helperText", void 0);
 __decorate([
+    property({ type: Boolean })
+], TextField.prototype, "persistentHelperText", void 0);
+__decorate([
     property({ type: String })
-], TextField.prototype, "placeHolder", void 0);
+], TextField.prototype, "validationMessage", void 0);
+__decorate([
+    property({ type: String })
+], TextField.prototype, "placeholder", void 0);
 __decorate([
     property({ type: String })
 ], TextField.prototype, "type", void 0);
@@ -255,6 +399,15 @@ __decorate([
 __decorate([
     property({ type: Number })
 ], TextField.prototype, "step", void 0);
+__decorate([
+    property({ type: Number })
+], TextField.prototype, "cols", void 0);
+__decorate([
+    property({ type: Number })
+], TextField.prototype, "rows", void 0);
+__decorate([
+    property({ type: Boolean })
+], TextField.prototype, "wrap", void 0);
 TextField = __decorate([
     customElement('mwc-textfield')
 ], TextField);

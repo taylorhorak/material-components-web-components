@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-switch",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "",
   "main": "mwc-switch.js",
   "repository": {
@@ -10,8 +10,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.10",
-    "@authentic/mwc-ripple": "^0.3.10",
+    "@authentic/mwc-base": "^0.3.11",
+    "@authentic/mwc-ripple": "^0.3.11",
     "@material/switch": "^0.40.0",
     "lit-element": "^2.0.0-rc.2",
     "lit-html": "^1.0.0-rc.2"
