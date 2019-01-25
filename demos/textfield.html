@@ -36,18 +36,18 @@ limitations under the License.
   <main>
     <div class="demo-group-spaced">
 
-      <mwc-textfield></mwc-textfield>
-      <mwc-textfield label="Say something..."></mwc-textfield>
+      <mwc-textfield placeholder="placeholder"></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" label="Say something..."></mwc-textfield>
       <mwc-textfield label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield icon="event" label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield icon="mail" iconTrailing label="Say something..." value="hi"></mwc-textfield>
     </div>
 
-    <h4>box</h4>
+    <h4>box - placeholder</h4>
     <div class="demo-group-spaced">
 
-      <mwc-textfield box></mwc-textfield>
-      <mwc-textfield box label="Say something..."></mwc-textfield>
+      <mwc-textfield box placeholder="placeholder"></mwc-textfield>
+      <mwc-textfield box placeholder="placeholder" label="Say something..."></mwc-textfield>
       <mwc-textfield box label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield box icon="event" label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield box icon="event" iconTrailing label="Say something..." value="hi"></mwc-textfield>
@@ -57,18 +57,18 @@ limitations under the License.
     <h4>box - required</h4>
     <div class="demo-group-spaced">
 
-      <mwc-textfield required box></mwc-textfield>
-      <mwc-textfield required box label="Say something..."></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" required box></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" required box label="Say something..."></mwc-textfield>
       <mwc-textfield required box label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield required box icon="event" label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield required box iconTrailing icon="event" label="Say something..." value="hi"></mwc-textfield>
     </div>
 
-    <h4>outlined</h4>
+    <h4>outlined - placeholder</h4>
     <div class="demo-group-spaced">
 
-      <mwc-textfield outlined></mwc-textfield>
-      <mwc-textfield outlined label="Say something..."></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" outlined placeholder="placeholder"></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" outlined placeholder="placeholder" label="Say something..."></mwc-textfield>
       <mwc-textfield outlined label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield outlined icon="event" label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield outlined iconTrailing icon="event" label="Say something..." value="hi"></mwc-textfield>
@@ -77,18 +77,18 @@ limitations under the License.
     <h4>outlined - required - email - helperText</h4>
     <div class="demo-group-spaced">
 
-      <mwc-textfield outlined required type="email" helperText="Make sure to include an @"></mwc-textfield>
-      <mwc-textfield outlined required type="email" label="Enter email..." helperText="Make sure to include an @"></mwc-textfield>
-      <mwc-textfield outlined required type="email"  label="Enter email..." value="hi" helperText="Make sure to include an @"></mwc-textfield>
-      <mwc-textfield outlined required type="email" icon="event" label="Say something..." value="hi" helperText="Make sure to include an @"></mwc-textfield>
-      <mwc-textfield outlined iconTrailing required type="email" icon="event" label="Say something..." value="hi" helperText="Make sure to include an @"></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" outlined required type="email" helperText="Make sure to include an @" validationMessage="Email not valid"></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" outlined required type="email" label="Enter email..." helperText="Make sure to include an @" validationMessage="Email not valid"></mwc-textfield>
+      <mwc-textfield outlined required type="email"  label="Enter email..." value="hi" helperText="Make sure to include an @" validationMessage="Email not valid"></mwc-textfield>
+      <mwc-textfield outlined required type="email" icon="event" label="Say something..." value="hi" helperText="Make sure to include an @" validationMessage="Email not valid"></mwc-textfield>
+      <mwc-textfield outlined iconTrailing required type="email" icon="event" label="Say something..." value="hi" helperText="Make sure to include an @" validationMessage="Email not valid"></mwc-textfield>
     </div>
 
     <h4>box disabled</h4>
     <div class="demo-group-spaced">
 
-      <mwc-textfield box disabled></mwc-textfield>
-      <mwc-textfield box disabled label="Say something..."></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" box disabled></mwc-textfield>
+      <mwc-textfield placeholder="placeholder" box disabled label="Say something..."></mwc-textfield>
       <mwc-textfield box disabled label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield box disabled icon="event" label="Say something..." value="hi"></mwc-textfield>
       <mwc-textfield box disabled iconTrailing icon="event" label="Say something..." value="hi"></mwc-textfield>
@@ -96,14 +96,26 @@ limitations under the License.
     </div>
 
     <h4>fullWidth</h4>
-
-    <mwc-textfield fullwidth></mwc-textfield>
-    <mwc-textfield fullwidth placeholder="Say something.." ></mwc-textfield>
+    <mwc-textfield placeholder="placeholder" fullwidth></mwc-textfield>
+    <mwc-textfield placeholder="placeholder" fullwidth placeholder="Say something.." ></mwc-textfield>
     <mwc-textfield fullwidth label="Say something..."></mwc-textfield>
     <mwc-textfield fullwidth label="Say something..." value="hi"></mwc-textfield>
+    <br></br>
+    <mwc-textfield type="textarea" fullwidth label="Say something..."></mwc-textfield>
 
-    <h4>Textarea</h4>
-    <mwc-textfield type="textarea" label="Say something..."></mwc-textfield>
+    <h4>Textarea - placeholder</h4>
+    <div class="demo-group-spaced">
+      <mwc-textfield type="textarea" placeholder="placeholder"></mwc-textfield>
+      <mwc-textfield type="textarea" placeholder="placeholder" label="Say something..."></mwc-textfield>
+      <mwc-textfield type="textarea" label="Say something..."></mwc-textfield>
+    </div>
+
+    <h4>Textarea - required - helperText</h4>
+    <div class="demo-group-spaced">
+      <mwc-textfield type="textarea" required placeholder="placeholder" validationMessage="Error" helperText="Make sure you fill this field"></mwc-textfield>
+      <mwc-textfield type="textarea" required placeholder="placeholder" label="Say something..." validationMessage="Error" helperText="Make sure you fill this field"></mwc-textfield>
+      <mwc-textfield type="textarea" required label="Say something..." helperText="Make sure you fill this field" validationMessage="Error"></mwc-textfield>
+    </div>
 
   </main>
 

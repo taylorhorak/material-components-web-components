@@ -33,6 +33,17 @@ limitations under the License.
 
 .mdc-text-field {
   width: 100%;
+
+  .mdc-text-field__input {
+    position: relative;
+  }
+
+  &.mdc-text-field--focused:not(.mdc-text-field--disabled),
+  &.mdc-text-field--invalid:not(.mdc-text-field--disabled) {
+    .mdc-text-field__input::placeholder {
+      @include mdc-theme-prop(color, $mdc-text-field-label);
+    }
+  }
 }
 
 .mdc-text-field--outlined::before,
@@ -44,7 +55,6 @@ limitations under the License.
 
 .mdc-text-field.mdc-text-field--textarea {
   @include mdc-text-field-outlined_;
-  resize: vertical;
   
   &.mdc-text-field--focused {
     @include mdc-text-field-outlined-focused_;
@@ -52,6 +62,10 @@ limitations under the License.
   
   &.mdc-text-field--disabled {
     @include mdc-text-field-outlined-disabled_;
+  }
+
+  &.mdc-text-field--invalid {
+    @include mdc-text-field-outlined-invalid_;
   }
   
   &.mdc-text-field--dense {
@@ -68,6 +82,7 @@ limitations under the License.
     padding: 2px 13px 11px 16px;
     margin: 10px 3px 3px 0px;
     min-height: 56px;
+    resize: vertical;
   }
 
   .mdc-floating-label {
