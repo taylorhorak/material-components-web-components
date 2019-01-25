@@ -212,15 +212,19 @@
   @include mdc-floating-label-float-position($mdc-select-dense-label-position-y, 0%, $mdc-select-dense-label-scale);
   @include mdc-floating-label-shake-animation(select-dense);
 
-  height: 48px;
+  height: 40px;
 
   @include native-control() {
-    padding: 12px 48px 0 12px;
+    padding: 12px 48px 12px 12px;
   }
 
   .mdc-floating-label {
     font-size: .813rem;
     bottom: 14px;
+  }
+
+  .mdc-floating-label.mdc-floating-label--float-above {
+    display: none;
   }
 }
 

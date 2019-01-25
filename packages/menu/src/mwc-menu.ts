@@ -85,6 +85,9 @@ export class Menu extends BaseElement {
   @property({ type: Boolean })
   autoclose = false;
 
+  @property({ type: Boolean })
+  noWrapFocus = false;
+
   protected _selectedIndex: number = -1;
   get selectedIndex() {
     return this._selectedIndex;
@@ -154,7 +157,7 @@ export class Menu extends BaseElement {
   protected get _list(): MDCList {
     if (!this._listInstance) {
       this._listInstance = new MDCList(this.list);
-      this._listInstance.wrapFocus = true;
+      this._listInstance.wrapFocus = !this.noWrapFocus;
       this._listInstance.selectedIndex = this.selectedIndex;
 
       // Prevents default listeners conflicts
@@ -170,6 +173,35 @@ export class Menu extends BaseElement {
         if (index >= 0) {
           this._listInstance.foundation_.handleKeydown(evt, evt.target instanceof ListItem, index);
         }
+      }
+
+      this._listInstance.focusNextElement = index => {
+        const count = this._listInstance.foundation_.adapter_.getListItemCount();
+        let nextIndex = index + 1;
+        if (nextIndex >= count) {
+          if (this._listInstance.foundation_.wrapFocus_) {
+            nextIndex = 0;
+          } else {
+            emit(this, 'MDCList:afterLastFocusNext');
+            // Return early because last item is already focused.
+            return;
+          }
+        }
+        this._listInstance.foundation_.adapter_.focusItemAtIndex(nextIndex);
+      }
+
+      this._listInstance.focusPrevElement = index => {
+        let prevIndex = index - 1;
+        if (prevIndex < 0) {
+          if (this._listInstance.foundation_.wrapFocus_) {
+            prevIndex = this._listInstance.foundation_.adapter_.getListItemCount() - 1;
+          } else {
+            emit(this, 'MDCList:afterLastFocusPrev');
+            // Return early because first item is already focused.
+            return;
+          }
+        }
+        this._listInstance.foundation_.adapter_.focusItemAtIndex(prevIndex);
       }
 
       this._listInstance.foundation_.adapter_ = {
