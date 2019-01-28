@@ -334,6 +334,7 @@ export class Select extends FormElement {
       this.menu.selectionGroup = true;
       this.menu.autofocus = true;
       this.menu.autoclose = true;
+      this.menu.setAnchorElement(this.mdcRoot);
       this.input.style.minWidth = `${this.menu.getWidth() + 32}px`;
       this.formElement.addEventListener('keydown', evt => this._handleKeydown(evt));
       this.formElement.addEventListener('mousedown', () => this._handleMouseDown());

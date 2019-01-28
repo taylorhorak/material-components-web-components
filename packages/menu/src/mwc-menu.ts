@@ -428,7 +428,7 @@ export class Menu extends BaseElement {
   }
 
   setAnchorElement(element: HTMLElement) {
-    this._menuSurface.anchorElement = element;
+    this._menuSurface.setMenuSurfaceAnchorElement(element);
   }
 
   _afterOpenedCallback() {
