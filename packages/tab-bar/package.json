@@ -18,7 +18,7 @@
     "@authentic/mwc-tab": "^0.3.12",
     "@authentic/mwc-tab-scroller": "^0.3.12",
     "@material/tab-bar": "^0.40.0",
-    "lit-element": "^2.0.0-rc.2"
+    "lit-element": "^2.0.0-rc.5"
   },
   "publishConfig": {
     "access": "public"

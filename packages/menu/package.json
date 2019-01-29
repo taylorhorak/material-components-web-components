@@ -15,7 +15,7 @@
     "@authentic/mwc-base": "^0.3.12",
     "@authentic/mwc-list": "^0.3.12",
     "@material/typography": "^0.35.0",
-    "lit-element": "^2.0.0-rc.2"
+    "lit-element": "^2.0.0-rc.5"
   },
   "publishConfig": {
     "access": "public"

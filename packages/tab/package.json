@@ -19,8 +19,7 @@
     "@authentic/mwc-ripple": "^0.3.12",
     "@authentic/mwc-tab-indicator": "^0.3.12",
     "@material/tab": "^0.40.0",
-    "lit-element": "^2.0.0-rc.2",
-    "lit-html": "^1.0.0-rc.2"
+    "lit-element": "^2.0.0-rc.5"
   },
   "publishConfig": {
     "access": "public"

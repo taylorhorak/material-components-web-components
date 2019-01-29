@@ -16,7 +16,7 @@
   "dependencies": {
     "@authentic/mwc-base": "^0.3.12",
     "@material/tab-scroller": "^0.40.0",
-    "lit-element": "^2.0.0-rc.2"
+    "lit-element": "^2.0.0-rc.5"
   },
   "publishConfig": {
     "access": "public"

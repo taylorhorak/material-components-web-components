@@ -15,8 +15,7 @@
   "dependencies": {
     "@authentic/mwc-base": "^0.3.12",
     "@material/ripple": "^0.40.1",
-    "lit-element": "^2.0.0-rc.2",
-    "lit-html": "^1.0.0-rc.2"
+    "lit-element": "^2.0.0-rc.5"
   },
   "publishConfig": {
     "access": "public"

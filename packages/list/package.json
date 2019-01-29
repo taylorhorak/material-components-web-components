@@ -12,7 +12,7 @@
     "@material/list": "^0.40.1",
     "@authentic/mwc-base": "^0.3.12",
     "@authentic/mwc-icon": "^0.3.12",
-    "lit-element": "^2.0.0-rc.2"
+    "lit-element": "^2.0.0-rc.5"
   },
   "publishConfig": {
     "access": "public"
