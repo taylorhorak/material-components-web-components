@@ -14,7 +14,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-@import '@material/card/mdc-card.scss';
+@import "@material/card/mdc-card.scss";
+@import "@material/mwc-icon/src/_mwc-icon.scss";
+@import "@material/ripple/mdc-ripple.scss";
+@import "@material/mwc-typography/mwc-typography.scss";
+@import "@material/typography/mixins";
+@import "@material/typography/variables";
 
 // TODO(sorvell): flex for sizing, border inherit
 
@@ -23,9 +28,5 @@ limitations under the License.
 }
 
 .mdc-card {
-  border-top-left-radius: inherit;
-  border-top-right-radius: inherit;
-  border-bottom-left-radius: inherit;
-  border-bottom-right-radius: inherit;
-  flex: 1;
+  max-width: 350px;
 }
