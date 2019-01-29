@@ -14,13 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {BaseElement, html, property, observer, query, customElement, Adapter, Foundation} from '@material/mwc-base/base-element.js';
-import {Tab} from '@material/mwc-tab';
-import {TabScroller} from '@material/mwc-tab-scroller';
+import {BaseElement, html, property, observer, query, customElement, Adapter, Foundation} from '@authentic/mwc-base/base-element.js';
+import {Tab} from '@authentic/mwc-tab';
+import {TabScroller} from '@authentic/mwc-tab-scroller';
 
 // Make TypeScript not remove the imports.
-import '@material/mwc-tab';
-import '@material/mwc-tab-scroller';
+import '@authentic/mwc-tab';
+import '@authentic/mwc-tab-scroller';
 
 import MDCTabBarFoundation from '@material/tab-bar/foundation';
 import {style} from './mwc-tab-bar-css';

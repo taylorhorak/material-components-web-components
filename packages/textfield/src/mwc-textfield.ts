@@ -24,19 +24,19 @@ import {
   classMap,
   property,
   observer
-} from '@material/mwc-base/form-element';
+} from '@authentic/mwc-base/form-element';
 import MDCTextFieldFoundation from '@material/textfield/foundation';
 import { cssClasses } from '@material/textfield/constants';
 import { MDCLineRipple } from '@material/line-ripple';
 import { MDCFloatingLabel } from '@material/floating-label/index';
 import { MDCNotchedOutline } from '@material/notched-outline/index';
-import { ripple } from '@material/mwc-ripple/ripple-directive';
-import { emit } from '@material/mwc-base/utils';
+import { ripple } from '@authentic/mwc-ripple/ripple-directive';
+import { emit } from '@authentic/mwc-base/utils';
 
 import { style } from './mwc-textfield-css';
 
 // elements to be registered ahead of time
-import '@material/mwc-icon/mwc-icon-font';
+import '@authentic/mwc-icon/mwc-icon-font';
 
 export interface TextFieldFoundation extends Foundation {
   setValue(value: string): void;

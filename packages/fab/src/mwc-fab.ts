@@ -17,8 +17,8 @@ limitations under the License.
 import {LitElement, html, property, customElement} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map.js';
 import {style} from './mwc-fab-css.js';
-import {ripple} from '@material/mwc-ripple/ripple-directive.js';
-import '@material/mwc-icon/mwc-icon-font.js';
+import {ripple} from '@authentic/mwc-ripple/ripple-directive.js';
+import '@authentic/mwc-icon/mwc-icon-font.js';
 
 @customElement('mwc-fab' as any)
 export class Fab extends LitElement {
