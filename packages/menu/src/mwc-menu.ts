@@ -175,7 +175,7 @@ export class Menu extends BaseElement {
         }
       }
 
-      this._listInstance.focusNextElement = index => {
+      this._listInstance.foundation_.focusNextElement = index => {
         const count = this._listInstance.foundation_.adapter_.getListItemCount();
         let nextIndex = index + 1;
         if (nextIndex >= count) {
@@ -190,7 +190,7 @@ export class Menu extends BaseElement {
         this._listInstance.foundation_.adapter_.focusItemAtIndex(nextIndex);
       }
 
-      this._listInstance.focusPrevElement = index => {
+      this._listInstance.foundation_.focusPrevElement = index => {
         let prevIndex = index - 1;
         if (prevIndex < 0) {
           if (this._listInstance.foundation_.wrapFocus_) {
@@ -428,7 +428,7 @@ export class Menu extends BaseElement {
   }
 
   setAnchorElement(element: HTMLElement) {
-    this._menuSurface.anchorElement = element;
+    this._menuSurface.setMenuSurfaceAnchorElement(element);
   }
 
   _afterOpenedCallback() {
