@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import {ComponentElement, MDCWebComponentMixin, html} from '@material/mwc-base/component-element.js';
-import {classMap} from 'lit-html/directives/classMap.js';
+import {classMap} from '../../../lit-html/directives/class-map.js';
 import {MDCDialog} from './mdc-dialog.js';
 import {style} from './mwc-dialog-css.js';
 import 'wicg-inert/dist/inert.js';

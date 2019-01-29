@@ -23,7 +23,7 @@ import {
   Adapter,
   property
 } from "@material/mwc-base/base-element";
-// import { emit } from '@material/mwc-base/utils';
+import { emit } from '@material/mwc-base/utils';
 import { classMap } from "lit-html/directives/class-map";
 import { style } from "./mwc-chip-css.js";
 import { ripple } from "@material/mwc-ripple/ripple-directive";
@@ -31,27 +31,6 @@ import MDCChipFoundation from "@material/chips/chip/foundation";
 import { strings } from "./constants";
 
 import "@material/mwc-icon/mwc-icon-font";
-
-function emit(
-  target: HTMLElement,
-  evtType: string,
-  evtData = {},
-  shouldBubble = false
-) {
-  let evt;
-
-  if (typeof CustomEvent === "function") {
-    evt = new CustomEvent(evtType, {
-      detail: evtData,
-      bubbles: shouldBubble
-    });
-  } else {
-    evt = document.createEvent("CustomEvent");
-    evt.initCustomEvent(evtType, shouldBubble, false, evtData);
-  }
-
-  target.dispatchEvent(evt);
-}
 
 export interface ChipFoundation extends Foundation {
   isSelected: void;

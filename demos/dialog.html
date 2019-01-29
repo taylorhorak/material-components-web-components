@@ -55,11 +55,11 @@ limitations under the License.
       });
 
       dialog.addEventListener('MDCDialog:accept', (e) => {
-        console.log(e.type);
+        console.log(e.type, e);
       });
 
       dialog.addEventListener('MDCDialog:cancel', (e) => {
-        console.log(e.type);
+        console.log(e.type, e);
       });
     </script>
 
@@ -93,11 +93,11 @@ limitations under the License.
     });
 
     scrollingDialog.addEventListener('MDCDialog:accept', (e) => {
-      console.log(e.type);
+      console.log(e.type, e);
     });
 
     scrollingDialog.addEventListener('MDCDialog:cancel', (e) => {
-      console.log(e.type);
+      console.log(e.type, e);
     });
   </script>
   </main>
