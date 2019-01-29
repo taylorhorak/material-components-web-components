@@ -20,5 +20,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": true
+  "private": false
 }
