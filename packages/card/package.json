@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-card",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "",
   "main": "mwc-card.js",
   "scripts": {
@@ -13,9 +13,9 @@
   },
   "devDependencies": {
     "@material/card": "^0.40.0",
-    "@authentic/mwc-base": "^0.3.12",
-    "@authentic/mwc-icon": "^0.3.12",
-    "@authentic/mwc-ripple": "^0.3.12",
+    "@authentic/mwc-base": "^0.3.13",
+    "@authentic/mwc-icon": "^0.3.13",
+    "@authentic/mwc-ripple": "^0.3.13",
     "lit-html": "^1.0.0-rc.1"
   },
   "publishConfig": {

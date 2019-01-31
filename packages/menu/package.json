@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-menu",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "",
   "main": "mwc-menu.js",
   "scripts": {
@@ -12,8 +12,8 @@
     "@material/list": "^0.40.1",
     "@material/menu": "^0.40.1",
     "@material/menu-surface": "^0.40.1",
-    "@authentic/mwc-base": "^0.3.12",
-    "@authentic/mwc-list": "^0.3.12",
+    "@authentic/mwc-base": "^0.3.13",
+    "@authentic/mwc-list": "^0.3.13",
     "@material/typography": "^0.35.0",
     "lit-element": "^2.0.0-rc.5"
   },
