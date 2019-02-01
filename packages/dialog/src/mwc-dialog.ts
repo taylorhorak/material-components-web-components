@@ -40,6 +40,9 @@ import { style } from './mwc-dialog-css.js';
 import 'wicg-inert/dist/inert.js';
 import 'blocking-elements/blocking-elements.js';
 
+// elements to be registered ahead of time
+import "@authentic/mwc-button";
+
 export interface DialogFoundation extends Foundation {
     open(): void;
     close(): void;
