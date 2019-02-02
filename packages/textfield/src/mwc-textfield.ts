@@ -379,7 +379,9 @@ export class TextField extends FormElement {
       ${this.renderStyle()}
       <div class="${classMap(hostClassInfo)}" .ripple="${!outlined ? ripple({ unbounded: false }) : null}">
         ${icon ? html`<i class="material-icons mdc-text-field__icon">${icon}</i>` : ''}
-        ${this.isTextArea ? this._renderTextarea(inputOptions) : this._renderInput(inputOptions)}
+        <div class="mdc-text-field__input-container">
+          ${this.isTextArea ? this._renderTextarea(inputOptions) : this._renderInput(inputOptions)}
+        </div>
         ${this._renderLabel()}
         ${this._renderOutline()}
       </div>
