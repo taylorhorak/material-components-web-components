@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-select",
-  "version": "0.3.18",
+  "version": "0.3.19",
   "description": "",
   "main": "mwc-select.js",
   "scripts": {
@@ -12,9 +12,9 @@
     "@material/animation": "^0.40.1",
     "@material/floating-label": "^0.35.0",
     "@material/line-ripple": "^0.35.0",
-    "@authentic/mwc-base": "^0.3.18",
-    "@authentic/mwc-list": "^0.3.18",
-    "@authentic/mwc-menu": "^0.3.18",
+    "@authentic/mwc-base": "^0.3.19",
+    "@authentic/mwc-list": "^0.3.19",
+    "@authentic/mwc-menu": "^0.3.19",
     "@material/notched-outline": "^0.35.0",
     "@material/ripple": "^0.40.1",
     "@material/rtl": "^0.40.1",

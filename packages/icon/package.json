@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-icon",
-  "version": "0.3.18",
+  "version": "0.3.19",
   "description": "",
   "main": "mwc-icon.js",
   "repository": {
@@ -13,7 +13,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.18",
+    "@authentic/mwc-base": "^0.3.19",
     "lit-element": "^2.0.0-rc.5"
   },
   "publishConfig": {
