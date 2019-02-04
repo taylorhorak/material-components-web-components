@@ -51,6 +51,9 @@ export class ListItem extends LitElement {
   tabindex = 0;
 
   @property({ type: Boolean })
+  leading = 0;
+
+  @property({ type: Boolean })
   @observer(function (this: ListItem, value: Boolean) {
     this.setAttribute('aria-disabled', String(value));
   })
@@ -61,20 +64,51 @@ export class ListItem extends LitElement {
   }
 
   get setAttribute() {
-    return this.mdcRoot ? this.mdcRoot.setAttribute : () => {};
+    return this.mdcRoot ? this.mdcRoot.setAttribute : () => { };
   }
 
   static styles = style;
 
   render() {
-    const { label, icon, disabled, tabindex } = this;
+    const { disabled, tabindex } = this;
 
     return html`
       <div class="mdc-list-item" role="menuitem" tabindex="${tabindex}" aria-disabled="${disabled}" .ripple="${ripple({ unbounded: false })}">
-        ${icon ? html`<span class="material-icons">${icon}</span>` : ''}
-        ${label || ''}
+        ${this._renderLeading()}
+        <slot name="text"></slot>
+        <span class="mdc-list-item__text">
+          <span class="mdc-list-item__primary-text">
+            <slot name="primary-text"></slot>
+          </span>
+          <span class="mdc-list-item__secondary-text">
+            <slot name="secondary-text"></slot>
+          </span>
+        </span>
+        <span class="mdc-list-item__meta">
+          <slot name="meta"></slot>
+        </span>
         <slot></slot>
       </div>`;
+  }
+
+  _renderLeading() {
+    if (this.leading) {
+      return html`
+        <span class="mdc-list-item__graphic">
+          <slot name="graphic"></slot>
+        </span>
+      `;
+    }
+
+    if (this.icon) {
+      return html`
+        <span class="mdc-list-item__graphic material-icons">
+          ${this.icon}
+        </span>
+      `;
+    }
+
+    return '';
   }
 
   focus() {
