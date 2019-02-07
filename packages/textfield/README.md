@@ -17,15 +17,15 @@ A [Material Components](https://material.io/develop/) tab indicator implementati
 
   1. Add mwc-textfield to your project:
 
-      ```npm i @material/mwc-textfield```
+      ```npm i @authentic/mwc-textfield```
 
   1. Import the mwc-textfield definition into your HTML page:
 
-      ```<script type="module" src="@material/mwc-textfield/index.js"></script>```
+      ```<script type="module" src="@authentic/mwc-textfield/index.js"></script>```
 
       Or into your module script:
 
-      ```import { TextField } from "@material/mwc-textfield"```
+      ```import { TextField } from "@authentic/mwc-textfield"```
 
   1. Create an instance of mwc-textfield in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -39,7 +39,7 @@ A [Material Components](https://material.io/develop/) tab indicator implementati
 
       ```polymer serve```
 
-  > mwc-textfield is published on [npm](https://www.npmjs.com/package/@material/mwc-textfield) using JavaScript Modules.
+  > mwc-textfield is published on [npm](https://www.npmjs.com/package/@authentic/mwc-textfield) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-textfield uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.

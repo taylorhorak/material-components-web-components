@@ -14,10 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {LitElement, html, property, customElement, classMap} from '@material/mwc-base/base-element';
+import {LitElement, html, property, customElement, classMap} from '@authentic/mwc-base/base-element';
 import {style} from './mwc-button-css.js';
-import {ripple} from '@material/mwc-ripple/ripple-directive.js';
-import '@material/mwc-icon/mwc-icon-font.js';
+import {ripple} from '@authentic/mwc-ripple/ripple-directive.js';
+import '@authentic/mwc-icon/mwc-icon-font.js';
 
 @customElement('mwc-button' as any)
 export class Button extends LitElement {

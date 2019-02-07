@@ -22,9 +22,9 @@ import {
     query,
     html,
     property
-} from '@material/mwc-base/base-element.js';
+} from '@authentic/mwc-base/base-element.js';
 import { MDCTooltipFoundation } from './mdc-tooltip';
-import { emit } from '@material/mwc-base/utils';
+import { emit } from '@authentic/mwc-base/utils';
 
 import { style } from './mwc-tooltip-css.js';
 

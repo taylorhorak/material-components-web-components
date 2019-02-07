@@ -17,15 +17,15 @@ A [Material Components](https://material.io/develop/) tab-bar implementation usi
 
   1. Add mwc-tab-bar to your project:
 
-      ```npm i @material/mwc-tab-bar```
+      ```npm i @authentic/mwc-tab-bar```
 
   1. Import the mwc-tab-bar definition into your HTML page:
 
-      ```<script type="module" src="@material/mwc-tab-bar/index.js"></script>```
+      ```<script type="module" src="@authentic/mwc-tab-bar/index.js"></script>```
 
       Or into your module script:
 
-      ```import { TabBar } from "@material/mwc-tab-bar"```
+      ```import { TabBar } from "@authentic/mwc-tab-bar"```
 
   1. Create an instance of mwc-tab-bar in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -39,7 +39,7 @@ A [Material Components](https://material.io/develop/) tab-bar implementation usi
 
       ```polymer serve```
 
-  > mwc-tab-bar is published on [npm](https://www.npmjs.com/package/@material/mwc-tab-bar) using JavaScript Modules.
+  > mwc-tab-bar is published on [npm](https://www.npmjs.com/package/@authentic/mwc-tab-bar) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-tab-bar uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.
