@@ -382,7 +382,7 @@ export class Select extends FormElement {
 
   _openNotch() {
     const isRtl = window.getComputedStyle(this.mdcRoot).getPropertyValue('direction') === 'rtl';
-    const labelWidth = !!this._label ? this._label.getWidth() : -12; // due to notched outline label spacing
+    const labelWidth = !!this._label && !this.dense  ? this._label.getWidth() : -12; // due to notched outline label spacing
     this._outline.notch(labelWidth * (this.dense ? .923 : .75), isRtl);
   }
 
