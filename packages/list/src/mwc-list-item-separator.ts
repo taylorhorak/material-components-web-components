@@ -26,13 +26,11 @@ declare global {
 
 @customElement('mwc-list-item-separator' as any)
 export class ListItemSeparator extends LitElement {
-  renderStyle() {
-    return style;
-  }
+
+  static styles = style;
 
   render() {
     return html`
-      ${this.renderStyle()}
       <div class="mdc-list-divider" role="separator"></div>`;
   }
 }

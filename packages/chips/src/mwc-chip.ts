@@ -76,9 +76,7 @@ export class Chip extends BaseElement {
     return this.attachShadow({ mode: "open", delegatesFocus: true });
   }
 
-  renderStyle() {
-    return style;
-  }
+  static styles = style;
 
   remove() {
     this.mdcRoot.parentNode
@@ -199,7 +197,6 @@ export class Chip extends BaseElement {
 
   render() {
     return html`
-      ${this.renderStyle()}
       <div
         class="mdc-chip ${classMap(this.chipClasses(this.active))}"
         .ripple="${ripple({ unbounded: false })}"

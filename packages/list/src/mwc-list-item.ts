@@ -64,15 +64,12 @@ export class ListItem extends LitElement {
     return this.mdcRoot ? this.mdcRoot.setAttribute : () => {};
   }
 
-  renderStyle() {
-    return style;
-  }
+  static styles = style;
 
   render() {
     const { label, icon, disabled, tabindex } = this;
 
     return html`
-      ${this.renderStyle()}
       <div class="mdc-list-item" role="menuitem" tabindex="${tabindex}" aria-disabled="${disabled}" .ripple="${ripple({ unbounded: false })}">
         ${icon ? html`<span class="material-icons">${icon}</span>` : ''}
         ${label || ''}

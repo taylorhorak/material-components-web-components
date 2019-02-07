@@ -230,9 +230,7 @@ export class TextField extends FormElement {
 
   protected mdcFoundation!: TextFieldFoundation;
 
-  renderStyle() {
-    return style;
-  }
+  static styles = style;
 
   protected createAdapter() {
     return {
@@ -376,7 +374,6 @@ export class TextField extends FormElement {
     }
 
     return html`
-      ${this.renderStyle()}
       <div class="${classMap(hostClassInfo)}" .ripple="${!outlined ? ripple({ unbounded: false }) : null}">
         ${icon ? html`<i class="material-icons mdc-text-field__icon">${icon}</i>` : ''}
         <div class="mdc-text-field__input-container">

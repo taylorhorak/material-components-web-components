@@ -57,20 +57,14 @@ export class Card extends BaseElement {
   @property({ type: String })
   aspectRatio =  '';
 
-  renderStyle() {
-    return style;
-  }
+  static styles = style;
 
   render() {
     const mediaStyles = this.aspectRatio ? 'mdc-card__media--' + this.aspectRatio : '';
 
     return html`
-      ${this.renderStyle()}
-      <div 
-      class="mdc-card ${classMap({ "mdc-card--stroked": this.stroke })}"
-      >
-      <div class="mdc-card__primary-action" tabindex="0"
-        >
+      <div class="mdc-card ${classMap({ "mdc-card--stroked": this.stroke })}">
+        <div class="mdc-card__primary-action" tabindex="0">
           <div class="mdc-card__media ${mediaStyles}">
             <div class="mdc-card__media-content">
               <slot name="media"></slot>
@@ -80,12 +74,12 @@ export class Card extends BaseElement {
           <slot name="content"></slot>
           <mwc-ripple></mwc-ripple>
         </div>
-        
+
         <div class="mdc-card__actions">
           <div class="mdc-card__action-buttons">
             <slot name="action-buttons"></slot>
           </div>
-            
+
           <div class="mdc-card__action-icons">
             <slot name="action-icons"></slot>
           </div>

@@ -41,7 +41,7 @@ import 'wicg-inert/dist/inert.js';
 import 'blocking-elements/blocking-elements.js';
 
 // elements to be registered ahead of time
-import "@authentic/mwc-button";
+import "@material/mwc-button";
 
 export interface DialogFoundation extends Foundation {
     open(): void;
@@ -198,7 +198,7 @@ export class Dialog extends BaseElement {
         this.addEventListener('keydown', this._handleInteraction);
         this.addEventListener(strings.OPENING_EVENT, this._handleOpening);
         this.addEventListener(strings.CLOSING_EVENT, this._handleClosing);
-        
+
         this.scrim.addEventListener('click', this._handleInteraction);
         this._buttons
             .filter(el => !!el.getAttribute('data-mdc-dialog-action'))
@@ -207,14 +207,11 @@ export class Dialog extends BaseElement {
             });
     }
 
-    renderStyle() {
-        return style;
-    }
+    static styles = style;
 
     render() {
         const { headerLabel, acceptLabel, declineLabel, scrollable } = this;
         return html`
-            ${this.renderStyle()}
             <aside class="mdc-dialog"
                 role="alertdialog"
                 aria-labelledby="my-dialog-title"
@@ -251,7 +248,7 @@ export class Dialog extends BaseElement {
     show() {
         this.mdcFoundation.open();
     }
-    
+
     close() {
         this.mdcFoundation.close();
     }
