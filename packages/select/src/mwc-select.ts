@@ -260,9 +260,7 @@ export class Select extends FormElement {
   protected _isMouseDown!: Boolean;
   protected _isFocused!: Boolean;
 
-  renderStyle() {
-    return html`${style}`;
-  }
+  static styles = style;
 
   protected createAdapter() {
     return {
@@ -362,7 +360,6 @@ export class Select extends FormElement {
     };
 
     return html`
-      ${this.renderStyle()}
       <div class="mdc-select ${classMap(hostClassInfo)}" .ripple="${!outlined ? ripple({ unbounded: false }) : undefined}">
         <input type="input" size="1" readonly class="mdc-select__selected-text" tabindex="0">
         <slot name="select"></slot>
@@ -382,7 +379,7 @@ export class Select extends FormElement {
 
   _openNotch() {
     const isRtl = window.getComputedStyle(this.mdcRoot).getPropertyValue('direction') === 'rtl';
-    const labelWidth = !!this._label ? this._label.getWidth() : -12; // due to notched outline label spacing
+    const labelWidth = !!this._label && !this.dense ? this._label.getWidth() : -12; // due to notched outline label spacing
     this._outline.notch(labelWidth * (this.dense ? .923 : .75), isRtl);
   }
 

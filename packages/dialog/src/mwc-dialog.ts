@@ -80,14 +80,11 @@ export class Dialog extends BaseElement {
         document.addEventListener('keyup', this.listenForESC.bind(this));
     }
 
-    renderStyle() {
-        return style;
-    }
+    static styles = style;
 
     render() {
         const {headerLabel, acceptLabel, declineLabel, scrollable} = this;
         return html`
-            ${this.renderStyle()}
             <aside
                 class="mdc-dialog ${this.opened ? 'mdc-dialog--open' : ''}"
                 role="alertdialog"

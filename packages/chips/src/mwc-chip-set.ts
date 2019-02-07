@@ -67,9 +67,7 @@ export class ChipSet extends BaseElement {
 
   protected readonly mdcFoundationClass: typeof ChipSetFoundation = MDCChipSetFoundation;
 
-  renderStyle() {
-    return style;
-  }
+  static styles = style;
 
   get foundation() {
     return this.mdcFoundation;
@@ -132,7 +130,6 @@ export class ChipSet extends BaseElement {
 
   render() {
     return html`
-      ${this.renderStyle()}
       <div class="mdc-chip-set ${classMap(this.chipSetClasses(this.type))}">
         <slot></slot>
       </div>

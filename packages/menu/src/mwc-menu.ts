@@ -280,9 +280,7 @@ export class Menu extends BaseElement {
 
   protected _preventClose = false;
 
-  renderStyle() {
-    return style;
-  }
+  static styles = style;
 
   protected createAdapter() {
     return {
@@ -355,7 +353,6 @@ export class Menu extends BaseElement {
 
   render() {
     return html`
-      ${this.renderStyle()}
       <div class="mdc-menu mdc-menu-surface" tabindex="-1">
         <div class="mdc-menu__items mdc-list" role="menu" aria-hidden="true">
           <div class="${this.selectionGroup ? 'mdc-menu__selection-group' : ''}">

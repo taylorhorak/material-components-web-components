@@ -14,8 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {FormElement, html, property, observer, query, customElement, Adapter, Foundation} from '@material/mwc-base/form-element.js';
-import {classMap} from 'lit-html/directives/class-map.js';
+import {FormElement, html, property, observer, query, customElement, Adapter, Foundation, classMap} from '@material/mwc-base/form-element.js';
 import {repeat} from 'lit-html/directives/repeat.js';
 import {style} from './mwc-slider-css.js';
 import MDCSliderFoundation from '@material/slider/foundation.js';
@@ -114,9 +113,7 @@ export class Slider extends FormElement {
   @property({type: Number})
   private _numMarkers = 0;
 
-  renderStyle() {
-    return style;
-  }
+  static styles = style;
 
   discretePin() {
     return html`
@@ -144,7 +141,6 @@ export class Slider extends FormElement {
   render() {
     const {value, min, max, step, disabled, discrete, markers, _numMarkers} = this;
     return html`
-      ${this.renderStyle()}
       <div class="mdc-slider ${this.sliderClass()}" tabindex="0" role="slider"
         aria-valuemin="${min}" aria-valuemax="${max}" aria-valuenow="${value}"
         aria-disabled="${disabled}" data-step="${step}">
