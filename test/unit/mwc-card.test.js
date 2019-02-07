@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Card} from '@material/mwc-card';
+import {Card} from '@authentic/mwc-card';
 
 let element;
 

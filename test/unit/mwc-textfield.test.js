@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Textfield} from '@material/mwc-textfield';
+import {Textfield} from '@authentic/mwc-textfield';
 
 let element;
 

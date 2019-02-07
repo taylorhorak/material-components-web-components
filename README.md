@@ -58,15 +58,15 @@ When you're ready to use the Material Web Components in your web application:
 
   1. Add one of the MWC elements to your project, for example for icon:
 
-      ```npm i @material/mwc-icon```
+      ```npm i @authentic/mwc-icon```
 
   1. Import the element definition into your HTML page:
 
-      ```<script type="module" src="@material/mwc-icon/index.js"></script>```
+      ```<script type="module" src="@authentic/mwc-icon/index.js"></script>```
 
       Or into your module script:
 
-      ```import {Icon} from "@material/mwc-icon"```
+      ```import {Icon} from "@authentic/mwc-icon"```
 
   1. Create an instance of element in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 

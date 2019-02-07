@@ -27,7 +27,7 @@ git worktree add -f gh-pages origin/gh-pages
 # Copy built source to gh-pages
 cp -rf demos/* gh-pages/demos
 # install dependencies
-# convert list of packages to package.json dependency form: "@material/mwc-base": "*"
+# convert list of packages to package.json dependency form: "@authentic/mwc-base": "*"
 packages=`npx lerna ls 2>/dev/null | grep -v private | sed 's/\(@material\/mwc-[a-z]\{1,\}\).*/"\1": "*",/'`
 # generate package.json with public releases
 cat <<-EOF >gh-pages/package.json
