@@ -15,13 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@import '@material/list/mdc-list.scss';
-@import "@material/ripple/mixins";
-@import '@material/mwc-icon/src/mwc-icon-host.scss';
-
 .material-icons {
   @extend %material-icons;
 }
+
+
+@import '@material/list/mdc-list.scss';
+@import "@material/ripple/mixins";
+@import '@material/mwc-icon/src/mwc-icon-host.scss';
+@import "@material/typography/mdc-typography";
+
+
 
 :host {
   width: 100%;
@@ -37,6 +41,7 @@ limitations under the License.
   @include mdc-states;
   @include mdc-states-activated(primary);
   @include mdc-states-selected(primary);
+  @include mdc-typography-base();
 
   white-space: nowrap;
 }

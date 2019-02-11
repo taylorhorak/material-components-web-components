@@ -19,12 +19,12 @@ import {
 	query,
 	html,
 	property,
-	observer
+	classMap
   } from '@material/mwc-base/base-element.js';
 import { LitElement } from 'lit-element';
 import { ripple } from '@material/mwc-ripple/ripple-directive';
 
-import { style } from './mwc-list-item-css.js';
+import { style } from './mwc-list-css.js';
 
 declare global {
 	interface HTMLElementTagNameMap {
@@ -48,11 +48,23 @@ export class List extends LitElement {
 
 	// Whether the accordion should allow multiple expanded accordion items simultaneously.
 	@property({ type: Boolean })
-	multi = true;
+	multi = false;
+
+	// Dense version of list
+	@property({ type: Boolean })
+	dense = false;
+
+	// Optional, configures the leading tiles of each row to display images instead of icons. This will make the graphics of the list items larger.
+	@property({ type: Boolean })
+	avatarList = false;
 
 	// A readonly id value to use for unique selection coordination.
 	@property({ type: String })
 	id = '';
+
+	//Type of list: single-line and two-line
+	@property({ type: String })
+	type = 'single-line';
 
 	protected closeAll() {
 		console.log('here is where you closed all!')
@@ -73,11 +85,20 @@ export class List extends LitElement {
 	static styles = style;
 
 	render() {
-		const { displayMode, hideToggle, multi, id } = this;
-	
+		const { displayMode, hideToggle, multi, dense, id, type } = this;
+		const classes = {
+			'mdc-list--hide-toggle': hideToggle,
+			'mdc-list--multi': multi,
+			'mdc-list--dense': dense
+		};
+		console.log(type)
+
 		return html`
-		  <div class="mdc-list" role="menuitem" displayMode="${displayMode}" ${hideToggle} ${multi} id=${id} .ripple="${ripple({ unbounded: false })}">
-			<slot></slot>>
-		  </div>`;
+			<div class="mdc-list ${classMap(classes)}" 
+				displayMode="${displayMode}" 
+				id=${id} 
+				.ripple="${ripple({ unbounded: false })}">
+				<slot></slot>
+			</div>`;
 	}
 }

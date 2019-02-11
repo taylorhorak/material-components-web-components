@@ -41,9 +41,28 @@ limitations under the License.
 
   <main>
 
-	<mwc-list>
-		<mwc-list-item></mwc-list-item>
-	</mwc-list>
+  	<mwc-list id="mollys-id">
+      <mwc-list-item label="one" @click="${() => this.closeAll()}">
+        <p class="mdc-list-item__primary-text" slot="primaryText">here</p>
+        <p class="mdc-list-item__secondary-text" slot="secondaryText">here2</p>
+      </mwc-list-item>
+      <mwc-list-item label="two">
+        <p slot="text">here</p>
+      </mwc-list-item>
+      <mwc-list-item label="three">
+        <p slot="text">here</p>
+      </mwc-list-item>
+      <mwc-list-item disabled label="four">
+        <p slot="text">here</p>
+      </mwc-list-item>
+      <mwc-list-item-separator></mwc-list-item-separator>
+      <mwc-list-item label="aaa">
+        <p slot="text">here</p>
+      </mwc-list-item>
+      <mwc-list-item label="bbb">
+        <p slot="text">here</p>
+      </mwc-list-item>
+    </mwc-list>
   </main>
 
   <script>

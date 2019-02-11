@@ -65,7 +65,7 @@ export class ListItem extends LitElement {
   }
 
   renderStyle() {
-    return style;
+    return html `<style>${style}</style>`;
   }
 
   render() {
@@ -77,7 +77,11 @@ export class ListItem extends LitElement {
         ${icon ? html`<span class="material-icons">${icon}</span>` : ''}
         ${label || ''}
         <span class="mdc-list-item__text">
-          <slot></slot>
+          <slot name="text">
+            <slot name="primaryText"></slot>
+            <slot name="secondaryText"></slot>
+          </slot>
+        
         </span>
       </div>`;
   }

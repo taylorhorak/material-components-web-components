@@ -19,7 +19,15 @@ limitations under the License.
 @import "@material/ripple/mixins";
 @import '@material/mwc-icon/src/mwc-icon-host.scss';
 
+
 :host {
   width: 100%;
+}
+
+.mdc-list {
+  slot {
+    display: flex;
+    flex-flow: column nowrap;
+  }
 }
 
