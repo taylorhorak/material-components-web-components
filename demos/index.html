@@ -26,7 +26,7 @@ limitations under the License.
 
   <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
   <script type="module">
-    import {LitElement, html, css} from 'lit-element/lit-element.js';
+    import { LitElement, html, css } from '../node_modules/lit-element/lit-element.js';
     import {style as listStyle} from './style/mwc-list-item-css.js';
 
     class DemoView extends LitElement {
@@ -165,6 +165,13 @@ limitations under the License.
                 <span class="mdc-list-item__text">
                   Linear Progress
                   <span class="mdc-list-item__secondary-text">Fills from 0% to 100%, represented by bars</span>
+                </span>
+              </a>
+              <a role="listitem" class="mdc-list-item" href="list.html">
+                <span class="demo-catalog-list-icon mdc-list-item__graphic"><img src="https://material-components-web.appspot.com/images/ic_list_24px.svg"></span>
+                <span class="mdc-list-item__text">
+                  List
+                  <span class="mdc-list-item__secondary-text">Different types of Lists</span>
                 </span>
               </a>
               <a role="listitem" class="mdc-list-item" href="menu.html">
