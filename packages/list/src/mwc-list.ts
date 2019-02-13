@@ -89,9 +89,10 @@ export class List extends LitElement {
 		const classes = {
 			'mdc-list--hide-toggle': hideToggle,
 			'mdc-list--multi': multi,
-			'mdc-list--dense': dense
+			'mdc-list--dense': dense,
+			'mdc-list--single-line': type === 'single-line',
+			'mdc-list--two-line': type === 'two-line' 
 		};
-		console.log(type)
 
 		return html`
 			<div class="mdc-list ${classMap(classes)}" 
