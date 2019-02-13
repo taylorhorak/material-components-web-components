@@ -81,8 +81,10 @@ export class ListItem extends LitElement {
             <slot name="primaryText"></slot>
             <slot name="secondaryText"></slot>
           </slot>
-        
         </span>
+        <div class="mdc-list-item__action">
+          <slot name="action"></slot>
+        </div>
       </div>`;
   }
 

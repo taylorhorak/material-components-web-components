@@ -66,6 +66,17 @@ export class List extends LitElement {
 	@property({ type: String })
 	type = 'single-line';
 
+	// Controls display information and actions for list items. Default is none, other options are: listbox, group(checkbox), radiogroup, expandgroup, switchgroup, reordergroup. 
+	@property({ type: String })
+	role = "none";
+
+	// Actions can be either primary(at the beginning of the list item) or secondary(at the end of the list item). Default is set to secondary.
+	@property({ type: Boolean })
+	primary = false;
+
+	@property({ type: Boolean })
+	secondary = true;
+
 	protected closeAll() {
 		console.log('here is where you closed all!')
 	}
@@ -85,20 +96,23 @@ export class List extends LitElement {
 	static styles = style;
 
 	render() {
-		const { displayMode, hideToggle, multi, dense, id, type } = this;
+		const { displayMode, hideToggle, multi, dense, id, type, role } = this;
+		if(this.primary) this.secondary = !this.secondary;
+
 		const classes = {
 			'mdc-list--hide-toggle': hideToggle,
 			'mdc-list--multi': multi,
 			'mdc-list--dense': dense,
 			'mdc-list--single-line': type === 'single-line',
-			'mdc-list--two-line': type === 'two-line' 
+			'mdc-list--two-line': type === 'two-line'
 		};
 
 		return html`
 			<div class="mdc-list ${classMap(classes)}" 
 				displayMode="${displayMode}" 
 				id=${id} 
-				.ripple="${ripple({ unbounded: false })}">
+				.ripple="${ripple({ unbounded: false })}"
+				role="${role}">
 				<slot></slot>
 			</div>`;
 	}
