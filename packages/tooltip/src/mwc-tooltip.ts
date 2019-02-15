@@ -45,7 +45,6 @@ export interface TooltipFoundation extends Foundation {
 export declare var TooltipFoundation: {
     prototype: TooltipFoundation;
     new(adapter: Adapter): TooltipFoundation;
-    gap:
 }
 
 declare global {
@@ -145,41 +144,6 @@ export class Tooltip extends BaseElement {
         this.mdcFoundation.hide();
     }
 
-    get gap(): Number {
-        return this.mdcFoundation.gap;
-    }
-
-    set gap(gap): void {
-        this.mdcFoundation.gap = gap;
-    }
-
-    _notifySelected(data) {
-        const selectedElement = this.items[data.index];
-        this._list.selectedIndex = this.enabledItems.indexOf(selectedElement);
-        this.selectedIndex = data.index;
-        emit(this, 'MDCMenu:selected', { index: data.index, item: this.items[data.index] });
-    }
-
-    /**
-     * Return the item within the menu at the index specified.
-     */
-    getOptionByIndex(index: number): HTMLElement | null {
-        const items = this.items;
-
-        if (index < items.length) {
-            return this.items[index];
-        } else {
-            return null;
-        }
-    }
-
-    set quickOpen(quickOpen: boolean) {
-        this._menuSurface.quickOpen = quickOpen;
-    }
-
-    setFixedPosition(isFixed: boolean) {
-        this._menuSurface.setFixedPosition(isFixed);
-    }
 
     /**
      * Return the menu width
@@ -192,40 +156,12 @@ export class Tooltip extends BaseElement {
         return width;
     }
 
-    hoistMenuToBody() {
-        this._menuSurface.hoistMenuToBody();
-    }
-
-    setIsHoisted(isHoisted: boolean) {
-        this._menuSurface.setIsHoisted(isHoisted);
-    }
-
-    setAbsolutePosition(x: number, y: number) {
-        this._menuSurface.setAbsolutePosition(x, y);
-    }
-
     _afterOpenedCallback() {
-        if (this.autofocus) {
-            this.setFocus();
-        }
-
-        emit(this, 'MDCMenu:opened');
-
-        this.addEventListener('keydown', this._handleKeydown);
-        this.addEventListener('click', this._handleClick);
+        emit(this, 'MDCTootip:opened');
     }
 
     _afterClosedCallback() {
         this.open = false;
-        emit(this, 'MDCMenu:closed');
-
-        this.removeEventListener('keydown', this._handleKeydown);
-        this.removeEventListener('click', this._handleClick);
-    }
-
-    setFocus() {
-        if (this.enabledItems.length > 0) {
-            this.items[this.selectedIndex !== -1 ? this.selectedIndex : 0].focus();
-        }
+        emit(this, 'MDCTootip:closed');
     }
 }

@@ -1,19 +1,5 @@
 body {
-  display: flex;
   height: 100vh;
-}
-
-.mdc-drawer-app-content {
-  flex: auto;
-  overflow: auto;
-}
-
-mwc-top-app-bar {
-  position: absolute;
-}
-
-[type=dismissible][open] + .mdc-drawer-app-content {
-  margin-left: 256px;
 }
 
 .drawer-content {
@@ -22,5 +8,5 @@ mwc-top-app-bar {
 
 .main-content {
   min-height: 300px;
-  padding: 64px 18px 0 18px;
+  padding: 48px 18px 0 18px;
 }
