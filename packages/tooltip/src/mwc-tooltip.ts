@@ -45,6 +45,7 @@ export interface TooltipFoundation extends Foundation {
 export declare var TooltipFoundation: {
     prototype: TooltipFoundation;
     new(adapter: Adapter): TooltipFoundation;
+    gap:
 }
 
 declare global {
@@ -91,7 +92,7 @@ export class Tooltip extends BaseElement {
         return {
             ...super.createAdapter(),
             addClass: (className) => {
-                this.mdcRoot.classList.push(className);
+                this.mdcRoot.classList.add(className);
             },
             removeClass: (className) => {
                 this.mdcRoot.classList.remove(className);
@@ -100,10 +101,10 @@ export class Tooltip extends BaseElement {
                 return 0; //TODO
             },
             getRootHeight: (index, attr) => {
-                return 0; //TODO
+                return [index, attr]; //TODO
             },
             getControllerWidth: (element, className) => {
-                return 0; //TODO
+                return [element, className]; //TODO
             },
             getControllerHeight: () => {
                 return 0; //TODO
@@ -111,9 +112,10 @@ export class Tooltip extends BaseElement {
             getControllerBoundingRect: () => {
                 return {}; //TODO
             },
-            getClassList: () => this._classList,
+            getClassList: () => this.classList,
             setStyle: (propertyName, value) => {
                 //TODO
+                return [propertyName, value];
             },
         }
     }
@@ -124,17 +126,7 @@ export class Tooltip extends BaseElement {
     firstUpdated() {
         super.firstUpdated();
 
-        this._handleKeydown = evt => {
-            this.mdcFoundation.handleKeydown(evt);
-            this._list.handleKeydown_(evt);
-        }
-        this._handleClick = evt => {
-            this._preventClose = !this.autoclose;
-            this.mdcFoundation.handleClick(evt)
-        };
 
-        this._menuSurface.listen('MDCMenuSurface:opened', () => this._afterOpenedCallback());
-        this._menuSurface.listen('MDCMenuSurface:closed', () => this._afterClosedCallback());
     }
 
     render() {
