@@ -15,12 +15,12 @@
  */
 
 /** @enum {string} */
-export default const cssClasses = {
+export const cssClasses = {
     ROOT: 'mdc-tooltip',
     SHOW: 'mdc-tooltip--show',
     ANIMATION: 'mdc-tooltip--animation',
-    DIRECTION_BOTTOM: 'mdc-tooltip--bottom',
-    DIRECTION_RIGHT: 'mdc-tooltip--right',
-    DIRECTION_LEFT: 'mdc-tooltip--left',
-    DIRECTION_TOP: 'mdc-tooltip--top',
+    PLACEMENT_BELOW: 'mdc-tooltip--below',
+    PLACEMENT_AFTER: 'mdc-tooltip--after',
+    PLACEMENT_BEFORE: 'mdc-tooltip--before',
+    PLACEMENT_ABOVE: 'mdc-tooltip--above',
 };

@@ -33,7 +33,7 @@
  * @record
  */
 
-class MDCTooltipAdapter {
+export class MDCTooltipAdapter {
     /** @param {string} className */
     addClass(className) { }
 
@@ -64,5 +64,3 @@ class MDCTooltipAdapter {
      */
     setStyle(propertyName, value) { }
 }
-
-export default MDCTooltipAdapter;

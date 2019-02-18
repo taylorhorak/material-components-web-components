@@ -15,13 +15,13 @@
  */
 
 import MDCFoundation from '@material/base/foundation';
-import MDCTooltipAdapter from './adapter';
-import cssClasses from './constants';
+import { MDCTooltipAdapter } from './adapter';
+import { cssClasses } from './constants';
 
 /**
  * @extends {MDCFoundation<!MDCTooltipAdapter>}
  */
-class MDCTooltipFoundation extends MDCFoundation {
+export class MDCTooltipFoundation extends MDCFoundation {
     /** @return enum {cssClasses} */
     static get cssClasses() {
         return cssClasses;
@@ -52,10 +52,13 @@ class MDCTooltipFoundation extends MDCFoundation {
     /** @private {?string} */
     this.direction_ = null;
 
+    /** @private {?string} */
+    this.placement = 'below';
+
     /** @private {?number} */
     this.showTimeout_ = null;
 
-    /** @private {?number} */
+    /** @private {boolean} */
     this.checkHideFlag_ = false;
 
     /** @public {number} */
@@ -127,15 +130,19 @@ class MDCTooltipFoundation extends MDCFoundation {
     let top = ctrlOffsetTop + ctrlHeight / 2 - tooltipHeight / 2;
     let left = ctrlOffsetLeft + ctrlWidth / 2 - tooltipWidth / 2;
 
-    if (this.direction_ === 'top') {
+    if (this.placement.includes('above')) {
       top = ctrlOffsetTop - tooltipHeight - this.gap;
-    } else if (this.direction_ === 'right') {
-      left = ctrlOffsetLeft + ctrlWidth + this.gap;
-    } else if (this.direction_ === 'left') {
+    }
+    if (this.placement.includes('before')) {
       left = ctrlOffsetLeft - tooltipWidth - this.gap;
-    } else {
+    }
+    if (this.placement.includes('after')) {
+      left = ctrlOffsetLeft + ctrlWidth + this.gap;
+    }
+    if (this.placement.includes('below')) {
       top = ctrlOffsetTop + ctrlHeight + this.gap;
     }
+    // TODO: Implement RTL logic
 
     return {
       top,
@@ -144,25 +151,20 @@ class MDCTooltipFoundation extends MDCFoundation {
   }
 
   setDirection_() {
-    this.direction_ = 'bottom';
-    const possibleDirections = {};
-    possibleDirections[cssClasses.DIRECTION_BOTTOM] = 'bottom';
-    possibleDirections[cssClasses.DIRECTION_TOP] = 'top';
-    possibleDirections[cssClasses.DIRECTION_LEFT] = 'left';
-    possibleDirections[cssClasses.DIRECTION_RIGHT] = 'right';
-
-    const classNames = this.adapter_.getClassList();
-
-    for (let i = 0; i < classNames.length; i++) {
-      if (possibleDirections[classNames[i]] !== undefined) {
-        this.direction_ = possibleDirections[classNames[i]];
-      }
-    }
+    this.resetPlacement();
+    let placements = this.placement.split(' ');
+    placements.forEach((dir) => this.adapter_.addClass(cssClasses['PLACEMENT_'+dir]));
 
     const calculatedPos = this.calcPosition_();
-
     this.adapter_.setStyle('top', calculatedPos.top.toString() + 'px');
     this.adapter_.setStyle('left', calculatedPos.left.toString() + 'px');
+  }
+
+  resetPlacement() {
+    this.adapter_.removeClass(cssClasses.PLACEMENT_BELOW);
+    this.adapter_.removeClass(cssClasses.PLACEMENT_ABOVE);
+    this.adapter_.removeClass(cssClasses.PLACEMENT_BEFORE);
+    this.adapter_.removeClass(cssClasses.PLACEMENT_AFTER);
   }
 
   showDelayed() {

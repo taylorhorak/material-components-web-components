@@ -23,23 +23,28 @@ import {
     html,
     property
 } from '@material/mwc-base/base-element.js';
-import { MDCTooltipFoundation } from './mdc-tooltip';
-import { emit } from '@material/mwc-base/utils';
-
+import { MDCTooltipFoundation } from './mdc-tooltip/foundation.js';
 import { style } from './mwc-tooltip-css.js';
 
 export interface TooltipFoundation extends Foundation {
-    handleTouchEnd(evt: KeyboardEvent): void;
-    handleBlur(evt: MouseEvent): void;
+    handleTouchEnd(evt: Event): void;
+    handleBlur(evt: Event): void;
     handleMouseLeave(evt: MouseEvent): void;
-    handleTouchStart(evt: MouseEvent): void;
-    handleFocus(evt: MouseEvent): void;
+    handleTouchStart(evt: Event): void;
+    handleFocus(evt: Event): void;
     handleMouseEnter(evt: MouseEvent): void;
     handleClick(evt: MouseEvent): void;
-    showDelayed(evt: MouseEvent): void;
+    showDelayed(evt: Event): void;
     show(): void;
     hide(): void;
     destroy(): void;
+    displayed_:Boolean;
+    placement:String;
+    showTimeout_:Number;
+    checkHideFlag_:Boolean;
+    hideDelay:Number;
+    showDelay:Number;
+    gap:Number;
 }
 
 export declare var TooltipFoundation: {
@@ -59,80 +64,68 @@ export class Tooltip extends BaseElement {
     @query('.mdc-tooltip')
     protected mdcRoot!: HTMLElement;
 
-    @property({ type: Boolean })
-    selectionGroup = false;
+    @property({ type: String })
+    for = '';
+
+    @property({ type: String })
+    text = 'Tooltip Placeholder';
+
+    @property({ type: String })
+    placement = 'below';
 
     @property({ type: Boolean })
     open = false;
 
-    @property({ type: Boolean })
-    multiselect = false;
+    @property({ type: Number })
+    showDelay = 1500;
 
-    @property({ type: Boolean })
-    autofocus = false;
+    @property({ type: Number })
+    hideDelay = 0; //NOT IMPLEMENTED
 
-    @property({ type: Boolean })
-    autoclose = false;
-
-    @property({ type: Boolean })
-    noWrapFocus = false;
+    @property({ type: Number })
+    gap = 20; //NOT IMPLEMENTED
 
     protected readonly mdcFoundationClass: typeof TooltipFoundation = MDCTooltipFoundation;
-
     protected mdcFoundation!: TooltipFoundation;
-
     protected _preventClose = false;
-
-    renderStyle() {
-        return style;
-    }
-
+    protected controller_:HTMLElement|null = this.mdcRoot;
+    protected _handleKeydown;
+    protected _handleClick;
     protected createAdapter() {
         return {
             ...super.createAdapter(),
-            addClass: (className) => {
-                this.mdcRoot.classList.add(className);
-            },
-            removeClass: (className) => {
-                this.mdcRoot.classList.remove(className);
-            },
-            getRootWidth: () => {
-                return 0; //TODO
-            },
-            getRootHeight: (index, attr) => {
-                return [index, attr]; //TODO
-            },
-            getControllerWidth: (element, className) => {
-                return [element, className]; //TODO
-            },
-            getControllerHeight: () => {
-                return 0; //TODO
-            },
-            getControllerBoundingRect: () => {
-                return {}; //TODO
-            },
+            addClass: (className) => this.mdcRoot.classList.add(className),
+            removeClass: (className) => this.mdcRoot.classList.remove(className),
+            getRootWidth: () => this.mdcRoot.offsetWidth,
+            getRootHeight: () => this.mdcRoot.offsetHeight,
+            getControllerWidth: () => this.controller_!.offsetWidth,
+            getControllerHeight: () => this.controller_!.offsetHeight,
+            getControllerBoundingRect: () => this.controller_!.getBoundingClientRect(),
             getClassList: () => this.classList,
-            setStyle: (propertyName, value) => {
-                //TODO
-                return [propertyName, value];
-            },
+            setStyle: (propertyName, value) => this.mdcRoot.style.setProperty(propertyName, value),
         }
     }
 
-    protected _handleKeydown;
-    protected _handleClick;
+    static styles = style;
 
     firstUpdated() {
         super.firstUpdated();
+        this.controller_ = this.for === '' ? this.mdcRoot.parentElement : document.getElementById(this.for);
+        this.initListeners();
+    }
 
-
+    updated(changedProperties) {
+        console.log("Tooltip updated", changedProperties);
+        this.mdcFoundation.showDelay = this.showDelay;
+        this.mdcFoundation.hideDelay = this.hideDelay;
+        this.mdcFoundation.gap = this.gap;
+        this.mdcFoundation.placement = this.placement;
     }
 
     render() {
         return html`
-            ${this.renderStyle()}
             <div class="mdc-tooltip" tabindex="-1">
-
+                ${this.text}
             </div>
         `;
     }
@@ -144,24 +137,38 @@ export class Tooltip extends BaseElement {
         this.mdcFoundation.hide();
     }
 
+    initListeners() {
+        if (this.controller_ !== null) {
+            this.controller_.addEventListener('blur', this.mdcFoundation.handleBlur.bind(this.mdcFoundation));
+            this.controller_.addEventListener('click', this.mdcFoundation.handleClick.bind(this.mdcFoundation));
+            this.controller_.addEventListener('focus', this.mdcFoundation.handleFocus.bind(this.mdcFoundation));
+            this.controller_.addEventListener('mouseleave', this.mdcFoundation.handleMouseLeave.bind(this.mdcFoundation));
+            this.controller_.addEventListener('mouseenter', this.mdcFoundation.handleMouseEnter.bind(this.mdcFoundation));
+            this.controller_.addEventListener('touchstart', this.mdcFoundation.handleTouchStart.bind(this.mdcFoundation));
+            this.controller_.addEventListener('touchend', this.mdcFoundation.handleTouchEnd.bind(this.mdcFoundation));
+        }
+    }
 
-    /**
-     * Return the menu width
-     */
-    getWidth(): number {
+    destroy() {
+        if (this.controller_ !== null) {
+            this.controller_.removeEventListener('blur', this.mdcFoundation.handleBlur);
+            this.controller_.removeEventListener('click', this.mdcFoundation.handleClick);
+            this.controller_.removeEventListener('focus', this.mdcFoundation.handleFocus);
+            this.controller_.removeEventListener('mouseenter', this.mdcFoundation.handleMouseEnter);
+            this.controller_.removeEventListener('mouseleave', this.mdcFoundation.handleMouseLeave);
+            this.controller_.removeEventListener('touchstart', this.mdcFoundation.handleTouchStart);
+            this.controller_.removeEventListener('touchend', this.mdcFoundation.handleTouchEnd);
+        }
+    }
+
+    get visible() {
+        return this.mdcFoundation.displayed_;
+    }
+
+    get width(): number {
         this.mdcRoot.style.display = 'block';
         const width = this.mdcRoot.offsetWidth;
         this.mdcRoot.style.display = null;
-
         return width;
-    }
-
-    _afterOpenedCallback() {
-        emit(this, 'MDCTootip:opened');
-    }
-
-    _afterClosedCallback() {
-        this.open = false;
-        emit(this, 'MDCTootip:closed');
     }
 }

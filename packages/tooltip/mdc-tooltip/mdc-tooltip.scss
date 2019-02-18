@@ -32,9 +32,9 @@
         transform: scale(1);
         opacity: $mdc-tooltip-opacity;
     }
-    }
+}
 
-    @keyframes hide-tooltip {
+@keyframes hide-tooltip {
     from {
         transform: scale(1);
         opacity: $mdc-tooltip-opacity;
@@ -46,14 +46,14 @@
         opacity: 0;
         z-index: -1;
     }
-    }
+}
 
-    .mdc-tooltip {
+.mdc-tooltip {
     &,
-    &--left,
-    &--bottom,
-    &--top,
-    &--right {
+    &--before,
+    &--below,
+    &--above,
+    &--after {
         @include mdc-typography-overflow-ellipsis;
         @include mdc-tooltip-fill-color-accessible($material-color-grey-700);
 
@@ -73,11 +73,11 @@
         z-index: -1;
 
         @media screen and (max-width: $mdc-tooltip-mobil) {
-        height: 32px;
-        padding-right: 16px;
-        padding-left: 16px;
-        font-size: 14px;
-        line-height: 32px;
+            height: 32px;
+            padding-right: 16px;
+            padding-left: 16px;
+            font-size: 14px;
+            line-height: 32px;
         }
     }
 
