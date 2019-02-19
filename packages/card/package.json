@@ -13,10 +13,9 @@
   },
   "devDependencies": {
     "@material/card": "^0.40.0",
-    "@material/mwc-base": "^0.3.20",
-    "@material/mwc-icon": "^0.3.20",
-    "@material/mwc-ripple": "^0.3.20",
-    "lit-html": "^1.0.0"
+    "@material/mwc-base": "^0.3.6",
+    "@material/mwc-icon": "^0.3.6",
+    "@material/mwc-ripple": "^0.3.6"
   },
   "publishConfig": {
     "access": "public"
