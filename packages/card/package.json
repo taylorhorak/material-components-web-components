@@ -15,8 +15,7 @@
     "@authentic/mwc-base": "^0.3.23",
     "@authentic/mwc-icon": "^0.3.23",
     "@authentic/mwc-ripple": "^0.3.23",
-    "@material/card": "^0.40.0",
-    "lit-html": "^1.0.0"
+    "@material/card": "^0.40.0"
   },
   "publishConfig": {
     "access": "public"

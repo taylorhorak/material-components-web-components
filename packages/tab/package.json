@@ -18,7 +18,7 @@
     "@authentic/mwc-icon": "^0.3.23",
     "@authentic/mwc-ripple": "^0.3.23",
     "@authentic/mwc-tab-indicator": "^0.3.23",
-    "@material/tab": "^0.40.0"
+    "@material/tab": "^0.44.0"
   },
   "publishConfig": {
     "access": "public"

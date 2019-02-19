@@ -16,9 +16,8 @@
     "@authentic/mwc-base": "^0.3.23",
     "@authentic/mwc-icon": "^0.3.23",
     "@authentic/mwc-ripple": "^0.3.23",
-    "@material/button": "^0.43.0",
-    "lit-element": "^2.0.1",
-    "lit-html": "^1.0.0"
+    "@material/button": "^0.44.0",
+    "lit-element": "^2.0.1"
   },
   "publishConfig": {
     "access": "public"

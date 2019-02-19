@@ -12,7 +12,7 @@
   "dependencies": {
     "@authentic/mwc-base": "^0.3.23",
     "@authentic/mwc-ripple": "^0.3.23",
-    "@material/switch": "^0.40.0"
+    "@material/switch": "^0.44.0"
   },
   "publishConfig": {
     "access": "public"

@@ -17,6 +17,7 @@
     "rescope:authentic": "./scripts/rescope-authentic.sh",
     "rescope:material": "./scripts/rescope-material.sh",
     "publish": "./scripts/publish-npm.sh",
+    "restart": "npm run clean && npm run bootstrap",
     "update-gh-pages": "npm run bootstrap && ./scripts/publish-demos.sh",
     "watch-full": "npm run bootstrap && node scripts/watcher.js",
     "watch": "node scripts/watcher.js"
