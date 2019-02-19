@@ -76,8 +76,5 @@
         ]
       }
     }
-  },
-  "dependencies": {
-    "@authentic/mwc-base": "^0.3.10"
   }
 }
