@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-list",
-  "version": "0.3.23",
+  "version": "0.3.24",
   "description": "",
   "main": "mwc-list-item.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.23",
-    "@authentic/mwc-icon": "^0.3.23",
+    "@authentic/mwc-base": "^0.3.24",
+    "@authentic/mwc-icon": "^0.3.24",
     "@material/list": "^0.40.1",
     "lit-element": "^2.0.1"
   },
