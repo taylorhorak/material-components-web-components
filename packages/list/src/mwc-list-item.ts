@@ -73,9 +73,7 @@ export class ListItem extends LitElement {
       <div class="mdc-list-item" role="menuitem" tabindex="${tabindex}" aria-disabled="${disabled}" .ripple="${ripple({ unbounded: false })}">
         ${icon ? html`<span class="material-icons">${icon}</span>` : ''}
         ${label || ''}
-        <span class="mdc-list-item__text">
-          <slot></slot>
-        </span>
+        <slot></slot>
       </div>`;
   }
 
