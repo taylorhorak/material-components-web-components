@@ -56,6 +56,7 @@ export interface SelectProxy {
   selectedItems?: any;
   options?: any;
   items?: any;
+  updateComplete?: Promise<any>;
 }
 
 export declare var SelectFoundation: {
@@ -70,6 +71,8 @@ declare global {
 }
 
 export class HTMLSelectElementProxy {
+  protected isReady: boolean = false;
+
   get value(): string {
     return this.select instanceof HTMLSelectElement
       ? this.select.value
@@ -107,21 +110,26 @@ export class HTMLSelectElementProxy {
   }
 
   get selectedOptions() {
-    return this.select.selectedOptions || this.select.selectedItems;
+    return [...this.isReady ? this.select.selectedOptions || this.select.selectedItems : []];
   }
   
   get items() {
-    return this.select.options || this.select.items;
+    return [...this.isReady ? this.select.options || this.select.items : []];
   }
 
   get text() {
-    const selectedOption = this.selectedOptions[0];
-    return selectedOption
-      ? selectedOption.label || selectedOption.text
+    return this.selectedOptions.length > 0
+      ? this.selectedOptions.map(option => option.label).join(', ')
       : '';
   }
 
-  constructor(protected select: SelectProxy) {}
+  constructor(protected select: SelectProxy) {
+    if (this.select.updateComplete) {
+      this.select.updateComplete.then(() => {
+        this.isReady = true;
+      })
+    }
+  }
 }
 
 @customElement('mwc-select' as any)
@@ -332,12 +340,15 @@ export class Select extends FormElement {
       this.menu.selectionGroup = true;
       this.menu.autofocus = true;
       this.menu.autoclose = true;
-      this.menu.setAnchorElement(this.mdcRoot);
-      this.input.style.minWidth = `${this.menu.getWidth() + 32}px`;
       this.formElement.addEventListener('keydown', evt => this._handleKeydown(evt));
       this.formElement.addEventListener('mousedown', () => this._handleMouseDown());
       this.menu.addEventListener('MDCMenu:closed', () => this._handleMenuClosed());
       this.menu.addEventListener('MDCMenu:selected', evt => this._handleMenuSelected(evt as CustomEvent))
+
+      this.menu.updateComplete.then(() => {
+        this.menu.setAnchorElement(this.mdcRoot);
+        this.input.style.minWidth = `${this.menu.getWidth() + 32}px`;
+      })
     }
 
     this.formElement.addEventListener('focus', () => this._handleFocus());
@@ -400,20 +411,12 @@ export class Select extends FormElement {
   }
 
   /**
-   * Updates value and selectedIndex
+   * Updates select proxy selectedIndex
    */
   _handleMenuSelected(evt: CustomEvent) {
     var detail = evt.detail;
-    this.selectedIndex = detail.index;
-    this.value = this.selectedIndex !== -1 ? this.items[this.selectedIndex].value : '';
-
-    if (this._outline && !this._isMouseDown) {
-      if (this.selectedIndex !== -1) {
-        this._openNotch();
-      } else {
-        this._outline.closeNotch();
-      }
-    }
+    this.selectProxy.selectedIndex = detail.index;
+    this._handleSelection();
   }
 
   /**
