@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-chips",
-  "version": "0.3.24",
+  "version": "0.3.25",
   "description": "",
   "main": "mwc-chip.js",
   "repository": {
@@ -13,8 +13,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.24",
-    "@authentic/mwc-icon": "^0.3.24",
+    "@authentic/mwc-base": "^0.3.25",
+    "@authentic/mwc-icon": "^0.3.25",
     "@material/chips": "^0.35.0",
     "lit-element": "^2.0.1"
   },
