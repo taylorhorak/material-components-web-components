@@ -110,7 +110,7 @@ export class Tooltip extends BaseElement {
 
     firstUpdated() {
         super.firstUpdated();
-        this.controller_ = this.for === '' ? this.mdcRoot.parentElement : document.getElementById(this.for);
+        this.controller_ = this.for === '' ? this.parentElement : this.parentElement!.querySelector(`#${this.for}`);
         this.initListeners();
     }
 
