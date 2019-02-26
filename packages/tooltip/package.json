@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-tooltip",
-  "version": "0.3.27",
+  "version": "0.3.28",
   "description": "",
   "main": "mwc-tooltip.js",
   "repository": {
@@ -13,7 +13,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.27",
+    "@authentic/mwc-base": "^0.3.28",
     "lit-element": "^2.0.1"
   },
   "publishConfig": {
