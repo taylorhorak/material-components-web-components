@@ -25,7 +25,6 @@ import {
 } from "@material/mwc-base/base-element";
 import { classMap } from "lit-html/directives/class-map.js";
 import { style } from "./mwc-chip-set-css.js";
-import MDCChipFoundation from "@material/chips/chip/foundation.js";
 import MDCChipSetFoundation from "@material/chips/chip-set/foundation.js";
 import { Chip as MWCChip } from "./mwc-chip";
 import { strings } from "./constants";
@@ -35,7 +34,7 @@ export interface ChipSetFoundation extends Foundation {
   init(): void;
   destroy(): void;
   deselectAll_(): void;
-  addChip(text): void;
+  addChip(text: string, leadingIcon?: string, trailingIcon?: string): MWCChip;
   select(chipFoundation): void;
   adapter_: any;
   selectedChips_: any;
@@ -45,6 +44,12 @@ export declare var ChipSetFoundation: {
   prototype: ChipSetFoundation;
   new (adapter: Adapter): ChipSetFoundation;
 };
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "mwc-chip-set": ChipSet;
+  }
+}
 
 @customElement("mwc-chip-set" as any)
 export class ChipSet extends BaseElement {
@@ -57,7 +62,16 @@ export class ChipSet extends BaseElement {
   @property({ type: String })
   type = "";
 
-  protected get chips(): MWCChip[] {
+  @property({ type: Boolean })
+  wrapFocus = false;
+
+  protected _chips: MWCChip[] = [];
+
+  get chips() {
+    return this._chips;
+  }
+
+  get slottedChips(): MWCChip[] {
     return [...this.slotEl.assignedNodes()].filter(
       el => el instanceof MWCChip
     ) as MWCChip[];
@@ -89,43 +103,35 @@ export class ChipSet extends BaseElement {
       deregisterInteractionHandler: (evtType, handler) =>
         this.mdcRoot.removeEventListener(evtType, handler),
       appendChip: (text, leadingIcon, trailingIcon) => {
-        const chipTextEl = document.createElement("div");
-        chipTextEl.classList.add(MDCChipFoundation.cssClasses.TEXT);
-        chipTextEl.appendChild(document.createTextNode(text));
+        const chipEl = this.getChip() as MWCChip;
+        chipEl.label = text;
+        chipEl.leadingIcon = leadingIcon;
+        chipEl.trailingIcon = trailingIcon;
 
-        const chipEl = document.createElement("div");
-        chipEl.classList.add(MDCChipFoundation.cssClasses.CHIP);
-        if (leadingIcon) {
-          chipEl.appendChild(leadingIcon);
-        }
-        chipEl.appendChild(chipTextEl);
-        if (trailingIcon) {
-          chipEl.appendChild(trailingIcon);
-        }
         this.mdcRoot.appendChild(chipEl);
+
         return chipEl;
       },
       removeChip: chip => {
-        const index = this.chips.indexOf(chip);
-        this.chips.splice(index, 1);
-        chip.remove();
+        this.removeChip(chip);
       }
     };
   }
 
+  protected getChip(): HTMLElement {
+    return document.createElement('mwc-chip');
+  }
+
   firstUpdated() {
     super.firstUpdated();
-
-    this.chips.forEach(el => {
-      el.addEventListener(
-        strings.INTERACTION_EVENT,
-        this.interactionHandler.bind(this)
-      );
-      el.addEventListener(
-        strings.TRAILING_ICON_INTERACTION_EVENT,
-        this.interactionHandler.bind(this)
-      );
+    
+    this.slottedChips.forEach(el => {
+      el.tabIndex = 0;
+      this.addChipListeners(el);
+      this._chips.push(el);
     });
+
+    this.mdcRoot.addEventListener('keydown', this._handleKeydown.bind(this));
   }
 
   render() {
@@ -136,21 +142,170 @@ export class ChipSet extends BaseElement {
     `;
   }
 
-  interactionHandler(e) {
-    if (e.type === strings.TRAILING_ICON_INTERACTION_EVENT) {
-      emit(this.mdcRoot, e.type, e.detail);
+  addChipListeners(chip) {
+    chip.addEventListener(
+      strings.INTERACTION_EVENT,
+      this.interactionHandler.bind(this)
+    );
 
+    chip.addEventListener(
+      strings.TRAILING_ICON_INTERACTION_EVENT,
+      this.interactionHandler.bind(this)
+    );
+  }
+
+  interactionHandler(e) {
+    emit(this.mdcRoot, e.type, e.detail);
+    emit(this, e.type, e.detail);
+
+    if (e.type === strings.TRAILING_ICON_INTERACTION_EVENT) {
       setTimeout(() => {
         emit(this.mdcRoot, strings.REMOVAL_EVENT, e.detail);
+        emit(this, strings.REMOVAL_EVENT, e.detail);
       }, 0);
-    } else {
-      emit(this.mdcRoot, e.type, e.detail);
     }
   }
-}
 
-declare global {
-  interface HTMLElementTagNameMap {
-    "mwc-chip-set": ChipSet;
+  /**
+   * Creates a new chip in the chip set with the given text, leading icon, and trailing icon.
+   */
+  addChip(text: string, leadingIcon?: string, trailingIcon?: string): HTMLElement {
+    const chipEl = this.foundation.addChip(text, leadingIcon, trailingIcon);
+    this.addChipListeners(chipEl)
+    this._chips.push(chipEl);
+    
+    return chipEl;
+  }
+
+  removeChip(chip) {
+    const index = this._chips.indexOf(chip);
+    this._chips.splice(index, 1);
+    chip.remove();
+  }
+
+  /**
+   * Key handler for the list
+   * @param {Event} evt
+   * @param {boolean} isRootListItem
+   * @param {number} listItemIndex
+   */
+  _handleKeydown(evt) { 
+    const { key, keyCode } = evt;
+    const arrowLeft = key === 'ArrowLeft' || keyCode === 37;
+    const arrowRight = key === 'ArrowRight' || keyCode === 39;
+    const isHome = key === 'Home' || keyCode === 36;
+    const isEnd = key === 'End' || keyCode === 35;
+    const isBackspace = key === 'Backspace' || keyCode === 8;
+    const isSpace = key === 'Space' || keyCode === 32;
+
+    let currentIndex = this._getFocusedElementIndex();
+
+    if (currentIndex === -1) return;
+
+    if (arrowRight) {
+      evt.preventDefault();
+      this._focusNextElement(currentIndex);
+    } else if (arrowLeft) {
+      evt.preventDefault();
+      this._focusPrevElement(currentIndex);
+    } else if (isHome) {
+      evt.preventDefault();
+      this._focusFirstElement();
+    } else if (isEnd) {
+      evt.preventDefault();
+      this._focusLastElement();
+    } else if (isBackspace) {
+      evt.preventDefault();
+      this._handleBackspace(currentIndex);
+    } else if (isSpace) {
+      evt.preventDefault();
+      this.chips[currentIndex].forceClick();
+    }
+  }
+
+  _handleBackspace(currentIndex) {
+    const chip = this.chips[currentIndex];
+
+    if (chip.trailingIcon) {
+      this.removeChip(chip);
+
+      if (currentIndex > 0) {
+        this._focusPrevElement(currentIndex);
+      } else {
+        this._focusNextElement(currentIndex - 1);
+      }
+    }
+  }
+
+  /**
+   * Focuses the next element on the list.
+   * @param {number} index
+   */
+  _focusNextElement(index) {
+    const count = this._getListItemCount();
+    let nextIndex = index + 1;
+
+    if (nextIndex >= count) {
+      if (this.wrapFocus) {
+        nextIndex = 0;
+      } else {
+        // Return early because last item is already focused.
+        return this._afterLastFocusNext();
+      }
+    }
+
+    this._focusItemAtIndex(nextIndex);
+  }
+
+  _afterLastFocusNext() {
+    emit(this, 'MDCChipSet:afterLastFocusNext');
+  }
+
+  /**
+   * Focuses the previous element on the list.
+   * @param {number} index
+   */
+  _focusPrevElement(index) {
+    let prevIndex = index - 1;
+
+    if (prevIndex < 0) {
+      if (this.wrapFocus) {
+        prevIndex = this._getListItemCount() - 1;
+      } else {
+        // Return early because first item is already focused.
+        return this._afterLastFocusPrev();
+      }
+    }
+
+    this._focusItemAtIndex(prevIndex);
+  }
+
+  _afterLastFocusPrev() {
+    emit(this, 'MDCChipSet:afterLastFocusPrev');
+  }
+
+  _focusFirstElement() {
+    if (this._getListItemCount() > 0) {
+      this._focusItemAtIndex(0);
+    }
+  }
+
+  _focusLastElement() {
+    const lastIndex = this._getListItemCount() - 1;
+    if (lastIndex >= 0) {
+      this._focusItemAtIndex(lastIndex);
+    }
+  }
+
+  _getFocusedElementIndex() {
+    return this.chips.indexOf(document.activeElement as MWCChip);
+  }
+
+  _getListItemCount() {
+    return this.chips.length;
+  }
+
+  _focusItemAtIndex(index) {
+    this.chips[index].setFocus();
   }
 }

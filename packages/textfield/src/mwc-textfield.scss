@@ -50,9 +50,7 @@ limitations under the License.
     }
   }
 
-  &:not(.mdc-text-field--outlined)
-  :not(.mdc-text-field--disabled)
-  :not(.mdc-text-field--textarea) {
+  &:not(.mdc-text-field--outlined):not(.mdc-text-field--disabled):not(.mdc-text-field--textarea) {
     .mdc-text-field__input-container {
       @extend .mdc-text-field__input;
       @include mdc-theme-prop(border-bottom-color, $mdc-text-field-bottom-line-idle);
@@ -79,10 +77,7 @@ limitations under the License.
     }
   }
 
-  &.mdc-text-field--invalid
-  :not(.mdc-text-field--outlined)
-  :not(.mdc-text-field--disabled)
-  :not(.mdc-text-field--textarea) {
+  &.mdc-text-field--invalid:not(.mdc-text-field--outlined):not(.mdc-text-field--disabled):not(.mdc-text-field--textarea) {
     @include mdc-theme-prop(border-bottom-color, $mdc-text-field-error);
 
     &:hover {
@@ -131,6 +126,10 @@ limitations under the License.
     .mdc-text-field__input {
       min-height: 40px;
     }
+
+    .mdc-floating-label {
+      top: 12px;
+    }
   }
   
   .mdc-text-field__input {
@@ -144,6 +143,8 @@ limitations under the License.
   .mdc-floating-label {
     padding: 0;
     margin: 0;
+    bottom: auto;
+    top: 18px;
   }
 }
 

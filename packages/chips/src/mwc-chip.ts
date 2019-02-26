@@ -68,6 +68,9 @@ export class Chip extends BaseElement {
   @property({ type: Boolean })
   checkmark = false;
 
+  @property({ type: Number })
+  tabindex = -1;
+
   get foundation() {
     return this.mdcFoundation;
   }
@@ -79,8 +82,8 @@ export class Chip extends BaseElement {
   static styles = style;
 
   remove() {
-    this.mdcRoot.parentNode
-      ? this.mdcRoot.parentNode.removeChild(this.mdcRoot)
+    this.parentElement
+      ? this.parentElement.removeChild(this)
       : false;
   }
 
@@ -181,7 +184,7 @@ export class Chip extends BaseElement {
       ? html`
           <span
             class="material-icons mdc-chip__icon mdc-chip__icon--trailing"
-            tabindex="0"
+            tabindex="${this.tabindex !== -1 ? this.tabindex : 0}"
             role="button"
             >${trailingIcon}</span
           >
@@ -200,6 +203,7 @@ export class Chip extends BaseElement {
       <div
         class="mdc-chip ${classMap(this.chipClasses(this.active))}"
         .ripple="${ripple({ unbounded: false })}"
+        tabindex="${this.tabindex}"
       >
         ${this.getLeadingIcon(this.leadingIcon, this.active)}
         ${this.getCheckmark(this.checkmark)}
@@ -208,6 +212,18 @@ export class Chip extends BaseElement {
         }
       </div>
     `;
+  }
+
+  setFocus(value = true) {
+    if (value) {
+      this.mdcRoot.focus();
+    } else {
+      this.mdcRoot.blur();
+    }
+  }
+
+  forceClick() {
+    this.mdcRoot.click();
   }
 }
 
