@@ -152,6 +152,11 @@ export class ChipSet extends BaseElement {
       strings.TRAILING_ICON_INTERACTION_EVENT,
       this.interactionHandler.bind(this)
     );
+
+    chip.addEventListener(
+      'focus',
+      () => emit(this, 'MDCChipSet:chipFocus', { chip })
+    );
   }
 
   interactionHandler(e) {
@@ -228,6 +233,7 @@ export class ChipSet extends BaseElement {
 
     if (chip.trailingIcon) {
       this.removeChip(chip);
+      emit(this, strings.REMOVAL_EVENT, { chip });
 
       if (currentIndex > 0) {
         this._focusPrevElement(currentIndex);
