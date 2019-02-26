@@ -40,10 +40,13 @@ import '@material/mwc-icon/mwc-icon-font';
 
 export interface TextFieldFoundation extends Foundation {
   setValue(value: string): void;
+  getValue(): string;
   setDisabled(value: boolean): void;
   setHelperTextContent(value: string): void;
   isValid(): boolean;
+  isBadInput_(): boolean;
   shouldFloat: boolean;
+  shouldAlwaysFloat_: boolean;
   isFocused_: boolean;
   notchOutline(value: boolean): void;
   adapter_: any;
