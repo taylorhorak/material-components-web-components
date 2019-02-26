@@ -34,9 +34,6 @@ limitations under the License.
 .mdc-chip-set ::slotted(*),
 .mdc-chip-set > *:not(slot) {
   margin: 4px;
-<<<<<<< HEAD
-=======
   position: relative;
   z-index: 1;
->>>>>>> f575d86... chip-set accessibility implemented
 }
