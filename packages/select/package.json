@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-select",
-  "version": "0.3.28",
+  "version": "0.3.29",
   "description": "",
   "main": "mwc-select.js",
   "scripts": {
@@ -9,9 +9,9 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.28",
-    "@authentic/mwc-list": "^0.3.28",
-    "@authentic/mwc-menu": "^0.3.28",
+    "@authentic/mwc-base": "^0.3.29",
+    "@authentic/mwc-list": "^0.3.29",
+    "@authentic/mwc-menu": "^0.3.29",
     "@material/animation": "^0.40.1",
     "@material/floating-label": "^0.35.0",
     "@material/line-ripple": "^0.35.0",
