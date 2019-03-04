@@ -16,7 +16,9 @@
     "@material/chips": "^0.35.0",
     "@material/mwc-base": "^0.3.6",
     "@material/mwc-icon": "^0.3.6",
-    "lit-element": "^2.0.1"
+    "@material/mwc-ripple": "^0.3.6",
+    "lit-element": "^2.0.1",
+    "lit-html": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"
