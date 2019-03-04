@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-typography",
-  "version": "0.3.31",
+  "version": "0.3.32",
   "description": "",
   "main": "mwc-typography-css.js",
   "scripts": {
@@ -9,12 +9,12 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-icon": "^0.3.31",
+    "@authentic/mwc-base": "^0.3.32",
+    "@authentic/mwc-icon": "^0.3.32",
+    "@material/typography": "^0.35.0",
     "lit-element": "^2.0.1"
   },
-  "devDependencies": {
-    "@material/typography": "^0.35.0"
-  },
+  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-slider",
-  "version": "0.3.31",
+  "version": "0.3.32",
   "description": "",
   "main": "mwc-slider.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.31",
+    "@authentic/mwc-base": "^0.3.32",
     "@material/slider": "^0.44.0",
     "lit-html": "^1.0.0"
   },
