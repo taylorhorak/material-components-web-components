@@ -75,6 +75,7 @@ export class ListItem extends LitElement {
     return html`
       <div class="mdc-list-item" role="menuitem" tabindex="${tabindex}" aria-disabled="${disabled}" .ripple="${ripple({ unbounded: false })}">
         ${this._renderLeading()}
+        ${this.label || ''}
         <slot name="text"></slot>
         <span class="mdc-list-item__text">
           <span class="mdc-list-item__primary-text">
