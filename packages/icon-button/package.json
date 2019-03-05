@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-icon-button",
-  "version": "0.3.32",
+  "version": "0.3.33",
   "description": "",
   "main": "mwc-icon-button.js",
   "scripts": {
@@ -9,9 +9,9 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.32",
-    "@authentic/mwc-icon": "^0.3.32",
-    "@authentic/mwc-ripple": "^0.3.32",
+    "@authentic/mwc-base": "^0.3.33",
+    "@authentic/mwc-icon": "^0.3.33",
+    "@authentic/mwc-ripple": "^0.3.33",
     "@material/icon-button": "^0.44.0"
   },
   "publishConfig": {
