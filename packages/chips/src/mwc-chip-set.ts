@@ -65,6 +65,9 @@ export class ChipSet extends BaseElement {
   @property({ type: Boolean })
   wrapFocus = false;
 
+  @property({ type: Boolean })
+  preventAutoRemove = false;
+
   protected _chips: MWCChip[] = [];
 
   get chips() {
@@ -124,12 +127,10 @@ export class ChipSet extends BaseElement {
 
   firstUpdated() {
     super.firstUpdated();
+
+    this.shadowRoot!.addEventListener('slotchange', () => this.updateChips());
     
-    this.slottedChips.forEach(el => {
-      el.tabIndex = 0;
-      this.addChipListeners(el);
-      this._chips.push(el);
-    });
+    this.updateChips();
 
     this.mdcRoot.addEventListener('keydown', this._handleKeydown.bind(this));
   }
@@ -142,20 +143,54 @@ export class ChipSet extends BaseElement {
     `;
   }
 
+  updateChips() {
+    const chips: MWCChip[] = [];
+
+    this.slottedChips.forEach(el => {
+      el.tabIndex = 0;
+      el.preventAutoRemove = this.preventAutoRemove;
+      this.removeChipListeners(el);
+      this.addChipListeners(el);
+      chips.push(el);
+    });
+
+    this._chips = chips;
+  }
+
+  protected _interactionHandler = this.interactionHandler.bind(this);
+  protected _handleFocus = this.handleFocus.bind(this);
+
   addChipListeners(chip) {
     chip.addEventListener(
       strings.INTERACTION_EVENT,
-      this.interactionHandler.bind(this)
+      this._interactionHandler
     );
 
     chip.addEventListener(
       strings.TRAILING_ICON_INTERACTION_EVENT,
-      this.interactionHandler.bind(this)
+      this._interactionHandler
     );
 
     chip.addEventListener(
       'focus',
-      () => emit(this, 'MDCChipSet:chipFocus', { chip })
+      this._handleFocus
+    );
+  }
+
+  removeChipListeners(chip) {
+    chip.removeEventListener(
+      strings.INTERACTION_EVENT,
+      this._interactionHandler
+    );
+
+    chip.removeEventListener(
+      strings.TRAILING_ICON_INTERACTION_EVENT,
+      this._interactionHandler
+    );
+
+    chip.removeEventListener(
+      'focus',
+      this._handleFocus
     );
   }
 
@@ -165,10 +200,17 @@ export class ChipSet extends BaseElement {
 
     if (e.type === strings.TRAILING_ICON_INTERACTION_EVENT) {
       setTimeout(() => {
-        emit(this.mdcRoot, strings.REMOVAL_EVENT, e.detail);
+        if (!this.preventAutoRemove) {
+          emit(this.mdcRoot, strings.REMOVAL_EVENT, e.detail);
+        }
+
         emit(this, strings.REMOVAL_EVENT, e.detail);
       }, 0);
     }
+  }
+
+  handleFocus(evt) {
+    emit(this, 'MDCChipSet:chipFocus', { chip: evt.target })
   }
 
   /**
@@ -185,6 +227,7 @@ export class ChipSet extends BaseElement {
   removeChip(chip) {
     const index = this._chips.indexOf(chip);
     this._chips.splice(index, 1);
+    this.removeChipListeners(chip);
     chip.remove();
   }
 
@@ -232,7 +275,10 @@ export class ChipSet extends BaseElement {
     const chip = this.chips[currentIndex];
 
     if (chip.trailingIcon) {
-      this.removeChip(chip);
+      if (!this.preventAutoRemove) {
+        this.removeChip(chip);
+      }
+      
       emit(this, strings.REMOVAL_EVENT, { chip });
 
       if (currentIndex > 0) {
