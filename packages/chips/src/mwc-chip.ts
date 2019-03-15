@@ -28,12 +28,14 @@ import { classMap } from "lit-html/directives/class-map";
 import { style } from "./mwc-chip-css.js";
 import { ripple } from "@authentic/mwc-ripple/ripple-directive";
 import MDCChipFoundation from "@material/chips/chip/foundation";
-import { strings } from "./constants";
+import { strings, cssClasses } from "./constants";
 
 import "@authentic/mwc-icon/mwc-icon-font";
 
 export interface ChipFoundation extends Foundation {
   isSelected: void;
+  handleTrailingIconInteraction_(evt): void;
+  adapter_: Adapter;
 }
 
 export declare var ChipFoundation: {
@@ -70,6 +72,9 @@ export class Chip extends BaseElement {
 
   @property({ type: Number })
   tabindex = -1;
+
+  @property({ type: Boolean })
+  preventAutoRemove = false;
 
   get foundation() {
     return this.mdcFoundation;
@@ -212,6 +217,21 @@ export class Chip extends BaseElement {
         }
       </div>
     `;
+  }
+
+  firstUpdated() {
+    super.firstUpdated();
+    
+    this.mdcFoundation.handleTrailingIconInteraction_ = (evt) => {
+      evt.stopPropagation();
+
+      if (evt.type === 'click' || evt.key === 'Enter' || evt.keyCode === 13) {
+        this.mdcFoundation.adapter_.notifyTrailingIconInteraction();
+        if (!this.preventAutoRemove) {
+          this.mdcFoundation.adapter_.addClass(cssClasses.CHIP_EXIT);
+        }
+      }
+    }
   }
 
   setFocus(value = true) {

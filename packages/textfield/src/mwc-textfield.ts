@@ -43,11 +43,14 @@ export interface TextFieldFoundation extends Foundation {
   getValue(): string;
   setDisabled(value: boolean): void;
   setHelperTextContent(value: string): void;
+  styleValidity_(isValid):void;
+  getNativeInput_(): any;
   isValid(): boolean;
   setValid(bool: boolean): void;
   isBadInput_(): boolean;
   shouldFloat: boolean;
   shouldAlwaysFloat_: boolean;
+  shouldShake: boolean;
   isFocused_: boolean;
   notchOutline(value: boolean): void;
   adapter_: any;
