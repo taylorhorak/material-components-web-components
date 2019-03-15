@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-checkbox",
-  "version": "0.3.33",
+  "version": "0.3.34",
   "description": "",
   "main": "mwc-checkbox.js",
   "repository": {
@@ -13,8 +13,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.33",
-    "@authentic/mwc-ripple": "^0.3.33",
+    "@authentic/mwc-base": "^0.3.34",
+    "@authentic/mwc-ripple": "^0.3.34",
     "@material/checkbox": "^0.44.0"
   },
   "publishConfig": {
