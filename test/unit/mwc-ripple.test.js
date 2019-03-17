@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Ripple} from '@material/mwc-ripple';
+import {Ripple} from '@authentic/mwc-ripple';
 
 let element;
 

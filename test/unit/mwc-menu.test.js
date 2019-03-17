@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Menu} from '@material/mwc-menu';
+import {Menu} from '@authentic/mwc-menu';
 
 let element;
 

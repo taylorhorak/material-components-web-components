@@ -15,9 +15,9 @@
  */
 
 import {assert} from 'chai';
-import {Tab} from '@material/mwc-tab';
-import {TabBar} from '@material/mwc-tab-bar/mwc-tab-bar.js';
-import {TabScroller} from '@material/mwc-tab-scroller/mwc-tab-scroller.js';
+import {Tab} from '@authentic/mwc-tab';
+import {TabBar} from '@authentic/mwc-tab-bar/mwc-tab-bar.js';
+import {TabScroller} from '@authentic/mwc-tab-scroller/mwc-tab-scroller.js';
 
 let element;
 

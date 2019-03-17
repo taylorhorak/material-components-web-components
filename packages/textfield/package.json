@@ -1,6 +1,6 @@
 {
-  "name": "@material/mwc-textfield",
-  "version": "0.3.6",
+  "name": "@authentic/mwc-textfield",
+  "version": "0.4.0",
   "description": "",
   "main": "mwc-textfield.js",
   "scripts": {
@@ -9,9 +9,9 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@material/mwc-base": "^0.3.6",
-    "@material/mwc-icon": "^0.3.6",
-    "@material/mwc-ripple": "^0.4.0",
+    "@authentic/mwc-base": "^0.4.0",
+    "@authentic/mwc-icon": "^0.4.0",
+    "@authentic/mwc-ripple": "^0.4.0",
     "@material/floating-label": "^0.35.0",
     "@material/line-ripple": "^0.35.0",
     "@material/notched-outline": "^0.35.0",

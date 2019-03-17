@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {BaseElement, html, property, query, customElement, Adapter, Foundation} from '@material/mwc-base/base-element.js';
+import {BaseElement, html, property, query, customElement, Adapter, Foundation} from '@authentic/mwc-base/base-element.js';
 import {style} from './mwc-snackbar-css.js';
 import MDCSnackbarFoundation from '@material/snackbar/foundation.js';
 import {getCorrectEventName} from '@material/animation/index.js';

@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {FormElement, html, property, observer, query, customElement, Adapter, Foundation, classMap} from '@material/mwc-base/form-element.js';
+import {FormElement, html, property, observer, query, customElement, Adapter, Foundation, classMap} from '@authentic/mwc-base/form-element.js';
 import {repeat} from 'lit-html/directives/repeat.js';
 import {style} from './mwc-slider-css.js';
 import MDCSliderFoundation from '@material/slider/foundation.js';

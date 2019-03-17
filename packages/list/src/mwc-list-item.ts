@@ -20,9 +20,9 @@ import {
   html,
   property,
   observer
-} from '@material/mwc-base/base-element.js';
+} from '@authentic/mwc-base/base-element.js';
 import { LitElement } from 'lit-element';
-import { ripple } from '@material/mwc-ripple/ripple-directive';
+import { ripple } from '@authentic/mwc-ripple/ripple-directive';
 
 import { style } from './mwc-list-item-css.js';
 

@@ -26,15 +26,15 @@ A [Material Components](https://material.io/develop/) tab indicator implementati
 
   1. Add mwc-select to your project:
 
-      ```npm i @material/mwc-select```
+      ```npm i @authentic/mwc-select```
 
   1. Import the mwc-select definition into your HTML page:
 
-      ```<script type="module" src="@material/mwc-select/index.js"></script>```
+      ```<script type="module" src="@authentic/mwc-select/index.js"></script>```
 
       Or into your module script:
 
-      ```import {Select} from "@material/mwc-select"```
+      ```import {Select} from "@authentic/mwc-select"```
 
   1. Create an instance of mwc-select in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -62,7 +62,7 @@ A [Material Components](https://material.io/develop/) tab indicator implementati
 
       ```polymer serve```
 
-  > mwc-select is published on [npm](https://www.npmjs.com/package/@material/mwc-select) using JavaScript Modules.
+  > mwc-select is published on [npm](https://www.npmjs.com/package/@authentic/mwc-select) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-select uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.

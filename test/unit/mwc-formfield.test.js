@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Formfield} from '@material/mwc-formfield';
+import {Formfield} from '@authentic/mwc-formfield';
 
 let element;
 

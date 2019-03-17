@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {BaseElement, html, property, observer, query, customElement, Adapter, Foundation} from '@material/mwc-base/base-element.js';
+import {BaseElement, html, property, observer, query, customElement, Adapter, Foundation} from '@authentic/mwc-base/base-element.js';
 import {style} from './mwc-linear-progress-css.js';
 import MDCLinearProgressFoundation from '@material/linear-progress/foundation.js';
 

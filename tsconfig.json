@@ -18,7 +18,7 @@
     "outDir": "./",
     "baseUrl": "./packages",
     "paths": {
-      "@material/mwc-*": ["./*/src"]
+      "@authentic/mwc-*": ["./*/src"]
     },
     "composite": true
   },
