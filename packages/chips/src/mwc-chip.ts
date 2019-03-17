@@ -22,15 +22,15 @@ import {
   html,
   Adapter,
   property
-} from "@authentic/mwc-base/base-element";
-import { emit } from '@authentic/mwc-base/utils';
+} from "@material/mwc-base/base-element";
+import { emit } from '@material/mwc-base/utils';
 import { classMap } from "lit-html/directives/class-map";
 import { style } from "./mwc-chip-css.js";
-import { ripple } from "@authentic/mwc-ripple/ripple-directive";
+import { ripple } from "@material/mwc-ripple/ripple-directive";
 import MDCChipFoundation from "@material/chips/chip/foundation";
 import { strings, cssClasses } from "./constants";
 
-import "@authentic/mwc-icon/mwc-icon-font";
+import "@material/mwc-icon/mwc-icon-font";
 
 export interface ChipFoundation extends Foundation {
   isSelected: void;

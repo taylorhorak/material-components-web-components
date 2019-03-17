@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {BaseElement, html, property, observer, query, customElement, Adapter, Foundation, PropertyValues, classMap} from '@authentic/mwc-base/base-element.js';
+import {BaseElement, html, property, observer, query, customElement, Adapter, Foundation, PropertyValues, classMap} from '@material/mwc-base/base-element.js';
 import MDCModalDrawerFoundation from '@material/drawer/modal/foundation.js';
 import MDCDismissibleDrawerFoundation from '@material/drawer/dismissible/foundation.js';
 import {strings} from '@material/drawer/constants.js';
@@ -74,8 +74,6 @@ export class Drawer extends BaseElement {
         this._previousFocus = (this.getRootNode() as any as DocumentOrShadowRoot).activeElement as HTMLElement|null;
       },
       restoreFocus: () => {
-        document.$blockingElements.remove(this);
-        this.appContent.inert = false;
         const previousFocus = this._previousFocus && this._previousFocus.focus;
         if (previousFocus) {
           this._previousFocus!.focus();
@@ -95,6 +93,10 @@ export class Drawer extends BaseElement {
       trapFocus: () => {
         document.$blockingElements.push(this);
         this.appContent.inert = true;
+      },
+      releaseFocus: () => {
+        document.$blockingElements.remove(this);
+        this.appContent.inert = false;
       },
     }
   }

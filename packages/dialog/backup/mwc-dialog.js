@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {ComponentElement, MDCWebComponentMixin, html} from '@authentic/mwc-base/component-element.js';
+import {ComponentElement, MDCWebComponentMixin, html} from '@material/mwc-base/component-element.js';
 import {classMap} from '../../../lit-html/directives/class-map.js';
 import {MDCDialog} from './mdc-dialog.js';
 import {style} from './mwc-dialog-css.js';

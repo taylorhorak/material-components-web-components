@@ -15,8 +15,8 @@
  */
 
 import {assert} from 'chai';
-import {Chip} from '@authentic/mwc-chips/mwc-chip.js';
-import {ChipSet} from '@authentic/mwc-chips/mwc-chip-set.js';
+import {Chip} from '@material/mwc-chips/mwc-chip.js';
+import {ChipSet} from '@material/mwc-chips/mwc-chip-set.js';
 
 let element;
 

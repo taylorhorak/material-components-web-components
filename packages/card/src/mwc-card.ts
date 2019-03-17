@@ -22,12 +22,12 @@ import {
   html,
   Adapter,
   property
-} from "@authentic/mwc-base/base-element";
+} from "@material/mwc-base/base-element";
 import { classMap } from "lit-html/directives/class-map";
 import { style } from "./mwc-card-css.js";
 import MDCFoundation from "@material/base/foundation";
-import "@authentic/mwc-icon/mwc-icon-font";
-import "@authentic/mwc-ripple/mwc-ripple";
+import "@material/mwc-icon/mwc-icon-font";
+import "@material/mwc-ripple/mwc-ripple";
 
 export interface CardFoundation extends Foundation {}
 

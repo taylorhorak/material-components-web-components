@@ -23,13 +23,13 @@ import {
   html,
   property,
   observer
-} from '@authentic/mwc-base/base-element.js';
-import { ListItem } from '@authentic/mwc-list';
+} from '@material/mwc-base/base-element.js';
+import { ListItem } from '@material/mwc-list';
 import { MDCList } from '@material/list';
 import { MDCMenuFoundation, Corner } from '@material/menu';
 import { MDCMenuSurface } from '@material/menu-surface';
 import { AnchorMargin } from '@material/menu-surface/foundation';
-import { emit } from '@authentic/mwc-base/utils';
+import { emit } from '@material/mwc-base/utils';
 
 import { style } from './mwc-menu-css.js';
 

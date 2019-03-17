@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Fab} from '@authentic/mwc-fab';
+import {Fab} from '@material/mwc-fab';
 
 const ICON_SELECTOR = '.mdc-fab__icon';
 

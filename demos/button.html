@@ -20,8 +20,8 @@ limitations under the License.
   <title>button demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-  <script type="module" src="../node_modules/@authentic/mwc-button/mwc-button.js"></script>
-  <script type="module" src="../node_modules/@authentic/mwc-icon/mwc-icon.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-button/mwc-button.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-icon/mwc-icon.js"></script>
   <link rel="stylesheet" href="demo-component.css">
   <style>
     .light {
@@ -75,9 +75,13 @@ limitations under the License.
       <mwc-button disabled label="disabled" icon="fingerprint"></mwc-button>
     </div>
 
+    <h4>trailing icon labeled</h4>
+
+    <mwc-button label="Normal" icon="explore" trailingIcon></mwc-button>
+
     <script type="module">
       import {html, css} from 'lit-element/lit-element.js';
-      import {Button} from '@authentic/mwc-button/mwc-button.js';
+      import {Button} from '@material/mwc-button/mwc-button.js';
       class CustomButton extends Button {
         static get styles() {
           return [

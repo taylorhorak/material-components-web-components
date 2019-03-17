@@ -17,15 +17,15 @@ A [Material Components](https://material.io/develop/) drawer implementation usin
 
   1. Add mwc-drawer to your project:
 
-      ```npm i @authentic/mwc-drawer```
+      ```npm i @material/mwc-drawer```
 
   1. Import the mwc-drawer definition into your HTML page:
 
-      ```<script type="module" src="@authentic/mwc-drawer/index.js"></script>```
+      ```<script type="module" src="@material/mwc-drawer/index.js"></script>```
 
       Or into your module script:
 
-      ```import { Drawer } from "@authentic/mwc-drawer"```
+      ```import { Drawer } from "@material/mwc-drawer"```
 
   1. Create an instance of mwc-drawer in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -39,7 +39,7 @@ A [Material Components](https://material.io/develop/) drawer implementation usin
 
       ```polymer serve```
 
-  > mwc-drawer is published on [npm](https://www.npmjs.com/package/@authentic/mwc-drawer) using JavaScript Modules.
+  > mwc-drawer is published on [npm](https://www.npmjs.com/package/@material/mwc-drawer) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-drawer uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.

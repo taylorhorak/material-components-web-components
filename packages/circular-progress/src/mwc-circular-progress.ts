@@ -16,7 +16,7 @@ limitations under the License.
 */
 import { query, property, LitElement, customElement, html, svg } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
-import { observer } from '@authentic/mwc-base/observer';
+import { observer } from '@material/mwc-base/observer';
 import { cssClasses } from './constants';
 import MDCCircularProgressFoundation from './foundation';
 

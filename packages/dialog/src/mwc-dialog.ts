@@ -26,22 +26,22 @@ import {
     observer,
     queryAll,
     classMap
-} from "@authentic/mwc-base/base-element";
+} from "@material/mwc-base/base-element";
 import { closest, matches } from '@material/dom/ponyfill';
 import MDCDialogFoundation from "@material/dialog/foundation";
 import { strings } from "@material/dialog/constants";
 // Commented due to focus-trap not working
 // import * as createFocusTrap from 'focus-trap';
 // import * as util from '@material/dialog/util';
-import { emit } from '@authentic/mwc-base/utils';
-import { Button as MWCButton } from '@authentic/mwc-button';
+import { emit } from '@material/mwc-base/utils';
+import { Button as MWCButton } from '@material/mwc-button';
 
 import { style } from './mwc-dialog-css.js';
 import 'wicg-inert/dist/inert.js';
 import 'blocking-elements/blocking-elements.js';
 
 // elements to be registered ahead of time
-import "@authentic/mwc-button";
+import "@material/mwc-button";
 
 export interface DialogFoundation extends Foundation {
     open(): void;

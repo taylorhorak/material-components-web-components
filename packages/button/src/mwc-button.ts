@@ -14,10 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import {LitElement, html, property, customElement, classMap} from '@authentic/mwc-base/base-element';
+import {LitElement, html, property, customElement, classMap} from '@material/mwc-base/base-element';
 import {style} from './mwc-button-css.js';
-import {ripple} from '@authentic/mwc-ripple/ripple-directive.js';
-import '@authentic/mwc-icon/mwc-icon-font.js';
+import {ripple} from '@material/mwc-ripple/ripple-directive.js';
+import '@material/mwc-icon/mwc-icon-font.js';
 
 @customElement('mwc-button' as any)
 export class Button extends LitElement {
@@ -36,6 +36,9 @@ export class Button extends LitElement {
 
   @property({type: Boolean})
   disabled = false;
+
+  @property({type: Boolean})
+  trailingIcon = false;
 
   @property()
   icon = '';
@@ -57,14 +60,16 @@ export class Button extends LitElement {
       'mdc-button--outlined': this.outlined,
       'mdc-button--dense': this.dense,
     };
+    const mdcButtonIcon = html`<span class="material-icons mdc-button__icon">${this.icon}</span>`
     return html`
       <button
           .ripple="${ripple({unbounded: false})}"
           class="mdc-button ${classMap(classes)}"
           ?disabled="${this.disabled}"
           aria-label="${this.label || this.icon}">
-        ${this.icon ? html`<span class="material-icons mdc-button__icon">${this.icon}</span>` : ''}
+        ${this.icon && !this.trailingIcon ? mdcButtonIcon : ''}
         <span class="mdc-button__label">${this.label}</span>
+        ${this.icon && this.trailingIcon ? mdcButtonIcon : ''}
         <slot></slot>
       </button>`;
   }

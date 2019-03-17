@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Checkbox} from '@authentic/mwc-checkbox';
+import {Checkbox} from '@material/mwc-checkbox';
 import {MDCCheckbox} from '@material/checkbox';
 
 let element;

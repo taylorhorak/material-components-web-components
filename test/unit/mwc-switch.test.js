@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Switch} from '@authentic/mwc-switch';
+import {Switch} from '@material/mwc-switch';
 
 let element;
 

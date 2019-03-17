@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import {directive, PropertyPart, noChange, NodePart, templateFactory} from 'lit-html';
-import {Adapter, Foundation} from '@authentic/mwc-base/base-element.js';
+import {Adapter, Foundation} from '@material/mwc-base/base-element.js';
 import MDCRippleFoundation from '@material/ripple/foundation.js';
 import {style} from './mwc-ripple-global-css.js';
 import * as util from '@material/ripple/util.js';

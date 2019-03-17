@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Dialog} from '@authentic/mwc-dialog';
+import {Dialog} from '@material/mwc-dialog';
 
 let element;
 

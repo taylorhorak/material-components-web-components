@@ -26,15 +26,15 @@ A [Material Components](https://material.io/components/) icon implementation usi
 
   1. Add mwc-menu to your project:
 
-      ```npm i @authentic/mwc-menu```
+      ```npm i @material/mwc-menu```
 
   1. Import the mwc-menu definition into your HTML page:
 
-      ```<script type="module" src="@authentic/mwc-menu/index.js"></script>```
+      ```<script type="module" src="@material/mwc-menu/index.js"></script>```
 
       Or into your module script:
 
-      ```import {Menu} from "@authentic/mwc-menu"```
+      ```import {Menu} from "@material/mwc-menu"```
 
   1. Create an instance of mwc-menu in your HTML page, or via any framework that [supports rendering Custom Elements](https://custom-elements-everywhere.com/):
 
@@ -50,7 +50,7 @@ A [Material Components](https://material.io/components/) icon implementation usi
 
       ```polymer serve```
 
-  > mwc-menu is published on [npm](https://www.npmjs.com/package/@authentic/mwc-menu) using JavaScript Modules.
+  > mwc-menu is published on [npm](https://www.npmjs.com/package/@material/mwc-menu) using JavaScript Modules.
   This means it can take advantage of the standard native JavaScript module loader available in all current major browsers.
   >
   > However, since mwc-menu uses npm convention to reference dependencies by name, a light transform to rewrite specifiers to URLs is required to get it to run in the browser. The polymer-cli's development server `polymer serve` automatically handles this transform.

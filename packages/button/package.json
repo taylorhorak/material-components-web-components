@@ -1,11 +1,11 @@
 {
-  "name": "@authentic/mwc-button",
-  "version": "0.3.34",
+  "name": "@material/mwc-button",
+  "version": "0.4.0",
   "description": "",
   "main": "mwc-button.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AuthX/material-components-web-components.git"
+    "url": "https://github.com/material-components/material-components-web-components.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,9 +13,9 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@authentic/mwc-base": "^0.3.34",
-    "@authentic/mwc-icon": "^0.3.34",
-    "@authentic/mwc-ripple": "^0.3.34",
+    "@material/mwc-base": "^0.3.6",
+    "@material/mwc-icon": "^0.3.6",
+    "@material/mwc-ripple": "^0.4.0",
     "@material/button": "^0.44.0",
     "lit-element": "^2.0.1"
   },

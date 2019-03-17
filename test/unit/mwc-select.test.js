@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Select} from '@authentic/mwc-select';
+import {Select} from '@material/mwc-select';
 
 let element;
 

@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Button} from '@authentic/mwc-button';
+import {Button} from '@material/mwc-button';
 
 const ICON_SELECTOR = '.mdc-button__icon';
 

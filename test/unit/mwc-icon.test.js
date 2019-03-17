@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Icon} from '@authentic/mwc-icon';
+import {Icon} from '@material/mwc-icon';
 
 let element;
 

@@ -1,10 +1,10 @@
 {
-  "name": "@authentic/mwc-base",
-  "version": "0.3.34",
+  "name": "@material/mwc-base",
+  "version": "0.3.6",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AuthX/material-components-web-components.git"
+    "url": "https://github.com/material-components/material-components-web-components.git"
   },
   "license": "Apache-2.0",
   "dependencies": {

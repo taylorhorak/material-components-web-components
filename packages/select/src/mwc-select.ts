@@ -24,22 +24,22 @@ import {
   classMap,
   property,
   observer
-} from '@authentic/mwc-base/form-element';
-import { findAssignedElement, emit } from '@authentic/mwc-base/utils';
-import { Menu as MWCMenu } from '@authentic/mwc-menu/mwc-menu';
-import { ListItem } from '@authentic/mwc-list/mwc-list-item';
+} from '@material/mwc-base/form-element';
+import { findAssignedElement, emit } from '@material/mwc-base/utils';
+import { Menu as MWCMenu } from '@material/mwc-menu/mwc-menu';
+import { ListItem } from '@material/mwc-list/mwc-list-item';
 import MDCSelectFoundation from '@material/select/foundation';
 import { MDCLineRipple } from '@material/line-ripple';
 import { MDCFloatingLabel } from '@material/floating-label';
 import { MDCNotchedOutline } from '@material/notched-outline';
-import { ripple } from '@authentic/mwc-ripple/ripple-directive';
+import { ripple } from '@material/mwc-ripple/ripple-directive';
 
 import { style } from './mwc-select-css';
 
 // elements to be registered ahead of time
-import '@authentic/mwc-menu';
-import '@authentic/mwc-list';
-import '@authentic/mwc-list/mwc-list-item-separator';
+import '@material/mwc-menu';
+import '@material/mwc-list';
+import '@material/mwc-list/mwc-list-item-separator';
 
 export interface SelectFoundation extends Foundation {
   setValue(value: String): void;

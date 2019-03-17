@@ -22,13 +22,13 @@ import {
   html,
   Adapter,
   property
-} from "@authentic/mwc-base/base-element";
+} from "@material/mwc-base/base-element";
 import { classMap } from "lit-html/directives/class-map.js";
 import { style } from "./mwc-chip-set-css.js";
 import MDCChipSetFoundation from "@material/chips/chip-set/foundation.js";
 import { Chip as MWCChip } from "./mwc-chip";
 import { strings } from "./constants";
-import { emit } from '@authentic/mwc-base/utils';
+import { emit } from '@material/mwc-base/utils';
 
 export interface ChipSetFoundation extends Foundation {
   init(): void;

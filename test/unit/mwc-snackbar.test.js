@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import {Snackbar} from '@authentic/mwc-snackbar';
+import {Snackbar} from '@material/mwc-snackbar';
 
 let element;
 

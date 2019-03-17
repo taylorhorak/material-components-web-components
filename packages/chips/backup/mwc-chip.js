@@ -23,8 +23,8 @@ limitations under the License.
 import { LitElement, html, customElement } from 'lit-element';
 // import { classMap } from 'lit-html/directives/class-map.js';
 // import { style } from './mwc-chip-css.js';
-// import { ripple } from '@authentic/mwc-ripple/ripple-directive.js';
-import '@authentic/mwc-icon/mwc-icon-font.js';
+// import { ripple } from '@material/mwc-ripple/ripple-directive.js';
+import '@material/mwc-icon/mwc-icon-font.js';
 let Chip = class Chip extends LitElement {
     createRenderRoot() {
         return this.attachShadow({ mode: 'open', delegatesFocus: true });
