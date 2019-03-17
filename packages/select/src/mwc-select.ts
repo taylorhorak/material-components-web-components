@@ -192,6 +192,9 @@ export class Select extends FormElement {
   })
   value = '';
 
+  @property({type: String})
+  name = ''
+
   protected get slottedElement() {
     return findAssignedElement(this.slotSelect, '*') || findAssignedElement(this.slotMenu, '*');
   }

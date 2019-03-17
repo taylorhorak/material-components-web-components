@@ -12,6 +12,24 @@ Web Components can be seamlessly incorporated into a wide range of usage context
 Insert screenshot of a demo page, including a code snippet.
 -->
 
+## Authentic publishing instructions
+````
+rm -Rf node_modules
+git merge develop
+	-- "fix all the conflicts"
+rm package-lock.json
+npm run rescope:authentic
+npm run bootstrap
+npm run dev
+	-- "test the new functionality"
+
+find and replace version 0.3.x with new version number
+git commit -am "version bump"
+git push origin publish-auth
+
+lerna publish from-package
+````
+
 **[Demos](https://material-components.github.io/material-components-web-components/demos/index.html)**
 
 ## Quick start
