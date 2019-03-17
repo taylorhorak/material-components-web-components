@@ -94,6 +94,9 @@ export class TextField extends FormElement {
   })
   value = '';
 
+  @property({type: String})
+  name = ''
+
   @property({ type: String })
   label = '';
 

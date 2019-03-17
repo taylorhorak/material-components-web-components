@@ -71,6 +71,10 @@ export class Slider extends FormElement {
   @query('.mdc-slider__track-marker-container')
   protected trackMarkerContainer!: HTMLElement;
 
+
+  @property({type: String})
+  name = ''
+
   @property({type: Number})
   @observer(function(this: Slider, value: number) {1
     this.mdcFoundation.setValue(value);
