@@ -335,7 +335,7 @@ export class Select extends FormElement {
 
     if (this.select) {
       this.select.classList.add('mdc-select__native-control');
-      this.formElement.addEventListener('change', () => this._handleSelection());
+      this.formElement.addEventListener('change', evt => this._handleSelection(evt));
       this.input.style.display = 'none';
     }
 
@@ -400,7 +400,11 @@ export class Select extends FormElement {
   /**
    * Updates value and selectedIndex
    */
-  _handleSelection() {
+  _handleSelection(evt) {
+    evt.stopImmediatePropagation();
+
+    const prevValue = this.value;
+    
     this.selectedIndex = this.selectProxy.selectedIndex;
     this.value = this.selectProxy.value;
     
@@ -411,6 +415,10 @@ export class Select extends FormElement {
         this._outline.closeNotch();
       }
     }
+
+    if (prevValue !== this.value) {
+      emit(this, 'change', { value: this.value, selectedIndex: this.selectedIndex });
+    }
   }
 
   /**
@@ -419,7 +427,7 @@ export class Select extends FormElement {
   _handleMenuSelected(evt: CustomEvent) {
     var detail = evt.detail;
     this.selectProxy.selectedIndex = detail.index;
-    this._handleSelection();
+    this._handleSelection(evt);
   }
 
   /**

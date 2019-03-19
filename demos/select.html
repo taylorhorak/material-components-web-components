@@ -240,9 +240,63 @@ limitations under the License.
       </div>
     </div>
 
+    <h3>Change Listener</h3>
+
+    <div class="demo-group">
+      <div>
+        <mwc-select
+          outlined
+          label="Choose an item..."
+          helperText="Helper Text"
+          persistentHelperText
+          id="select_1"
+        >
+          <select slot="select">
+            <option value="" disabled selected></option>
+            <option value="grains">
+              Bread and Cereal
+            </option>
+            <option value="vegetables">
+              Vegetables
+            </option>
+            <option value="fruit">
+              Fruit
+            </option>
+          </select>
+        </mwc-select>
+      </div>
+
+      <div>
+        <mwc-select
+          outlined
+          label="Choose an item..."
+          helperText="Helper Text"
+          persistentHelperText
+          id="select_2"
+        >
+          <mwc-menu slot="menu">
+            <mwc-list-item label="this is choice one" value="one"></mwc-list-item>
+            <mwc-list-item label="this is choice two" value="two"></mwc-list-item>
+            <mwc-list-item label="this is choice three" value="three"></mwc-list-item>
+            <mwc-list-item disabled label="this is choice four" value="four"></mwc-list-item>
+            <mwc-list-item-separator></mwc-list-item-separator>
+            <mwc-list-item label="this is choice aaa" value="aaa"></mwc-list-item>
+            <mwc-list-item label="this is choice bbb" value="bbb"></mwc-list-item>
+          </mwc-menu>
+        </mwc-select>
+      </div>
+    </div>
+
   </main>
   <script>
     addEventListener('load', () => document.body.classList.remove('unresolved'));
+
+    _handleChange = evt => {
+      console.log(evt);
+    }
+
+    select_1.addEventListener('change', this._handleChange.bind(this));
+    select_2.addEventListener('change', this._handleChange.bind(this));
   </script>
 </body>
 
