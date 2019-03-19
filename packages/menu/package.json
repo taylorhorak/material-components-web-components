@@ -14,7 +14,7 @@
     "@material/list": "^0.40.1",
     "@material/menu": "^0.40.1",
     "@material/menu-surface": "^0.40.1",
-    "@material/typography": "^0.35.0",
+    "@material/typography": "^0.40.1",
     "lit-element": "^2.0.1"
   },
   "publishConfig": {

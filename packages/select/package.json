@@ -22,7 +22,7 @@
     "@material/select": "^0.35.0",
     "@material/shape": "^0.40.1",
     "@material/theme": "^0.40.1",
-    "@material/typography": "^0.35.0",
+    "@material/typography": "^0.40.1",
     "lit-element": "^2.0.1"
   },
   "publishConfig": {
