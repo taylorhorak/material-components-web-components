@@ -40,12 +40,14 @@ import { style } from './mwc-select-css';
 import '@material/mwc-menu';
 import '@material/mwc-list';
 import '@material/mwc-list/mwc-list-item-separator';
+import { cssClasses, strings } from './constants';
 
 export interface SelectFoundation extends Foundation {
   setValue(value: String): void;
   setDisabled(value: Boolean): void;
   setSelectedIndex(value: Number): void;
   deactivateBottomLine(): void;
+  adapter_: any;
 }
 
 export interface SelectProxy {
@@ -156,6 +158,9 @@ export class Select extends FormElement {
   @query('.mdc-notched-outline')
   protected outlineElement!: HTMLElement;
 
+  @query('gsk-one-checkbox-group-helper-text')
+  protected helperTextElement!: HTMLElement;
+
   @property({ type: Number })
   @observer(function(this: Select, value: Number) {
     this.mdcFoundation.setSelectedIndex(value);
@@ -189,8 +194,30 @@ export class Select extends FormElement {
   @property({ type: String })
   @observer(function(this: Select, value: String) {
     this.mdcFoundation.setValue(value);
+    const isValid = this._isValid();
+    this._setValid(isValid);
   })
   value = '';
+
+  @property({ type: String })
+  helperText = '';
+
+  @property({ type: Boolean })
+  persistentHelperText = false;
+
+  @property({ type: String })
+  validationMessage = '';
+
+  protected _valid: boolean = true;
+
+  public get valid(): boolean {
+    return this._valid;
+  }
+
+  public set valid(value: boolean) {
+    this._valid = value;
+    this.requestUpdate();
+  }
 
   protected get slottedElement() {
     return findAssignedElement(this.slotSelect, '*') || findAssignedElement(this.slotMenu, '*');
@@ -330,9 +357,12 @@ export class Select extends FormElement {
   async firstUpdated() {
     super.firstUpdated();
 
+    const isValid = this._isValid();
+    this._setValid(isValid);
+
     if (this.select) {
       this.select.classList.add('mdc-select__native-control');
-      this.formElement.addEventListener('change', () => this._handleSelection());
+      this.formElement.addEventListener('change', evt => this._handleSelection(evt));
       this.input.style.display = 'none';
     }
 
@@ -356,14 +386,15 @@ export class Select extends FormElement {
   }
 
   render() {
-    const { label, disabled, box, outlined, fullWidth, value, dense } = this;
+    const { label, disabled, box, outlined, fullWidth, value, dense, valid } = this;
     
     const hostClassInfo = {
       'mdc-select--box': box,
       'mdc-select--dense': dense,
       'mdc-select--outlined': outlined,
       'mdc-select--disabled': disabled,
-      'mdc-select--fullwidth': fullWidth
+      'mdc-select--fullwidth': fullWidth,
+      'mdc-select--invalid': !valid
     };
 
     const labelClassInfo = {
@@ -384,8 +415,71 @@ export class Select extends FormElement {
           : html`<div class="mdc-line-ripple"></div>`
         }
       </div>
+      ${this._renderHelperText()}
       <slot name="menu"></slot>
     `;
+  }
+
+  _renderHelperText() {
+    const isValidationMessage = !this.valid && !!this.validationMessage;
+    const classes = {
+      'mdc-select-helper-text': true,
+      [cssClasses.HELPER_TEXT_PERSISTENT]: this.persistentHelperText,
+      [cssClasses.HELPER_TEXT_VALIDATION_MSG]: isValidationMessage,
+    };
+    const message = isValidationMessage ? this.validationMessage : this.helperText;
+
+    return this.helperText || isValidationMessage
+      ? html`<p class="${classMap(classes)}">${message}</p>`
+      : null;
+  }
+
+  _isValid() {
+    return !this.required || this.value !== '';
+  }
+
+  _setValid(isValid: boolean) {
+    this.valid = isValid;
+    this._styleValidity(isValid);
+
+    const shouldShake = !isValid && !this._isFocused;
+
+    if (this._labelInstance) {
+      this._labelInstance.shake(shouldShake);
+    }
+  }
+
+  _styleValidity(isValid: boolean) {
+    const { INVALID, HELPER_TEXT_PERSISTENT, HELPER_TEXT_VALIDATION_MSG } = cssClasses;
+
+    if (isValid) {
+      this.mdcFoundation.adapter_.removeClass(INVALID);
+    } else {
+      this.mdcFoundation.adapter_.addClass(INVALID);
+    }
+    if (this.helperTextElement) {
+      const helperTextIsPersistent = this.helperTextElement.classList.contains(HELPER_TEXT_PERSISTENT);
+      const helperTextIsValidationMsg = this.helperTextElement.classList.contains(HELPER_TEXT_VALIDATION_MSG);
+      const validationMsgNeedsDisplay = helperTextIsValidationMsg && !isValid;
+
+      if (validationMsgNeedsDisplay) {
+        this.helperTextElement.setAttribute(strings.ROLE, 'alert');
+      } else {
+        this.helperTextElement.removeAttribute(strings.ROLE);
+      }
+
+      if (!helperTextIsPersistent && !validationMsgNeedsDisplay) {
+        this._hideHelperText();
+      }
+    }
+  }
+
+  _hideHelperText() {
+    this.helperTextElement.setAttribute(strings.ARIA_HIDDEN, 'true');
+  }
+
+  _showHelperTextToScreenReader() {
+    this.helperTextElement.removeAttribute(strings.ARIA_HIDDEN);
   }
 
   _openNotch() {
@@ -397,7 +491,11 @@ export class Select extends FormElement {
   /**
    * Updates value and selectedIndex
    */
-  _handleSelection() {
+  _handleSelection(evt) {
+    evt.stopImmediatePropagation();
+
+    const prevValue = this.value;
+    
     this.selectedIndex = this.selectProxy.selectedIndex;
     this.value = this.selectProxy.value;
     
@@ -408,6 +506,10 @@ export class Select extends FormElement {
         this._outline.closeNotch();
       }
     }
+
+    if (prevValue !== this.value) {
+      emit(this, 'change', { value: this.value, selectedIndex: this.selectedIndex });
+    }
   }
 
   /**
@@ -416,7 +518,7 @@ export class Select extends FormElement {
   _handleMenuSelected(evt: CustomEvent) {
     var detail = evt.detail;
     this.selectProxy.selectedIndex = detail.index;
-    this._handleSelection();
+    this._handleSelection(evt);
   }
 
   /**
@@ -478,6 +580,10 @@ export class Select extends FormElement {
 
     if ( this._isMouseDown ) {
       this.openMenu();
+    }
+
+    if (this.helperTextElement) {
+      this._showHelperTextToScreenReader();
     }
 
     emit(this.mdcRoot, 'focus');
