@@ -192,7 +192,14 @@ limitations under the License.
 
     <div class="demo-group">
       <div>
-        <mwc-select outlined label="Choose an item...">
+        <mwc-select
+          outlined
+          label="Choose an item..."
+          helperText="Helper Text"
+          validationMessage="Validation Message"
+          persistentHelperText
+          required
+        >
           <select slot="select">
             <option value="" disabled selected></option>
             <option value="grains">
@@ -209,7 +216,14 @@ limitations under the License.
       </div>
 
       <div>
-        <mwc-select outlined label="Choose an item...">
+        <mwc-select
+          outlined
+          label="Choose an item..."
+          helperText="Helper Text"
+          validationMessage="Validation Message"
+          persistentHelperText
+          required
+        >
           <mwc-menu slot="menu">
             <mwc-list-item label="this is choice one" value="one"></mwc-list-item>
             <mwc-list-item label="this is choice two" value="two"></mwc-list-item>
@@ -223,7 +237,15 @@ limitations under the License.
       </div>
 
       <div>
-        <mwc-select outlined dense label="Choose an item...">
+        <mwc-select
+          outlined
+          dense
+          label="Choose an item..."
+          helperText="Helper Text"
+          validationMessage="Validation Message"
+          persistentHelperText
+          required
+        >
           <select slot="select">
             <option value="" disabled selected></option>
             <option value="grains">

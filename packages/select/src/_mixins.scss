@@ -28,6 +28,7 @@
 @import "@material/shape/functions";
 @import "./variables";
 @import "./functions";
+@import "@material/animation/variables";
 
 // Begin of notched outline 0.40.1 mixins
 @mixin mdc-notched-outline-idle-color($color) {
@@ -48,6 +49,34 @@
   }
 }
 // End of notched outline 0.40.1 mixins
+
+// Begin of Helper Text mixins
+@mixin mdc-select-helper-text-color($color) {
+  &:not(.mdc-select--disabled) {
+    @include mdc-select-helper-text-color_($color);
+  }
+}
+
+@mixin mdc-select-helper-text-validation-color($color) {
+  &:not(.mdc-select--disabled) {
+    @include mdc-select-helper-text-validation-color_($color);
+  }
+}
+
+// Private mixins
+
+@mixin mdc-select-helper-text-color_($color) {
+  + .mdc-select-helper-text {
+    @include mdc-theme-prop(color, $color);
+  }
+}
+
+@mixin mdc-select-helper-text-validation-color_($color) {
+  &.mdc-select--invalid + .mdc-select-helper-text--validation-msg {
+    @include mdc-theme-prop(color, $color);
+  }
+}
+// End of Helper Text mixins
 
 @mixin mdc-notched-outline-shape-radius($radius, $rtl-reflexive: false) {
   @include mdc-shape-radius($radius, $rtl-reflexive);
@@ -198,6 +227,7 @@
   @include mdc-select-line-ripple-color($mdc-select-error);
   @include mdc-select-label-color($mdc-select-error);
   @include mdc-select-caret-color($mdc-select-error);
+  @include mdc-select-helper-text-validation-color($mdc-select-error);
 }
 
 @mixin mdc-select-focused_ {
@@ -278,6 +308,7 @@
 @mixin mdc-select-outlined-disabled_ {
   @include mdc-select-outline-color_($mdc-select-outlined-disabled-border);
   @include mdc-select-fill-color_(transparent);
+  @include mdc-select-helper-text-color_($mdc-select-disabled-helper-text-color);
 
   @include native-control() {
     border-bottom: none;
@@ -288,10 +319,18 @@
   @include mdc-select-outline-color($mdc-select-error);
   @include mdc-select-hover-outline-color($mdc-select-error);
   @include mdc-select-focused-outline-color($mdc-select-error);
+
+  + .mdc-select-helper-text--validation-msg {
+    opacity: 1;
+  }
 }
 
 @mixin mdc-select-outlined-focused_ {
   @include mdc-notched-outline-stroke-width(2px);
+
+  + .mdc-select-helper-text:not(.mdc-select-helper-text--validation-msg) {
+    opacity: 1;
+  }
 }
 
 @mixin mdc-select-outlined-dense_ {
