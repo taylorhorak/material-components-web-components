@@ -37,11 +37,17 @@ export class Button extends LitElement {
   @property({type: Boolean})
   disabled = false;
 
+  @property({type: Boolean})
+  trailingIcon = false;
+
   @property()
   icon = '';
 
   @property()
   label = '';
+
+  @property()
+  href = '';
 
 
   createRenderRoot() {
@@ -57,16 +63,36 @@ export class Button extends LitElement {
       'mdc-button--outlined': this.outlined,
       'mdc-button--dense': this.dense,
     };
+    const mdcButtonIcon = html`<span class="material-icons mdc-button__icon">${this.icon}</span>`
     return html`
-      <button
-          .ripple="${ripple({unbounded: false})}"
-          class="mdc-button ${classMap(classes)}"
-          ?disabled="${this.disabled}"
-          aria-label="${this.label || this.icon}">
-        ${this.icon ? html`<span class="material-icons mdc-button__icon">${this.icon}</span>` : ''}
-        <span class="mdc-button__label">${this.label}</span>
-        <slot></slot>
-      </button>`;
+      ${this.href ?
+        html`
+          <a
+              .ripple="${ripple({unbounded: false})}"
+              class="mdc-button ${classMap(classes)}"
+              ?disabled="${this.disabled}"
+              aria-label="${this.label || this.icon}"
+              href="${this.href}">
+            ${this.icon && !this.trailingIcon ? mdcButtonIcon : ''}
+            <span class="mdc-button__label">${this.label}</span>
+            ${this.icon && this.trailingIcon ? mdcButtonIcon : ''}
+            <slot></slot>
+          </a>
+        ` :
+        html`
+          <button
+              .ripple="${ripple({unbounded: false})}"
+              class="mdc-button ${classMap(classes)}"
+              ?disabled="${this.disabled}"
+              aria-label="${this.label || this.icon}">
+            ${this.icon && !this.trailingIcon ? mdcButtonIcon : ''}
+            <span class="mdc-button__label">${this.label}</span>
+            ${this.icon && this.trailingIcon ? mdcButtonIcon : ''}
+            <slot></slot>
+          </button>
+        `
+      }
+    `;
   }
 }
 

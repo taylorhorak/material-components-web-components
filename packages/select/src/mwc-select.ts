@@ -104,7 +104,7 @@ export class HTMLSelectElementProxy {
   set selectedIndex(value: number) {
     if (this.select.selectedIndex !== value) {
       this.select.selectedIndex = value;
-      
+
       if (this.select instanceof HTMLSelectElement) {
         emit(this.select, 'change');
       }
@@ -114,7 +114,7 @@ export class HTMLSelectElementProxy {
   get selectedOptions() {
     return [...this.isReady ? this.select.selectedOptions || this.select.selectedItems : []];
   }
-  
+
   get items() {
     return [...this.isReady ? this.select.options || this.select.items : []];
   }
@@ -199,6 +199,9 @@ export class Select extends FormElement {
   })
   value = '';
 
+  @property({type: String})
+  name = ''
+
   @property({ type: String })
   helperText = '';
 
@@ -266,7 +269,7 @@ export class Select extends FormElement {
     if ( !this.outlined && this.lineRippleElement ) {
       this._lineRippleInstance = this._lineRippleInstance || new MDCLineRipple(this.lineRippleElement);
     }
-    
+
     return this._lineRippleInstance;
   }
 
@@ -275,7 +278,7 @@ export class Select extends FormElement {
     if ( this.label && this.labelElement ) {
       this._labelInstance = this._labelInstance || new MDCFloatingLabel(this.labelElement);
     }
-    
+
     return this._labelInstance;
   }
 
@@ -284,7 +287,7 @@ export class Select extends FormElement {
     if ( this.outlined && this.outlineElement ) {
       this._outlineInstance = this._outlineInstance || new MDCNotchedOutline(this.outlineElement);
     }
-    
+
     return this._outlineInstance;
   }
 
@@ -389,7 +392,7 @@ export class Select extends FormElement {
 
   render() {
     const { label, disabled, box, outlined, fullWidth, value, dense, valid } = this;
-    
+
     const hostClassInfo = {
       'mdc-select--box': box,
       'mdc-select--dense': dense,
@@ -497,11 +500,11 @@ export class Select extends FormElement {
     evt.stopImmediatePropagation();
 
     const prevValue = this.value;
-    
+
     this.selectedIndex = this.selectProxy.selectedIndex;
     this.value = this.selectProxy.value;
     this._notifyChange();
-    
+
     if (this._outline && !this._isMouseDown) {
       if (this.selectedIndex !== -1) {
         this._openNotch();
@@ -567,7 +570,7 @@ export class Select extends FormElement {
 
     const isSpace = key === 'Space' || keyCode === 32;
     const isEnter = key === 'Enter' || keyCode === 13
-    
+
     if (isSpace || isEnter) {
       this._isMouseDown = true;
       this.openMenu();

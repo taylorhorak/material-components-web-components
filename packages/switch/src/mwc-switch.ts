@@ -44,6 +44,12 @@ export class Switch extends FormElement {
   })
   checked = false;
 
+  @property({type: String})
+  name = ''
+
+  @property({type: String})
+  value = ''
+
   @property({type: Boolean})
   @observer(function(this: Switch, value: boolean) {
     this.mdcFoundation.setDisabled(value);
@@ -93,7 +99,13 @@ export class Switch extends FormElement {
         <div class="mdc-switch__track"></div>
         <div class="mdc-switch__thumb-underlay" .ripple="${ripple()}">
           <div class="mdc-switch__thumb">
-            <input type="checkbox" id="basic-switch" class="mdc-switch__native-control" role="switch" @change="${this._changeHandler}">
+            <input type="checkbox"
+              id="basic-switch"
+              class="mdc-switch__native-control"
+              role="switch"
+              .checked="${this.checked}"
+              .value="${this.value}"
+              @change="${this._changeHandler}">
           </div>
         </div>
       </div>

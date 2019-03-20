@@ -59,6 +59,9 @@ export class Checkbox extends FormElement {
   @property({type: String})
   value = ''
 
+  @property({type: String})
+  name = ''
+
   protected mdcFoundationClass: typeof CheckboxFoundation = MDCCheckboxFoundation;
 
   protected mdcFoundation!: CheckboxFoundation;

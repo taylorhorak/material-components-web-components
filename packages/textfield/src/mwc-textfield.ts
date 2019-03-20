@@ -46,6 +46,7 @@ export interface TextFieldFoundation extends Foundation {
   styleValidity_(isValid):void;
   getNativeInput_(): any;
   isValid(): boolean;
+  setValid(bool: boolean): void;
   isBadInput_(): boolean;
   shouldFloat: boolean;
   shouldAlwaysFloat_: boolean;
@@ -93,6 +94,9 @@ export class TextField extends FormElement {
   })
   value = '';
 
+  @property({type: String})
+  name = ''
+
   @property({ type: String })
   label = '';
 
@@ -139,7 +143,7 @@ export class TextField extends FormElement {
   placeholder = '';
 
   @property({ type: String })
-  type = 'input';
+  type = 'text';
 
   @property({ type: String })
   pattern;
@@ -205,12 +209,16 @@ export class TextField extends FormElement {
     return this.mdcFoundation && !this.mdcFoundation.adapter_.hasClass(cssClasses.INVALID);
   }
 
+  set valid(bool:boolean) {
+    this.mdcFoundation.setValid(bool);
+    this.requestUpdate();
+  }
+
   private _lineRippleInstance!: MDCLineRipple;
   private get _lineRipple(): MDCLineRipple {
     if ( !this.canOutline && this.lineRippleElement ) {
       this._lineRippleInstance = this._lineRippleInstance || new MDCLineRipple(this.lineRippleElement);
     }
-    
     return this._lineRippleInstance;
   }
 
@@ -219,7 +227,7 @@ export class TextField extends FormElement {
     if ( this.hasLabel && this.labelElement ) {
       this._labelInstance = this._labelInstance || new MDCFloatingLabel(this.labelElement);
     }
-    
+
     return this._labelInstance;
   }
 
@@ -228,7 +236,7 @@ export class TextField extends FormElement {
     if ( this.canOutline && this.outlineElement ) {
       this._outlineInstance = this._outlineInstance || new MDCNotchedOutline(this.outlineElement);
     }
-    
+
     return this._outlineInstance;
   }
 
