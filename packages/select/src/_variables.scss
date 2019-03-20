@@ -41,6 +41,9 @@ $mdc-select-outlined-idle-border: rgba(mdc-theme-prop-value(on-surface), .24);
 $mdc-select-outlined-disabled-border: rgba(mdc-theme-prop-value(on-surface), .06);
 $mdc-select-outlined-hover-border: rgba(mdc-theme-prop-value(on-surface), .87);
 
+$mdc-select-helper-text-color: rgba(mdc-theme-prop-value(on-surface), .6);
+$mdc-select-disabled-helper-text-color: rgba(mdc-theme-prop-value(on-surface), .37);
+
 $mdc-select-height: 56px;
 $mdc-select-label-position-y: 50%;
 $mdc-select-dense-label-position-y: 70%;
