@@ -15,9 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@import '@material/list/mdc-list.scss';
+@import "@material/list/mdc-list.scss";
 @import "@material/ripple/mixins";
-@import '@material/mwc-icon/src/_mwc-icon.scss';
+@import "@material/mwc-icon/src/mwc-icon";
 
 .material-icons {
   @extend %material-icons;
@@ -39,6 +39,57 @@ limitations under the License.
   @include mdc-states-selected(primary);
 
   white-space: nowrap;
+  height: auto;
+  position: relative;
+
+  &--expanded {
+    overflow: visible;
+    z-index: 10;
+
+    &:before,
+    &:after {
+      background: none;
+    }
+  }
+
+  &__expanded-content {
+    width: 100%;
+    padding: 0;
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    height: 48px;
+    background: orange;
+    margin: 0;
+    transition: 
+      opacity 0.3s 0.5s,
+      height 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.35s,
+      transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.35s;
+
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+
+    &--expanded {
+      opacity: 1;
+      height: 100vh;
+      transition: opacity 0.25s 0.35s,
+        height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.5s,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: red;
+    z-index: 1;
+  }
 }
 
 .mdc-list-item--selected,

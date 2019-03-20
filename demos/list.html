@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright 2018 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+  <head>
+    <title>list demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script type="module" src="../node_modules/@material/mwc-list/mwc-list-item.js"
+    ></script>
+    <script type="module" src="../node_modules/@material/mwc-icon/mwc-icon.js"></script>
+    <script type="module" src="../node_modules/@material/mwc-card/mwc-card.js"></script>
+    <script type="module" src="../node_modules/@material/mwc-icon-button/mwc-icon-button.js"></script>
+    <script type="module" src="../node_modules/@material/mwc-button/mwc-button.js"></script>
+    <link rel="stylesheet" href="demo-component.css" />
+  </head>
+  <body class="unresolved">
+    <header>
+      <a href="index.html"
+        ><mwc-icon>arrow_back</mwc-icon> <span>List item</span></a
+      >
+    </header>
+
+    <main>
+      <mwc-list-item expandable>
+        <span slot="primary-text" class="primaryText">Texto 1</span>
+        <span slot="secondary-text" class="secondary-Text">Texto 2</span>
+
+        <div slot="expanded">
+          <mwc-card outlined aspectRatio="square">
+            <div slot="media" class="my-media"></div>
+
+            <div slot="content" class="mwc-card__content">
+              This is where any card content you want goes.
+            </div>
+            <mwc-icon-button
+              slot="action-icons"
+              icon="gsk-trash"
+            ></mwc-icon-button>
+            <mwc-button outlined slot="action-buttons"
+              >Molly's button</mwc-button
+            >
+          </mwc-card>
+        </div>
+      </mwc-list-item>
+
+      <mwc-list-item>
+        <span slot="primary-text" class="primaryText">List Item</span>
+      </mwc-list-item>
+      <mwc-list-item>
+        <span slot="secondary-text" class="secondary-Text">secondary text</span>
+      </mwc-list-item>
+      <mwc-list-item>
+        <span slot="primary-text" class="primaryText">primary text</span>
+        <span slot="secondary-text" class="secondary-Text">secondary text</span>
+      </mwc-list-item>
+      <mwc-list-item>
+        <span slot="primary-text" class="primaryText">primary text</span>
+        <span slot="secondary-text" class="secondary-Text">secondary text</span>
+      </mwc-list-item>
+    </main>
+    <script>
+      addEventListener("load", () =>
+        document.body.classList.remove("unresolved")
+      );
+    </script>
+  </body>
+</html>

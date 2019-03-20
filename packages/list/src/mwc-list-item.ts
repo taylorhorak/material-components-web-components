@@ -20,32 +20,36 @@ import {
   html,
   property,
   observer
-} from '@material/mwc-base/base-element.js';
-import { LitElement } from 'lit-element';
-import { ripple } from '@material/mwc-ripple/ripple-directive';
+} from "@material/mwc-base/base-element.js";
+import { LitElement } from "lit-element";
+import { ripple } from "@material/mwc-ripple/ripple-directive";
 
-import { style } from './mwc-list-item-css.js';
+import { style } from "./mwc-list-item-css.js";
 
 declare global {
   interface HTMLElementTagNameMap {
-    'mwc-list-item': ListItem;
+    "mwc-list-item": ListItem;
   }
 }
 
-@customElement('mwc-list-item' as any)
+@customElement("mwc-list-item" as any)
 export class ListItem extends LitElement {
+  mdcRootPosition: any;
 
-  @query('.mdc-list-item')
+  @query(".mdc-list-item")
   mdcRoot!: HTMLElement;
 
-  @property({ type: String })
-  value = '';
+  @property({ type: Boolean })
+  expandable = false;
 
   @property({ type: String })
-  label = '';
+  value = "";
 
   @property({ type: String })
-  icon = '';
+  label = "";
+
+  @property({ type: String })
+  icon = "";
 
   @property({ type: Number })
   tabindex = 0;
@@ -54,8 +58,8 @@ export class ListItem extends LitElement {
   leading = 0;
 
   @property({ type: Boolean })
-  @observer(function (this: ListItem, value: Boolean) {
-    this.setAttribute('aria-disabled', String(value));
+  @observer(function(this: ListItem, value: Boolean) {
+    this.setAttribute("aria-disabled", String(value));
   })
   disabled = false;
 
@@ -64,18 +68,60 @@ export class ListItem extends LitElement {
   }
 
   get setAttribute() {
-    return this.mdcRoot ? this.mdcRoot.setAttribute : () => { };
+    return this.mdcRoot ? this.mdcRoot.setAttribute : () => {};
   }
 
   static styles = style;
+
+  firstUpdated() {
+    this.mdcRootPosition = this.mdcRoot.getBoundingClientRect();
+  }
+
+  protected expandListItem() {
+    if (this.expandable) {
+      const expandedContent: any = this.mdcRoot.querySelector('.mdc-list-item__expanded-content');
+      
+      this.mdcRoot.classList.add("mdc-list-item--expanded");
+      
+      expandedContent.style.width = `calc(100% + ${this.mdcRootPosition.left * 2}px)`;
+      expandedContent.style.left = `-${this.mdcRootPosition.left}px`;
+      expandedContent.classList.add("mdc-list-item__expanded-content--expanded");
+      expandedContent.style.transform = `translateY(-${
+        this.mdcRootPosition.top
+      }px)`;
+    }
+  }
+
+  protected closeListItem(e) {
+    if (this.expandable) {
+      const expandedContent: any = this.mdcRoot.querySelector('.mdc-list-item__expanded-content');
+      
+      expandedContent.style.transform = `translateY(0)`;
+      expandedContent.classList.remove("mdc-list-item__expanded-content--expanded");
+      
+      setTimeout(() => {
+        this.mdcRoot.classList.remove("mdc-list-item--expanded");
+        expandedContent.style.width = `100%`;
+        expandedContent.style.left = `0`;
+      }, 700);
+    }
+
+    e.stopPropagation();
+  }
 
   render() {
     const { disabled, tabindex } = this;
 
     return html`
-      <div class="mdc-list-item" role="menuitem" tabindex="${tabindex}" aria-disabled="${disabled}" .ripple="${ripple({ unbounded: false })}">
-        ${this._renderLeading()}
-        ${this.label || ''}
+      <div
+        class="mdc-list-item "
+        role="menuitem"
+        @click="${this.expandListItem}"
+        tabindex="${tabindex}"
+        aria-disabled="${disabled}"
+        .ripple="${ripple({ unbounded: false })}"
+      >
+        ${this._renderLeading()} ${this.label || ""}
         <slot name="text"></slot>
         <span class="mdc-list-item__text">
           <span class="mdc-list-item__primary-text">
@@ -88,8 +134,16 @@ export class ListItem extends LitElement {
         <span class="mdc-list-item__meta">
           <slot name="meta"></slot>
         </span>
+
+        <div class="mdc-list-item__expanded-content">
+          <span class="mdc-list-item__close" @click="${this.closeListItem}"
+            >X</span
+          >
+          <slot name="expanded"></slot>
+        </div>
         <slot></slot>
-      </div>`;
+      </div>
+    `;
   }
 
   _renderLeading() {
@@ -109,7 +163,7 @@ export class ListItem extends LitElement {
       `;
     }
 
-    return '';
+    return "";
   }
 
   focus() {
