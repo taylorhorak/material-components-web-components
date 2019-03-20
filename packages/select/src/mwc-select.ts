@@ -365,11 +365,13 @@ export class Select extends FormElement {
 
     if (this.select) {
       this.select.classList.add('mdc-select__native-control');
-      this.formElement.addEventListener('change', evt => this._handleSelection(evt));
+      this.formElement.addEventListener('change', this._handleSelection.bind(this));
       this.input.style.display = 'none';
+      this.input.tabIndex = -1;
     }
 
     if (this.menu) {
+      this.input.tabIndex = 0;
       this.menu.selectionGroup = true;
       this.menu.autofocus = true;
       this.menu.autoclose = true;
@@ -380,12 +382,12 @@ export class Select extends FormElement {
 
       this.menu.updateComplete.then(() => {
         this.menu.setAnchorElement(this.mdcRoot);
-        this.input.style.minWidth = `${this.menu.getWidth() + 32}px`;
+        this.formElement.style.minWidth = `${this.menu.getWidth() + 32}px`;
       })
     }
 
-    this.formElement.addEventListener('focus', () => this._handleFocus());
-    this.formElement.addEventListener('blur', () => this._handleBlur());
+    this.formElement.addEventListener('focus', this._handleFocus.bind(this));
+    this.formElement.addEventListener('blur', this._handleBlur.bind(this));
   }
 
   render() {
@@ -406,7 +408,7 @@ export class Select extends FormElement {
 
     return html`
       <div class="mdc-select ${classMap(hostClassInfo)}" .ripple="${!outlined ? ripple({ unbounded: false }) : undefined}">
-        <input type="input" size="1" readonly class="mdc-select__selected-text" tabindex="0">
+        <input type="text" size="1" readonly class="mdc-select__selected-text">
         <slot name="select"></slot>
         ${label ? html`<label class="mdc-floating-label ${classMap(labelClassInfo)}" for="select">${label}</label>` : ''}
         ${outlined
@@ -501,6 +503,7 @@ export class Select extends FormElement {
 
     this.selectedIndex = this.selectProxy.selectedIndex;
     this.value = this.selectProxy.value;
+    this._notifyChange();
 
     if (this._outline && !this._isMouseDown) {
       if (this.selectedIndex !== -1) {
@@ -539,7 +542,7 @@ export class Select extends FormElement {
         this.input.focus();
       } else {
         this._isMouseDown = false;
-        emit(this.input, 'blur');
+        this._notifyBlur();
       }
     }
   }
@@ -590,21 +593,36 @@ export class Select extends FormElement {
     }
 
     emit(this.mdcRoot, 'focus');
+    this._notifyFocus();
   }
 
   /**
    * Removes focused class and redirects blur event to mdcRoot
    */
-  _handleBlur() {
+  _handleBlur(evt) {
+    evt.stopImmediatePropagation();
+
     if ( this._isMouseDown ) {
       this._isMouseDown = false;
-      return;
+    } else {
+      this.mdcRoot.classList.remove('mdc-select--focused');
+      this._isFocused = false;
+
+      emit(this.mdcRoot, 'blur');
+      this._notifyBlur();
     }
+  }
 
-    this.mdcRoot.classList.remove('mdc-select--focused');
-    this._isFocused = false;
+  _notifyChange() {
+    emit(this, 'change', { value: this.value });
+  }
 
-    emit(this.mdcRoot, 'blur');
+  _notifyFocus() {
+    emit(this, 'focus', { value: this.value });
+  }
+
+  _notifyBlur() {
+    emit(this, 'blur', { value: this.value });
   }
 
   openMenu() {
