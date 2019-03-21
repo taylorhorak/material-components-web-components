@@ -23,6 +23,7 @@ import {
     html,
     property
 } from '@material/mwc-base/base-element.js';
+import { styleMap } from 'lit-html/directives/style-map';
 import { MDCTooltipFoundation } from './mdc-tooltip/foundation.js';
 import { style } from './mwc-tooltip-css.js';
 
@@ -85,6 +86,9 @@ export class Tooltip extends BaseElement {
     @property({ type: Number })
     gap = 20; //NOT IMPLEMENTED
 
+    @property({ type: Number })
+    offset = 0;
+
     protected readonly mdcFoundationClass: typeof TooltipFoundation = MDCTooltipFoundation;
     protected mdcFoundation!: TooltipFoundation;
     protected _preventClose = false;
@@ -114,8 +118,7 @@ export class Tooltip extends BaseElement {
         this.initListeners();
     }
 
-    updated(changedProperties) {
-        console.log("Tooltip updated", changedProperties);
+    updated() {
         this.mdcFoundation.showDelay = this.showDelay;
         this.mdcFoundation.hideDelay = this.hideDelay;
         this.mdcFoundation.gap = this.gap;
@@ -123,11 +126,45 @@ export class Tooltip extends BaseElement {
     }
 
     render() {
+        const {
+            direction,
+            offset
+        } = this._getTransformOffset();
+
+        const styles = {
+            [direction]: offset
+        };
+
         return html`
-            <div class="mdc-tooltip" tabindex="-1">
+            <div class="mdc-tooltip" tabindex="-1" style="${styleMap(styles)}">
                 ${this.text}
             </div>
         `;
+    }
+
+    protected _getTransformOffset(): { direction: string, offset: string } {
+        switch(this.placement) {
+            case 'before':
+                return {
+                    direction: 'marginLeft',
+                    offset: `${this.offset * -1}px`
+                };
+            case 'above':
+                return {
+                    direction: 'marginTop',
+                    offset: `${this.offset * -1}px`
+                };
+            case 'after':
+                return {
+                    direction: 'marginLeft',
+                    offset: `${this.offset}px`
+                };
+            default:
+                return {
+                    direction: 'marginTop',
+                    offset: `${this.offset}px`
+                };
+        }
     }
 
     show() {

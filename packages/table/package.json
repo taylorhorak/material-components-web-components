@@ -1,0 +1,27 @@
+{
+  "name": "@material/mwc-table",
+  "version": "0.3.6",
+  "description": "",
+  "main": "mwc-table.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@material/animation": "^0.40.1",
+    "@material/theme": "^0.40.1",
+    "@material/elevation": "^0.40.1",
+    "@material/shape": "^0.40.1",
+    "@material/mwc-base": "^0.3.6",
+    "@material/mwc-icon": "^0.3.6",
+    "@material/mwc-circular-progress": "^0.3.6",
+    "@material/mwc-tooltip": "^0.3.6",
+    "lit-element": "^2.0.1",
+    "lit-html": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": true
+}
