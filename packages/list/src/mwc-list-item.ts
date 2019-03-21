@@ -82,18 +82,23 @@ export class ListItem extends LitElement {
       this.lockScroll(true);
 
       setTimeout(() => {
+        const wrapper: any = this.mdcRoot.querySelector(
+          ".mdc-list-item__wrapper"
+        );
         const expandedContent: any = this.mdcRoot.querySelector(
           ".mdc-list-item__expanded-content"
         );
 
         this.mdcRoot.classList.add("mdc-list-item--expanded");
 
-        expandedContent.style.width = `calc(100% + ${this.mdcRootPosition.left *
+        wrapper.style.width = `calc(100% + ${this.mdcRootPosition.left *
           2}px)`;
-        expandedContent.style.left = `-${this.mdcRootPosition.left}px`;
-        expandedContent.classList.add(
-          "mdc-list-item__expanded-content--expanded"
+          wrapper.style.left = `-${this.mdcRootPosition.left}px`;
+        wrapper.classList.add(
+          "mdc-list-item__wrapper--expanded"
         );
+        wrapper.style.top = `-${this.mdcRootPosition.top}px`;
+        expandedContent.style.top = `${this.mdcRootPosition.top}px`;
         expandedContent.style.transform = `translateY(-${
           this.mdcRootPosition.top
         }px)`;
@@ -103,21 +108,26 @@ export class ListItem extends LitElement {
 
   protected closeListItem(e) {
     if (this.expandable) {
+      const wrapper: any = this.mdcRoot.querySelector(
+        ".mdc-list-item__wrapper"
+      );
       const expandedContent: any = this.mdcRoot.querySelector(
         ".mdc-list-item__expanded-content"
       );
 
+      wrapper.style.top = `0`;
+      expandedContent.style.top = `0`;
       expandedContent.style.transform = `translateY(0)`;
-      expandedContent.classList.remove(
-        "mdc-list-item__expanded-content--expanded"
+      
+      wrapper.classList.remove(
+        "mdc-list-item__wrapper--expanded"
       );
-
       setTimeout(() => {
         this.mdcRoot.classList.remove("mdc-list-item--expanded");
-        expandedContent.style.width = `100%`;
-        expandedContent.style.left = `0`;
+        wrapper.style.width = `100%`;
+        wrapper.style.left = `0`;
         this.lockScroll(false);
-      }, 700);
+      }, 1200);
     }
 
     e.stopPropagation();
@@ -134,7 +144,7 @@ export class ListItem extends LitElement {
       body.style.overflow = status ? "hidden" : "auto";
     }
   }
- 
+
   render() {
     const { disabled, tabindex } = this;
 
@@ -161,12 +171,20 @@ export class ListItem extends LitElement {
           <slot name="meta"></slot>
         </span>
 
-        <div class="mdc-list-item__expanded-content">
-          <span class="mdc-list-item__close" @click="${this.closeListItem}"
-            >X</span
-          >
-          <slot name="expanded"></slot>
-        </div>
+        ${this.expandable
+          ? html`
+              <div class="mdc-list-item__wrapper">
+                <div class="mdc-list-item__expanded-content">
+                  <span
+                    class="mdc-list-item__close"
+                    @click="${this.closeListItem}"
+                  ></span>
+                  <slot name="expanded"></slot>
+                </div>
+              </div>
+            `
+          : null}
+
         <slot></slot>
       </div>
     `;

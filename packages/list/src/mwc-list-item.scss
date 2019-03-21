@@ -30,6 +30,13 @@ limitations under the License.
 :host([aria-disabled="true"]) > .mdc-list-item:focus::before {
   opacity: 0;
 }
+:host([expandable]) {
+  cursor: pointer;
+
+  .mdc-list-item--expanded {
+    cursor: auto;
+  }
+}
 
 .mdc-list-item {
   @include mdc-ripple-surface;
@@ -44,11 +51,40 @@ limitations under the License.
 
   &--expanded {
     overflow: visible;
+    white-space: normal;
     z-index: 10;
 
     &:before,
     &:after {
       background: none;
+    }
+    .mdc-list-item__close {
+      display: block;
+    }
+  }
+
+
+  &__wrapper {
+    height: 0;
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.2s 0.3s, height 0.2s 0.2s;
+    
+    &--expanded {
+      height: 100vh;
+      opacity: 1;
+      transition: opacity 0.15s 0.15s;
+
+      .mdc-list-item__expanded-content {
+        opacity: 1;
+        height: 100vh;
+        transition: 
+          opacity 0.2s 0.15s, 
+          height 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.2s,
+          transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+      }
     }
   }
 
@@ -60,35 +96,46 @@ limitations under the License.
     left: 0;
     top: 0;
     height: 48px;
-    background: orange;
+    background: #fff;
     margin: 0;
-    transition: 
-      opacity 0.3s 0.5s,
-      height 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.35s,
-      transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.35s;
+    transition: opacity 0.2s 0.15s,
+      height 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.15s,
+      transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
 
     display: flex;
     justify-content: center;
     opacity: 0;
-
-    &--expanded {
-      opacity: 1;
-      height: 100vh;
-      transition: opacity 0.25s 0.35s,
-        height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.5s,
-        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
-    }
   }
 
   &__close {
-    position: absolute;
+    display: none;
     top: 15px;
-    left: 20px;
+    left: 15px;
     cursor: pointer;
-    width: 20px;
-    height: 20px;
-    background: red;
     z-index: 1;
+
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    opacity: 0.3;
+    &:hover {
+      opacity: 1;
+    }
+    &:before,
+    &:after {
+      position: absolute;
+      left: 15px;
+      content: " ";
+      height: 25px;
+      width: 2px;
+      background-color: #797878;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
   }
 }
 
