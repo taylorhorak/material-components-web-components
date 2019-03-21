@@ -79,36 +79,62 @@ export class ListItem extends LitElement {
 
   protected expandListItem() {
     if (this.expandable) {
-      const expandedContent: any = this.mdcRoot.querySelector('.mdc-list-item__expanded-content');
-      
-      this.mdcRoot.classList.add("mdc-list-item--expanded");
-      
-      expandedContent.style.width = `calc(100% + ${this.mdcRootPosition.left * 2}px)`;
-      expandedContent.style.left = `-${this.mdcRootPosition.left}px`;
-      expandedContent.classList.add("mdc-list-item__expanded-content--expanded");
-      expandedContent.style.transform = `translateY(-${
-        this.mdcRootPosition.top
-      }px)`;
+      this.lockScroll(true);
+
+      setTimeout(() => {
+        const expandedContent: any = this.mdcRoot.querySelector(
+          ".mdc-list-item__expanded-content"
+        );
+
+        this.mdcRoot.classList.add("mdc-list-item--expanded");
+
+        expandedContent.style.width = `calc(100% + ${this.mdcRootPosition.left *
+          2}px)`;
+        expandedContent.style.left = `-${this.mdcRootPosition.left}px`;
+        expandedContent.classList.add(
+          "mdc-list-item__expanded-content--expanded"
+        );
+        expandedContent.style.transform = `translateY(-${
+          this.mdcRootPosition.top
+        }px)`;
+      }, 170);
     }
   }
 
   protected closeListItem(e) {
     if (this.expandable) {
-      const expandedContent: any = this.mdcRoot.querySelector('.mdc-list-item__expanded-content');
-      
+      const expandedContent: any = this.mdcRoot.querySelector(
+        ".mdc-list-item__expanded-content"
+      );
+
       expandedContent.style.transform = `translateY(0)`;
-      expandedContent.classList.remove("mdc-list-item__expanded-content--expanded");
-      
+      expandedContent.classList.remove(
+        "mdc-list-item__expanded-content--expanded"
+      );
+
       setTimeout(() => {
         this.mdcRoot.classList.remove("mdc-list-item--expanded");
         expandedContent.style.width = `100%`;
         expandedContent.style.left = `0`;
+        this.lockScroll(false);
       }, 700);
     }
 
     e.stopPropagation();
   }
 
+  protected lockScroll(status: boolean): void {
+    const body: HTMLBodyElement | null = document.querySelector("body");
+    const html: HTMLElement | null = document.querySelector("html");
+
+    if (body && html) {
+      html.style.height = status ? "100%" : "auto";
+      html.style.overflow = status ? "hidden" : "auto";
+      body.style.height = status ? "100%" : "auto";
+      body.style.overflow = status ? "hidden" : "auto";
+    }
+  }
+ 
   render() {
     const { disabled, tabindex } = this;
 
@@ -118,7 +144,7 @@ export class ListItem extends LitElement {
         role="menuitem"
         @click="${this.expandListItem}"
         tabindex="${tabindex}"
-        aria-disabled="${disabled}"
+        aria-disabled="${this.expandable ? true : disabled}"
         .ripple="${ripple({ unbounded: false })}"
       >
         ${this._renderLeading()} ${this.label || ""}
