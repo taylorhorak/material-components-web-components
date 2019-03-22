@@ -36,6 +36,12 @@ declare global {
 export class ListItem extends LitElement {
   mdcRootPosition: any;
 
+  @query(".mdc-list-item__expanded-content")
+  expandedContent!: HTMLElement;
+
+  @query(".mdc-list-item__wrapper")
+  wrapper!: HTMLElement;
+
   @query(".mdc-list-item")
   mdcRoot!: HTMLElement;
 
@@ -77,60 +83,61 @@ export class ListItem extends LitElement {
     this.mdcRootPosition = this.mdcRoot.getBoundingClientRect();
   }
 
-  protected expandListItem() {
-    if (this.expandable) {
-      this.lockScroll(true);
+  protected changeWrapperStyles(wrapperWidth: string, wrapperLeft: string) {
+    this.wrapper.style.width = wrapperWidth;
+    this.wrapper.style.left = wrapperLeft;
+  }
 
-      setTimeout(() => {
-        const wrapper: any = this.mdcRoot.querySelector(
-          ".mdc-list-item__wrapper"
-        );
-        const expandedContent: any = this.mdcRoot.querySelector(
-          ".mdc-list-item__expanded-content"
-        );
-
-        this.mdcRoot.classList.add("mdc-list-item--expanded");
-
-        wrapper.style.width = `calc(100% + ${this.mdcRootPosition.left *
-          2}px)`;
-          wrapper.style.left = `-${this.mdcRootPosition.left}px`;
-        wrapper.classList.add(
-          "mdc-list-item__wrapper--expanded"
-        );
-        wrapper.style.top = `-${this.mdcRootPosition.top}px`;
-        expandedContent.style.top = `${this.mdcRootPosition.top}px`;
-        expandedContent.style.transform = `translateY(-${
-          this.mdcRootPosition.top
-        }px)`;
-      }, 170);
-    }
+  protected changeExpandedContentStyles(
+    contentTop: string,
+    contentTransform: string,
+    wrapperTop: string
+  ) {
+    this.expandedContent.style.top = contentTop;
+    console.log(contentTop);
+    this.expandedContent.style.transform = contentTransform;
+    console.log(contentTransform);
+    this.wrapper.style.top = wrapperTop;
   }
 
   protected closeListItem(e) {
     if (this.expandable) {
-      const wrapper: any = this.mdcRoot.querySelector(
-        ".mdc-list-item__wrapper"
-      );
-      const expandedContent: any = this.mdcRoot.querySelector(
-        ".mdc-list-item__expanded-content"
-      );
+      this.wrapper.classList.remove("mdc-list-item__wrapper--expanded");
+      // this.changeExpandedContentStyles("0", "translateY(0)", "0");
 
-      wrapper.style.top = `0`;
-      expandedContent.style.top = `0`;
-      expandedContent.style.transform = `translateY(0)`;
-      
-      wrapper.classList.remove(
-        "mdc-list-item__wrapper--expanded"
-      );
+      this.expandedContent.style.transform = 'translateY(0)';
+
       setTimeout(() => {
+        this.wrapper.style.top = '0';
+        this.expandedContent.style.top = '0';
+
         this.mdcRoot.classList.remove("mdc-list-item--expanded");
-        wrapper.style.width = `100%`;
-        wrapper.style.left = `0`;
+        this.changeWrapperStyles("100%", "0");
         this.lockScroll(false);
       }, 1200);
     }
 
     e.stopPropagation();
+  }
+
+  protected expandListItem() {
+    if (this.expandable) {
+      this.lockScroll(true);
+
+      setTimeout(() => {
+        this.mdcRoot.classList.add("mdc-list-item--expanded");
+        this.changeWrapperStyles(
+          `calc(100% + ${this.mdcRootPosition.left * 2}px)`,
+          `-${this.mdcRootPosition.left}px`
+        );
+        this.wrapper.classList.add("mdc-list-item__wrapper--expanded");
+        this.changeExpandedContentStyles(
+          `${this.mdcRootPosition.top}px`,
+          `translateY(-${this.mdcRootPosition.top}px)`,
+          `-${this.mdcRootPosition.top}px`
+        );
+      }, 170);
+    }
   }
 
   protected lockScroll(status: boolean): void {
@@ -175,11 +182,13 @@ export class ListItem extends LitElement {
           ? html`
               <div class="mdc-list-item__wrapper">
                 <div class="mdc-list-item__expanded-content">
-                  <span
-                    class="mdc-list-item__close"
-                    @click="${this.closeListItem}"
-                  ></span>
-                  <slot name="expanded"></slot>
+                  <div>
+                    <span
+                      class="mdc-list-item__close"
+                      @click="${this.closeListItem}"
+                    ></span>
+                    <slot name="expanded"></slot>
+                  </div>
                 </div>
               </div>
             `
