@@ -49,10 +49,6 @@ limitations under the License.
   height: auto;
   position: relative;
 
-  // &__text {
-  //   transition: opacity 0.1s;
-  // }
-
   &--expanded {
     overflow: visible;
     white-space: normal;
@@ -63,8 +59,6 @@ limitations under the License.
       background: none;
     }
     .mdc-list-item__text {
-      // opacity: 0;
-      // transition: opacity 0.25s;
       animation: opacityAnimation 0.25s;
     }
     .mdc-list-item__close {
@@ -77,10 +71,7 @@ limitations under the License.
     position: absolute;
     top: 0;
     background: rgba(0, 0, 0, 0);
-    transition: 
-      background-color 0.3s 0.15s, 
-      height 0.2s 0.45s, 
-      top 0s 0.95s;
+    transition: background-color 0.3s 0.15s, height 0.2s 0.45s, top 0s 0.95s;
 
     &--expanded {
       height: 100vh;
@@ -90,9 +81,7 @@ limitations under the License.
       .mdc-list-item__expanded-content {
         opacity: 1;
         height: 100vh;
-        transition: 
-          top 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0s, 
-          opacity 0.3s 0.1s,
+        transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0s, opacity 0.3s 0.1s,
           height 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.2s,
           transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
 
@@ -105,6 +94,9 @@ limitations under the License.
   }
 
   &__expanded-content {
+    display: flex;
+    justify-content: center;
+    opacity: 0;
     width: 100%;
     padding: 0;
     position: absolute;
@@ -114,18 +106,9 @@ limitations under the License.
     height: 55px;
     background: #fff;
     margin: 0;
-    transition: 
-      top 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0.15s, 
-      opacity 0.3s 0.25s,
+    transition: top 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0.15s, opacity 0.3s 0.25s,
       height 0.25s cubic-bezier(0.4, 0, 0.2, 1) 0.1s,
       transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
-
-    // transition-property: top, left, top, height;
-    // transition-duration: 3s, 5s;
-
-    display: flex;
-    justify-content: center;
-    opacity: 0;
 
     * {
       opacity: 0;
@@ -172,6 +155,10 @@ limitations under the License.
 }
 
 @keyframes opacityAnimation {
-  from {opacity: 1;}
-  to {opacity: 0;}
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

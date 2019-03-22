@@ -25,6 +25,7 @@ import { LitElement } from "lit-element";
 import { ripple } from "@material/mwc-ripple/ripple-directive";
 
 import { style } from "./mwc-list-item-css.js";
+import { TemplateResult } from "lit-html";
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -83,46 +84,37 @@ export class ListItem extends LitElement {
     this.mdcRootPosition = this.mdcRoot.getBoundingClientRect();
   }
 
-  protected changeWrapperStyles(wrapperWidth: string, wrapperLeft: string) {
+  protected changeWrapperStyles(
+    wrapperWidth: string,
+    wrapperLeft: string
+  ): void {
     this.wrapper.style.width = wrapperWidth;
     this.wrapper.style.left = wrapperLeft;
   }
 
-  protected changeExpandedContentStyles(
-    contentTop: string,
-    contentTransform: string,
-    wrapperTop: string
-  ) {
-    this.expandedContent.style.top = contentTop;
-    console.log(contentTop);
-    this.expandedContent.style.transform = contentTransform;
-    console.log(contentTransform);
-    this.wrapper.style.top = wrapperTop;
-  }
-
-  protected closeListItem(e) {
+  protected closeListItem(e): void {
     if (this.expandable) {
       this.wrapper.classList.remove("mdc-list-item__wrapper--expanded");
-      // this.changeExpandedContentStyles("0", "translateY(0)", "0");
-
-      this.expandedContent.style.transform = 'translateY(0)';
+      this.expandedContent.style.transform = "translateY(0)";
 
       setTimeout(() => {
-        this.wrapper.style.top = '0';
-        this.expandedContent.style.top = '0';
+        this.wrapper.style.top = "0";
+        this.expandedContent.style.top = "0";
 
         this.mdcRoot.classList.remove("mdc-list-item--expanded");
         this.changeWrapperStyles("100%", "0");
-        this.lockScroll(false);
+        this.lockScrollFor("html", false);
+        this.lockScrollFor("body", false);
       }, 1200);
     }
 
     e.stopPropagation();
   }
 
-  protected expandListItem() {
+  protected expandListItem(): void {
     if (this.expandable) {
-      this.lockScroll(true);
+      this.lockScrollFor("html", true);
+      this.lockScrollFor("body", true);
 
       setTimeout(() => {
         this.mdcRoot.classList.add("mdc-list-item--expanded");
@@ -131,24 +123,21 @@ export class ListItem extends LitElement {
           `-${this.mdcRootPosition.left}px`
         );
         this.wrapper.classList.add("mdc-list-item__wrapper--expanded");
-        this.changeExpandedContentStyles(
-          `${this.mdcRootPosition.top}px`,
-          `translateY(-${this.mdcRootPosition.top}px)`,
-          `-${this.mdcRootPosition.top}px`
-        );
+        this.expandedContent.style.top = `${this.mdcRootPosition.top}px`;
+        this.expandedContent.style.transform = `translateY(-${
+          this.mdcRootPosition.top
+        }px)`;
+        this.wrapper.style.top = `-${this.mdcRootPosition.top}px`;
       }, 170);
     }
   }
 
-  protected lockScroll(status: boolean): void {
-    const body: HTMLBodyElement | null = document.querySelector("body");
-    const html: HTMLElement | null = document.querySelector("html");
+  protected lockScrollFor(element: string, status: boolean): void {
+    const el: HTMLElement | null = document.querySelector(element);
 
-    if (body && html) {
-      html.style.height = status ? "100%" : "auto";
-      html.style.overflow = status ? "hidden" : "auto";
-      body.style.height = status ? "100%" : "auto";
-      body.style.overflow = status ? "hidden" : "auto";
+    if (el) {
+      el.style.height = status ? "100%" : "auto";
+      el.style.overflow = status ? "hidden" : "auto";
     }
   }
 
@@ -199,7 +188,7 @@ export class ListItem extends LitElement {
     `;
   }
 
-  _renderLeading() {
+  _renderLeading(): TemplateResult | string {
     if (this.leading) {
       return html`
         <span class="mdc-list-item__graphic">
