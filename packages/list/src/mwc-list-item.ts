@@ -37,8 +37,8 @@ declare global {
 export class ListItem extends LitElement {
   mdcRootPosition: any;
 
-  @query(".mdc-list-item__expanded-content")
-  expandedContent!: HTMLElement;
+  @query(".mdc-list-item__modal-content")
+  modalContent!: HTMLElement;
 
   @query(".mdc-list-item__wrapper")
   wrapper!: HTMLElement;
@@ -48,6 +48,9 @@ export class ListItem extends LitElement {
 
   @property({ type: Boolean })
   expandable = false;
+
+  @property({ type: Boolean })
+  modal = false;
 
   @property({ type: String })
   value = "";
@@ -93,15 +96,15 @@ export class ListItem extends LitElement {
   }
 
   protected closeListItem(e): void {
-    if (this.expandable) {
-      this.wrapper.classList.remove("mdc-list-item__wrapper--expanded");
-      this.expandedContent.style.transform = "translateY(0)";
+    if (this.modal) {
+      this.wrapper.classList.remove("mdc-list-item__wrapper--modal");
+      this.modalContent.style.transform = "translateY(0)";
 
       setTimeout(() => {
         this.wrapper.style.top = "0";
-        this.expandedContent.style.top = "0";
+        this.modalContent.style.top = "0";
 
-        this.mdcRoot.classList.remove("mdc-list-item--expanded");
+        this.mdcRoot.classList.remove("mdc-list-item--modal");
         this.changeWrapperStyles("100%", "0");
         this.lockScrollFor("html", false);
         this.lockScrollFor("body", false);
@@ -111,20 +114,26 @@ export class ListItem extends LitElement {
     e.stopPropagation();
   }
 
-  protected expandListItem(): void {
+  protected toggleList() {
     if (this.expandable) {
+      this.mdcRoot.classList.toggle("mdc-list-item--expanded");
+    }
+  }
+
+  protected openModal(): void {
+    if (this.modal) {
       this.lockScrollFor("html", true);
       this.lockScrollFor("body", true);
 
       setTimeout(() => {
-        this.mdcRoot.classList.add("mdc-list-item--expanded");
+        this.mdcRoot.classList.add("mdc-list-item--modal");
         this.changeWrapperStyles(
           `calc(100% + ${this.mdcRootPosition.left * 2}px)`,
           `-${this.mdcRootPosition.left}px`
         );
-        this.wrapper.classList.add("mdc-list-item__wrapper--expanded");
-        this.expandedContent.style.top = `${this.mdcRootPosition.top}px`;
-        this.expandedContent.style.transform = `translateY(-${
+        this.wrapper.classList.add("mdc-list-item__wrapper--modal");
+        this.modalContent.style.top = `${this.mdcRootPosition.top}px`;
+        this.modalContent.style.transform = `translateY(-${
           this.mdcRootPosition.top
         }px)`;
         this.wrapper.style.top = `-${this.mdcRootPosition.top}px`;
@@ -148,14 +157,24 @@ export class ListItem extends LitElement {
       <div
         class="mdc-list-item "
         role="menuitem"
-        @click="${this.expandListItem}"
+        @click="${this.openModal}"
         tabindex="${tabindex}"
-        aria-disabled="${this.expandable ? true : disabled}"
-        .ripple="${ripple({ unbounded: false })}"
+        aria-disabled="${this.modal ? true : disabled}"
+        .ripple="${!this.expandable ? ripple({ unbounded: false }) : false}"
       >
+        ${this.expandable
+          ? html`
+              <mwc-icon 
+                class="mdc-list-item__btn-expand"
+                @click="${this.toggleList}">
+                expand_more
+              </mwc-icon>
+            `
+          : null}
+
         ${this._renderLeading()} ${this.label || ""}
         <slot name="text"></slot>
-        <span class="mdc-list-item__text">
+        <span class="mdc-list-item__text" @click="${this.toggleList}">
           <span class="mdc-list-item__primary-text">
             <slot name="primary-text"></slot>
           </span>
@@ -167,10 +186,10 @@ export class ListItem extends LitElement {
           <slot name="meta"></slot>
         </span>
 
-        ${this.expandable
+        ${this.modal
           ? html`
               <div class="mdc-list-item__wrapper">
-                <div class="mdc-list-item__expanded-content">
+                <div class="mdc-list-item__modal-content">
                   <div>
                     <span
                       class="mdc-list-item__close"
@@ -179,6 +198,13 @@ export class ListItem extends LitElement {
                     <slot name="expanded"></slot>
                   </div>
                 </div>
+              </div>
+            `
+          : null}
+        ${this.expandable
+          ? html`
+              <div class="mdc-list-item__expanded-content">
+                <slot name="expanded"></slot>
               </div>
             `
           : null}

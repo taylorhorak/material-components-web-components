@@ -41,7 +41,7 @@ limitations under the License.
       <div>
         <section>
           <h4>Accordion</h4>
-          <mwc-list-item expandable>
+          <mwc-list-item modal>
             <span slot="primary-text" class="primaryText">Texto 1</span>
             <span slot="secondary-text" class="secondary-Text">Texto 2</span>
 
@@ -68,7 +68,7 @@ limitations under the License.
             </div>
           </mwc-list-item>
 
-          <mwc-list-item expandable>
+          <mwc-list-item modal>
             <span slot="primary-text" class="primaryText">Texto 1</span>
             <span slot="secondary-text" class="secondary-Text">Texto 2</span>
 
@@ -86,27 +86,19 @@ limitations under the License.
           <mwc-list-item expandable>
               <span slot="primary-text" class="primaryText">Texto 1</span>
               <span slot="secondary-text" class="secondary-Text">Texto 2</span>
-  
+
               <div slot="expanded">
-                <mwc-card aspectRatio="16-9">
-                  <div slot="media" class="my-media"></div>
-  
-                  <div slot="content" class="mwc-card__content">
-                    This is where any card content you want goes.
-                  </div>
-                  <div slot="action-buttons">
-                      <mwc-button dense class="mdc-card__action--button">Read</mwc-button>
-                      <mwc-button dense class="mdc-card__action--button">Save</mwc-button>
-                    </div>
-                  <div slot="action-icons">
-                      <mwc-icon-button title="Favorite" icon="favorite"></mwc-icon-button>
-                      <mwc-icon-button title="Share" icon="share"></mwc-icon-button>
-                      <mwc-icon-button
-                        title="More options"
-                        icon="more_vert"
-                      ></mwc-icon-button>
-                    </div>
-                </mwc-card>
+                <mwc-list-item>
+                  <span slot="primary-text" class="primaryText">List Item</span>
+                </mwc-list-item>
+    
+                <mwc-list-item>
+                  <span slot="primary-text" class="primaryText">List Item</span>
+                </mwc-list-item>
+    
+                <mwc-list-item>
+                  <span slot="primary-text" class="primaryText">List Item</span>
+                </mwc-list-item>
               </div>
             </mwc-list-item>
         </section>
