@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import {assert} from 'chai';
-import {Table} from '@material/mwc-table';
+import { assert } from 'chai';
+import { Table } from '@authentic/mwc-table';
 
 let element;
 

@@ -17,17 +17,17 @@ limitations under the License.
 import { LitElement, customElement, query, property, html, TemplateResult } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import { findAssignedElement } from '@material/mwc-base/utils';
-import { observer } from '@material/mwc-base/observer';
+import { findAssignedElement } from '@authentic/mwc-base/utils';
+import { observer } from '@authentic/mwc-base/observer';
 import { cssClasses } from './constants';
-import { Checkbox as MWCCheckbox } from '@material/mwc-checkbox';
+import { Checkbox as MWCCheckbox } from '@authentic/mwc-checkbox';
 
 import { style } from './mwc-table-css';
 
 // elements to be registered ahead of time
-import '@material/mwc-circular-progress';
-import '@material/mwc-icon/mwc-icon-font';
-import '@material/mwc-tooltip';
+import '@authentic/mwc-circular-progress';
+import '@authentic/mwc-icon/mwc-icon-font';
+import '@authentic/mwc-tooltip';
 
 declare global {
   interface HTMLElementTagNameMap {
