@@ -85,9 +85,6 @@ export class Table extends LitElement {
 
   @property({ type: Array })
   @observer(function(this: Table, value: IColumnItem[]) {
-    if (this.id === 'table_1') {
-      console.log('columns', value);
-    }
     this._parsedColumns = this._parseData(value);
   })
   public columns;
@@ -190,10 +187,6 @@ export class Table extends LitElement {
   protected _createTable(): TemplateResult {
     const templateElements = this._getElementsFromTemplate();
     const dataElements = this._getElementsFromData();
-
-    if (this.id === 'table_1') {
-      console.log('_createTable', this.columns);
-    }
 
     const head = dataElements.head || templateElements.head;
     const body = dataElements.body || templateElements.body;
