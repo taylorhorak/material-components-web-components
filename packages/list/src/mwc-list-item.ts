@@ -83,10 +83,6 @@ export class ListItem extends LitElement {
 
   static styles = style;
 
-  firstUpdated() {
-    this.mdcRootPosition = this.mdcRoot.getBoundingClientRect();
-  }
-
   protected changeWrapperStyles(
     wrapperWidth: string,
     wrapperLeft: string
@@ -114,9 +110,20 @@ export class ListItem extends LitElement {
     e.stopPropagation();
   }
 
-  protected toggleList() {
-    if (this.expandable) {
-      this.mdcRoot.classList.toggle("mdc-list-item--expanded");
+  firstUpdated() {
+    this.mdcRootPosition = this.mdcRoot.getBoundingClientRect();
+  }
+
+  focus() {
+    this.mdcRoot.focus();
+  }
+
+  protected lockScrollFor(element: string, status: boolean): void {
+    const el: HTMLElement | null = document.querySelector(element);
+
+    if (el) {
+      el.style.height = status ? "100%" : "auto";
+      el.style.overflow = status ? "hidden" : "auto";
     }
   }
 
@@ -141,15 +148,6 @@ export class ListItem extends LitElement {
     }
   }
 
-  protected lockScrollFor(element: string, status: boolean): void {
-    const el: HTMLElement | null = document.querySelector(element);
-
-    if (el) {
-      el.style.height = status ? "100%" : "auto";
-      el.style.overflow = status ? "hidden" : "auto";
-    }
-  }
-
   render() {
     const { disabled, tabindex } = this;
 
@@ -164,14 +162,14 @@ export class ListItem extends LitElement {
       >
         ${this.expandable
           ? html`
-              <mwc-icon 
+              <mwc-icon
                 class="mdc-list-item__btn-expand"
-                @click="${this.toggleList}">
+                @click="${this.toggleList}"
+              >
                 expand_more
               </mwc-icon>
             `
           : null}
-
         ${this._renderLeading()} ${this.label || ""}
         <slot name="text"></slot>
         <span class="mdc-list-item__text" @click="${this.toggleList}">
@@ -204,7 +202,13 @@ export class ListItem extends LitElement {
         ${this.expandable
           ? html`
               <div class="mdc-list-item__expanded-content">
-                <slot name="expanded"></slot>
+                <div
+                  class="mdc-list-item__expanded-content-wrapper ${this.leading
+                    ? "mdc-list-item__expanded-content-wrapper--aligned"
+                    : ""}"
+                >
+                  <slot name="expanded"></slot>
+                </div>
               </div>
             `
           : null}
@@ -234,7 +238,9 @@ export class ListItem extends LitElement {
     return "";
   }
 
-  focus() {
-    this.mdcRoot.focus();
+  protected toggleList() {
+    if (this.expandable) {
+      this.mdcRoot.classList.toggle("mdc-list-item--expanded");
+    }
   }
 }

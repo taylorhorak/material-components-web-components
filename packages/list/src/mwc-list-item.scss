@@ -46,12 +46,16 @@ $modalEase: cubic-bezier(0.4, 0, 0.2, 1);
 
 :host([expandable]) {
   .mdc-list-item {
-    display: block;
+    flex-wrap: wrap;
     max-height: 55px;
     transition: max-height $accordionEase $accordionTiming;  
     
     &--expanded {
       max-height: 60em;
+    }
+
+    &__text {
+      flex: 1;  
     }
   }
 }
@@ -183,7 +187,15 @@ $modalEase: cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     top: auto;
     left: auto;
-    margin-left: -16px;
+    width: 100%;
+    margin-left: 1px;
+  }
+  &__expanded-content-wrapper {
+    margin-left: -17px;
+    
+    &--aligned {
+      margin-left: 39px;
+    }
   }
 }
 
