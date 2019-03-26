@@ -1,0 +1,164 @@
+<!doctype html>
+<!--
+@license
+Copyright 2018 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+<head>
+  <title>table demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <script  src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-card/mwc-card.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-table/mwc-table.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-icon-button/mwc-icon-button.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-tooltip/mwc-tooltip.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-icon/mwc-icon.js"></script>
+<link rel="stylesheet" href="demo-component.css">
+  <style>
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .demo-container {
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .demo-container > mwc-table {
+      max-width: 820px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="unresolved">
+  <header>
+    <a href="index.html"><mwc-icon>arrow_back</mwc-icon>
+    <span>Tables</span></a>
+  </header>
+
+  <main>
+    <h3>Template Data</h3>
+    <div class="demo-container">
+      <mwc-table id="table_1" >
+        <!-- <template>
+          <tbody>
+            <tr>
+              <td>Luis Sardon</td>
+              <td align="right">30</td>
+              <td>Software Engineer</td>
+            </tr>
+
+            <tr>
+              <td>Tim Johnson</td>
+              <td align="right">43</td>
+              <td>Software Engineer</td>
+            </tr>
+          </tbody>
+        </template> -->
+      </mwc-table>
+    </div>
+
+    <h3>Attribute Data</h3>
+    <div class="demo-container">
+      <mwc-table
+        id="table_2"
+        columns='[{"title":"Name","field":"name","description":"Used for identification"},{"title":"Surname","field":"surname","description":"Family name, or last name"}]'
+        data='[{"name":"Luis","surname":"Sardon"},{"name":"Tim","surname":"Johnson"}]'
+      >
+      </mwc-table>
+    </div>
+
+    <h3>Simple Data</h3>
+    <div class="demo-container">
+      <mwc-table id="table_3"></mwc-table>
+    </div>
+
+    <h3>Async Data</h3>
+    <div class="demo-container">
+      <mwc-table id="table_4"></mwc-table>
+    </div>
+
+    <h3>In a Card</h3>
+    <div class="demo-container">
+      <mwc-card>
+        <div slot="content" class="content">
+          <mwc-table id="table_5" elevation="0"></mwc-table>
+        </div>
+      </mwc-card>
+    </div>
+
+  </main>
+
+  <script>
+    addEventListener('load', () => document.body.classList.remove('unresolved'));
+
+    const columns = [
+      { title: 'Name', field: 'name', description: 'Used for identification' },
+      { title: 'Surname', field: 'surname', description: 'Family name, or last name' },
+      { title: 'Birth Year', field: 'birthYear', align: 'right', description: 'The year in which one was born' }
+    ];
+
+    const data = [
+      { name: 'Luis', surname: 'Sardon', birthYear: '1988' },
+      { name: 'Tim', surname: 'Johnson', birthYear: '1976' },
+      { name: 'Molly', surname: 'Micheux', birthYear: '1989' },
+      { name: 'Rodrigo', surname: 'Aguilar', birthYear: '1991' }
+    ]
+
+    const randomData = (cant) => {
+      let _data = data;
+          
+      for (let i = _data.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [_data[i], _data[j]] = [_data[j], _data[i]];
+      }
+
+      return _data.slice(0, cant);
+    }
+
+    // Table 1: Template Data
+
+    table_1.colums = columns;
+    table_1.data = randomData(2);
+    // console.log('TABLE!!', table_1.colums);
+
+    // Table 3: Simple Data
+
+    table_3.columns = columns;
+    table_3.data = randomData(2);
+
+    // Table 4: Async Data
+
+    table_4.columns = columns;
+
+    table_4.data = () => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(randomData(3));
+        }, 3000);
+      });
+    };
+
+    // Table 5: In a Card
+
+    table_5.columns = columns;
+    table_5.data = randomData(4);
+
+  </script>
+</body>
+</html>
