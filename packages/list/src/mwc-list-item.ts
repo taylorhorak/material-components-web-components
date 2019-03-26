@@ -37,6 +37,9 @@ declare global {
 export class ListItem extends LitElement {
   mdcRootPosition: any;
 
+  @property({ type: Boolean })
+  protected listIsExpanded = false
+
   @query(".mdc-list-item__modal-content")
   modalContent!: HTMLElement;
 
@@ -166,7 +169,7 @@ export class ListItem extends LitElement {
                 class="mdc-list-item__btn-expand"
                 @click="${this.toggleList}"
               >
-                expand_more
+                ${this.listIsExpanded ? 'expand_less' : 'expand_more'}
               </mwc-icon>
             `
           : null}
@@ -240,6 +243,7 @@ export class ListItem extends LitElement {
 
   protected toggleList() {
     if (this.expandable) {
+      this.listIsExpanded = !this.listIsExpanded;
       this.mdcRoot.classList.toggle("mdc-list-item--expanded");
     }
   }
