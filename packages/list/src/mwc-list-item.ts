@@ -20,32 +20,49 @@ import {
   html,
   property,
   observer
-} from '@material/mwc-base/base-element.js';
-import { LitElement } from 'lit-element';
-import { ripple } from '@material/mwc-ripple/ripple-directive';
+} from "@material/mwc-base/base-element.js";
+import { LitElement } from "lit-element";
+import { ripple } from "@material/mwc-ripple/ripple-directive";
 
-import { style } from './mwc-list-item-css.js';
+import { style } from "./mwc-list-item-css.js";
+import { TemplateResult } from "lit-html";
 
 declare global {
   interface HTMLElementTagNameMap {
-    'mwc-list-item': ListItem;
+    "mwc-list-item": ListItem;
   }
 }
 
-@customElement('mwc-list-item' as any)
+@customElement("mwc-list-item" as any)
 export class ListItem extends LitElement {
+  mdcRootPosition: any;
 
-  @query('.mdc-list-item')
+  @property({ type: Boolean })
+  protected listIsExpanded = false
+
+  @query(".mdc-list-item__modal-content")
+  modalContent!: HTMLElement;
+
+  @query(".mdc-list-item__wrapper")
+  wrapper!: HTMLElement;
+
+  @query(".mdc-list-item")
   mdcRoot!: HTMLElement;
 
-  @property({ type: String })
-  value = '';
+  @property({ type: Boolean })
+  expandable = false;
+
+  @property({ type: Boolean })
+  modal = false;
 
   @property({ type: String })
-  label = '';
+  value = "";
 
   @property({ type: String })
-  icon = '';
+  label = "";
+
+  @property({ type: String })
+  icon = "";
 
   @property({ type: Number })
   tabindex = 0;
@@ -54,8 +71,8 @@ export class ListItem extends LitElement {
   leading = 0;
 
   @property({ type: Boolean })
-  @observer(function (this: ListItem, value: Boolean) {
-    this.setAttribute('aria-disabled', String(value));
+  @observer(function(this: ListItem, value: Boolean) {
+    this.setAttribute("aria-disabled", String(value));
   })
   disabled = false;
 
@@ -64,20 +81,101 @@ export class ListItem extends LitElement {
   }
 
   get setAttribute() {
-    return this.mdcRoot ? this.mdcRoot.setAttribute : () => { };
+    return this.mdcRoot ? this.mdcRoot.setAttribute : () => {};
   }
 
   static styles = style;
+
+  protected changeWrapperStyles(
+    wrapperWidth: string,
+    wrapperLeft: string
+  ): void {
+    this.wrapper.style.width = wrapperWidth;
+    this.wrapper.style.left = wrapperLeft;
+  }
+
+  protected closeListItem(e): void {
+    if (this.modal) {
+      this.wrapper.classList.remove("mdc-list-item__wrapper--modal");
+      this.modalContent.style.transform = "translateY(0)";
+
+      setTimeout(() => {
+        this.wrapper.style.top = "0";
+        this.modalContent.style.top = "0";
+
+        this.mdcRoot.classList.remove("mdc-list-item--modal");
+        this.changeWrapperStyles("100%", "0");
+        this.lockScrollFor("html", false);
+        this.lockScrollFor("body", false);
+      }, 1200);
+    }
+
+    e.stopPropagation();
+  }
+
+  firstUpdated() {
+    this.mdcRootPosition = this.mdcRoot.getBoundingClientRect();
+  }
+
+  focus() {
+    this.mdcRoot.focus();
+  }
+
+  protected lockScrollFor(element: string, status: boolean): void {
+    const el: HTMLElement | null = document.querySelector(element);
+
+    if (el) {
+      el.style.height = status ? "100%" : "auto";
+      el.style.overflow = status ? "hidden" : "auto";
+    }
+  }
+
+  protected openModal(): void {
+    if (this.modal) {
+      this.lockScrollFor("html", true);
+      this.lockScrollFor("body", true);
+
+      setTimeout(() => {
+        this.mdcRoot.classList.add("mdc-list-item--modal");
+        this.changeWrapperStyles(
+          `calc(100% + ${this.mdcRootPosition.left * 2}px)`,
+          `-${this.mdcRootPosition.left}px`
+        );
+        this.wrapper.classList.add("mdc-list-item__wrapper--modal");
+        this.modalContent.style.top = `${this.mdcRootPosition.top}px`;
+        this.modalContent.style.transform = `translateY(-${
+          this.mdcRootPosition.top
+        }px)`;
+        this.wrapper.style.top = `-${this.mdcRootPosition.top}px`;
+      }, 170);
+    }
+  }
 
   render() {
     const { disabled, tabindex } = this;
 
     return html`
-      <div class="mdc-list-item" role="menuitem" tabindex="${tabindex}" aria-disabled="${disabled}" .ripple="${ripple({ unbounded: false })}">
-        ${this._renderLeading()}
-        ${this.label || ''}
+      <div
+        class="mdc-list-item "
+        role="menuitem"
+        @click="${this.openModal}"
+        tabindex="${tabindex}"
+        aria-disabled="${this.modal ? true : disabled}"
+        .ripple="${!this.expandable ? ripple({ unbounded: false }) : false}"
+      >
+        ${this.expandable
+          ? html`
+              <mwc-icon
+                class="mdc-list-item__btn-expand"
+                @click="${this.toggleList}"
+              >
+                ${this.listIsExpanded ? 'expand_less' : 'expand_more'}
+              </mwc-icon>
+            `
+          : null}
+        ${this._renderLeading()} ${this.label || ""}
         <slot name="text"></slot>
-        <span class="mdc-list-item__text">
+        <span class="mdc-list-item__text" @click="${this.toggleList}">
           <span class="mdc-list-item__primary-text">
             <slot name="primary-text"></slot>
           </span>
@@ -88,11 +186,42 @@ export class ListItem extends LitElement {
         <span class="mdc-list-item__meta">
           <slot name="meta"></slot>
         </span>
+
+        ${this.modal
+          ? html`
+              <div class="mdc-list-item__wrapper">
+                <div class="mdc-list-item__modal-content">
+                  <div>
+                    <span
+                      class="mdc-list-item__close"
+                      @click="${this.closeListItem}"
+                    ></span>
+                    <slot name="expanded"></slot>
+                  </div>
+                </div>
+              </div>
+            `
+          : null}
+        ${this.expandable
+          ? html`
+              <div class="mdc-list-item__expanded-content">
+                <div
+                  class="mdc-list-item__expanded-content-wrapper ${this.leading
+                    ? "mdc-list-item__expanded-content-wrapper--aligned"
+                    : ""}"
+                >
+                  <slot name="expanded"></slot>
+                </div>
+              </div>
+            `
+          : null}
+
         <slot></slot>
-      </div>`;
+      </div>
+    `;
   }
 
-  _renderLeading() {
+  _renderLeading(): TemplateResult | string {
     if (this.leading) {
       return html`
         <span class="mdc-list-item__graphic">
@@ -109,10 +238,13 @@ export class ListItem extends LitElement {
       `;
     }
 
-    return '';
+    return "";
   }
 
-  focus() {
-    this.mdcRoot.focus();
+  protected toggleList() {
+    if (this.expandable) {
+      this.listIsExpanded = !this.listIsExpanded;
+      this.mdcRoot.classList.toggle("mdc-list-item--expanded");
+    }
   }
 }

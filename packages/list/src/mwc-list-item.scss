@@ -15,9 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-@import '@material/list/mdc-list.scss';
+@import "@material/list/mdc-list.scss";
 @import "@material/ripple/mixins";
-@import '@material/mwc-icon/src/_mwc-icon.scss';
+@import "@material/mwc-icon/src/mwc-icon";
+
+
+$accordionEase: cubic-bezier(0.865, 0.140, 0.095, 0.870);
+$accordionTiming: 0.4s;
+
+$modalEase: cubic-bezier(0.4, 0, 0.2, 1);
 
 .material-icons {
   @extend %material-icons;
@@ -30,6 +36,31 @@ limitations under the License.
 :host([aria-disabled="true"]) > .mdc-list-item:focus::before {
   opacity: 0;
 }
+:host([modal]) {
+  cursor: pointer;
+
+  .mdc-list-item--modal {
+    cursor: auto;
+  }
+}
+
+:host([expandable]) {
+  cursor: pointer;
+
+  .mdc-list-item {
+    flex-wrap: wrap;
+    max-height: 55px;
+    transition: max-height $accordionEase $accordionTiming;  
+    
+    &--expanded {
+      max-height: 60em;
+    }
+
+    &__text {
+      flex: 1;  
+    }
+  }
+}
 
 .mdc-list-item {
   @include mdc-ripple-surface;
@@ -39,10 +70,148 @@ limitations under the License.
   @include mdc-states-selected(primary);
 
   white-space: nowrap;
+  height: auto;
+  position: relative;
+
+  &__btn-expand {
+    position: absolute;
+    right: 0;
+    top: 14px;
+  }
+
+  &--modal {
+    overflow: visible;
+    white-space: normal;
+    z-index: 10;
+
+    &:before,
+    &:after {
+      background: none;
+    }
+    .mdc-list-item__text {
+      animation: opacityAnimation 0.25s;
+    }
+    .mdc-list-item__close {
+      display: block;
+    }
+  }
+
+  &--expanded {
+    &:before,
+    &:after {
+      background: none;
+    }
+  }
+
+  &__wrapper {
+    height: 0;
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background-color 0.3s 0.15s, height 0.2s 0.45s, top 0s 0.95s;
+
+    &--modal {
+      height: 100vh;
+      transition: background-color 0.15s 0.15s;
+      background: rgba(0, 0, 0, 0.5);
+
+      .mdc-list-item__modal-content {
+        opacity: 1;
+        height: 100vh;
+        transition: top 0.25s $modalEase 0s, opacity 0.3s 0.1s,
+          height 0.25s $modalEase 0.2s,
+          transform 0.25s $modalEase 0.2s;
+
+        * {
+          opacity: 1;
+          transition: opacity 0.3s 0.3s;
+        }
+      }
+    }
+  }
+
+  &__modal-content {
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    width: 100%;
+    padding: 0;
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    height: 55px;
+    background: #fff;
+    margin: 0;
+    transition: top 0.15s $modalEase 0.15s, opacity 0.3s 0.25s,
+      height 0.25s $modalEase 0.1s,
+      transform 0.15s $modalEase 0.15s;
+
+    * {
+      opacity: 0;
+      transition: opacity 0.15s 0.15s;
+    }
+  }
+
+  &__close {
+    display: none;
+    top: 15px;
+    left: 15px;
+    cursor: pointer;
+    z-index: 1;
+
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    opacity: 0.3;
+    &:hover {
+      opacity: 1;
+    }
+    &:before,
+    &:after {
+      position: absolute;
+      left: 15px;
+      content: " ";
+      height: 25px;
+      width: 2px;
+      background-color: #797878;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__expanded-content {
+    display: block;
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    margin-left: 1px;
+  }
+  &__expanded-content-wrapper {
+    margin-left: -17px;
+    
+    &--aligned {
+      margin-left: 39px;
+    }
+  }
 }
 
 .mdc-list-item--selected,
 .mdc-list-item--activated {
   @include mdc-list-item-primary-text-ink-color(primary);
   @include mdc-list-item-graphic-ink-color(primary);
+}
+
+@keyframes opacityAnimation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
