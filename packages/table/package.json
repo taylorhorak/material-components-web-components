@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-table",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "",
   "main": "mwc-table.js",
   "scripts": {
