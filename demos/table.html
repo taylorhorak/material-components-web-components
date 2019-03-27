@@ -54,22 +54,33 @@ limitations under the License.
   <main>
     <h3>Template Data</h3>
     <div class="demo-container">
-      <mwc-table id="table_1" >
-        <!-- <template>
+      <mwc-table id="table_1">
+        <template>
+          <thead>
+            <tr>
+              <th>Dessert (100g serving)</th>
+              <th align="right">Calories</th>
+              <th align="right">Fat (g)</th>
+              <th align="right">Carbs (g)</th>
+            </tr>
+          </thead>
+
           <tbody>
             <tr>
-              <td>Luis Sardon</td>
-              <td align="right">30</td>
-              <td>Software Engineer</td>
+              <td>Frozen Yogurt</td>
+              <td align="right">159</td>
+              <td align="right">6.0</td>
+              <td align="right">24</td>
             </tr>
 
             <tr>
-              <td>Tim Johnson</td>
-              <td align="right">43</td>
-              <td>Software Engineer</td>
+              <td>Ice cream sandwich</td>
+              <td align="right">237</td>
+              <td align="right">9.0</td>
+              <td align="right">37</td>
             </tr>
           </tbody>
-        </template> -->
+        </template>
       </mwc-table>
     </div>
 
@@ -77,8 +88,8 @@ limitations under the License.
     <div class="demo-container">
       <mwc-table
         id="table_2"
-        columns='[{"title":"Name","field":"name","description":"Used for identification"},{"title":"Surname","field":"surname","description":"Family name, or last name"}]'
-        data='[{"name":"Luis","surname":"Sardon"},{"name":"Tim","surname":"Johnson"}]'
+        columns='[{"title":"Dessert (100g serving)","field":"dessert","description":"Dessert name"},{"title":"Calories","field":"calories","description":"The total amount of food energy in the given serving zise.","align":"right"}]'
+        data='[{"dessert":"Frozen Yogurt","calories":"159"},{"dessert":"Ice cream sandwich","calories":"237"}]'
       >
       </mwc-table>
     </div>
@@ -108,17 +119,20 @@ limitations under the License.
     addEventListener('load', () => document.body.classList.remove('unresolved'));
 
     const columns = [
-      { title: 'Name', field: 'name', description: 'Used for identification' },
-      { title: 'Surname', field: 'surname', description: 'Family name, or last name' },
-      { title: 'Birth Year', field: 'birthYear', align: 'right', description: 'The year in which one was born' }
+      { title: 'Dessert (100g serving)', field: 'dessert', description: 'Dessert name' },
+      { title: 'Calories', field: 'calories', align: 'right', description: 'The total amount of food energy in the given serving zise.' },
+      { title: 'Fat (g)', field: 'fat', align: 'right', description: 'The total amount of food fat in the given serving zise.' },
+      { title: 'Carbs (g)', field: 'carbs', align: 'right', description: 'The total amount of food carbs in the given serving zise.' }
     ];
 
     const data = [
-      { name: 'Luis', surname: 'Sardon', birthYear: '1988' },
-      { name: 'Tim', surname: 'Johnson', birthYear: '1976' },
-      { name: 'Molly', surname: 'Micheux', birthYear: '1989' },
-      { name: 'Rodrigo', surname: 'Aguilar', birthYear: '1991' }
-    ]
+      { dessert: 'Frozen Yogurt', calories: '159', fat: '6.0', carbs: '24' },
+      { dessert: 'Ice cream sandwich', calories: '237', fat: '9.0', carbs: '37' },
+      { dessert: 'Eclair', calories: '262', fat: '16.0', carbs: '24' },
+      { dessert: 'Cupcake', calories: '305', fat: '3.7', carbs: '67' },
+      { dessert: 'Gingerbread', calories: '356', fat: '16.0', carbs: '49' },
+      { dessert: 'Jelly bean', calories: '375', fat: '0.0', carbs: '94' }
+    ];
 
     const randomData = (cant) => {
       let _data = data;
@@ -130,12 +144,6 @@ limitations under the License.
 
       return _data.slice(0, cant);
     }
-
-    // Table 1: Template Data
-
-    table_1.colums = columns;
-    table_1.data = randomData(2);
-    // console.log('TABLE!!', table_1.colums);
 
     // Table 3: Simple Data
 
