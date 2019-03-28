@@ -74,8 +74,9 @@ export class Button extends LitElement {
               aria-label="${this.label || this.icon}"
               href="${this.href}">
             ${this.icon && !this.trailingIcon ? mdcButtonIcon : ''}
-            <span class="mdc-button__label">${this.label}</span>
-            <slot></slot>
+            <span class="mdc-button__label">
+              <slot></slot>
+            </span>
             ${this.icon && this.trailingIcon ? mdcButtonIcon : ''}
           </a>
         ` :
@@ -86,9 +87,11 @@ export class Button extends LitElement {
               ?disabled="${this.disabled}"
               aria-label="${this.label || this.icon}">
             ${this.icon && !this.trailingIcon ? mdcButtonIcon : ''}
-            <span class="mdc-button__label">${this.label}</span>
+            <span class="mdc-button__label">
+              <slot></slot>
+            </span>
             ${this.icon && this.trailingIcon ? mdcButtonIcon : ''}
-            <slot></slot>
+
           </button>
         `
       }
