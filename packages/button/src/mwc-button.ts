@@ -63,7 +63,7 @@ export class Button extends LitElement {
       'mdc-button--outlined': this.outlined,
       'mdc-button--dense': this.dense,
     };
-    const mdcButtonIcon = html`<span class="material-icons mdc-button__icon">${this.icon}</span>`
+    const mdcButtonIcon = html`<span class="material-icons mdc-button__icon${this.trailingIcon ? ' mdc-button__icon--trailing': ''}">${this.icon}</span>`
     return html`
       ${this.href ?
         html`
@@ -75,8 +75,8 @@ export class Button extends LitElement {
               href="${this.href}">
             ${this.icon && !this.trailingIcon ? mdcButtonIcon : ''}
             <span class="mdc-button__label">${this.label}</span>
-            ${this.icon && this.trailingIcon ? mdcButtonIcon : ''}
             <slot></slot>
+            ${this.icon && this.trailingIcon ? mdcButtonIcon : ''}
           </a>
         ` :
         html`
