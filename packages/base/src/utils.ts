@@ -32,6 +32,24 @@ export function findAssignedElement(slot: HTMLSlotElement, selector: string) {
 }
 
 /**
+ * Return all elements assigned to a given slot that matches the given selector
+ */
+export function findAssignedElements(slot: HTMLSlotElement, selector: string) {
+  const els: HTMLElement[] = [];
+
+  for (const node of slot.assignedNodes({flatten: true})) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const el = (node as HTMLElement);
+      if (el.matches(selector)) {
+        els.push(el);
+      }
+    }
+  }
+
+  return els;
+}
+
+/**
  * Emits a Custom Event
  */
 export function emit(target: HTMLElement, evtType: string, evtData = {}, shouldBubble = false) {

@@ -26,8 +26,6 @@ declare global {
 }
 
 export interface CheckboxFoundation extends Foundation {
-  isChecked(): boolean;
-  setChecked(value: boolean): void;
   setDisabled(disabled: boolean): void;
   handleAnimationEnd(): void;
   handleChange(): void
@@ -75,12 +73,7 @@ export class Checkbox extends FormElement {
   protected createAdapter(): Adapter {
     return {
       ...super.createAdapter(),
-      getNativeControl: () => {
-        return this.formElement;
-      },
-      forceLayout: () => {
-        this.mdcRoot.offsetWidth;
-      },
+      forceLayout: () => this.mdcRoot.offsetWidth,
       isAttachedToDOM: () => this.isConnected,
       isIndeterminate: () => this.indeterminate,
       isChecked: () => this.checked,
