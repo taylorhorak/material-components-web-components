@@ -22,9 +22,6 @@ export class ChipSet extends BaseElement {
 
   @property({ type: Boolean })
   input = false;
-
-  @property({ type: Boolean })
-  autoRemove = false;
   
   protected _chips: MWCChip[] = [];
 
@@ -43,6 +40,8 @@ export class ChipSet extends BaseElement {
   }
 
   protected idCounter = 0;
+
+  protected _handleSlotChange = this._onSlotChange.bind(this) as EventListenerOrEventListenerObject;
 
   protected _handleChipInteraction = this._onChipInteraction.bind(this) as EventListenerOrEventListenerObject;
 
@@ -87,7 +86,7 @@ export class ChipSet extends BaseElement {
 
     return html`
       <div class="${classMap(classes)}">
-        <slot></slot>
+        <slot @slotchange="${this._handleSlotChange}"></slot>
       </div>
     `;
   }
@@ -102,6 +101,26 @@ export class ChipSet extends BaseElement {
   }
 
   protected _initialize() {
+    this._addListeners(this);
+    this._updateChips();
+  }
+
+  protected _addListeners(target: HTMLElement) {
+    target.addEventListener(MDCChipFoundation.strings.INTERACTION_EVENT, this._handleChipInteraction);
+    target.addEventListener(MDCChipFoundation.strings.SELECTION_EVENT, this._handleChipSelection);
+    target.addEventListener(MDCChipFoundation.strings.REMOVAL_EVENT, this._handleChipRemoval);
+  }
+
+  protected _removeListeners(target: HTMLElement) {
+    target.removeEventListener(MDCChipFoundation.strings.INTERACTION_EVENT, this._handleChipInteraction);
+    target.removeEventListener(MDCChipFoundation.strings.SELECTION_EVENT, this._handleChipSelection);
+    target.removeEventListener(MDCChipFoundation.strings.REMOVAL_EVENT, this._handleChipRemoval);
+  }
+
+  /**
+   * Updates chips id and foundation selections
+   */
+  protected _updateChips() {
     this._chips = this.slottedChips.map(el => {
       el.id = el.id || "mdc-chip-" + ++this.idCounter;
       el.tabIndex = 0;
@@ -114,16 +133,27 @@ export class ChipSet extends BaseElement {
         this.mdcFoundation.select(id);
       }
     });
-    
-    this.addEventListener(MDCChipFoundation.strings.INTERACTION_EVENT, this._handleChipInteraction);
-    this.addEventListener(MDCChipFoundation.strings.SELECTION_EVENT, this._handleChipSelection);
-    this.addEventListener(MDCChipFoundation.strings.REMOVAL_EVENT, this._handleChipRemoval);
   }
 
-  public addChip(chipEl: HTMLElement) {
+  /**
+   * Adds a chip to the current chips list
+   */
+  public addChip(chipEl: MWCChip) {
     chipEl.id = chipEl.id || `mdc-chip-${++this.idCounter}`;
-    // this._chips.push(this.chipFactory_(chipEl));
+    chipEl.setParentType(this);
+
+    this._addListeners(chipEl);
+
+    this.mdcRoot.appendChild(chipEl);
+    this._chips.push(chipEl);
   };
+
+  /**
+   * Handles slot change event
+   */
+  protected _onSlotChange() {
+    this._updateChips();
+  }
 
   /**
    * Handles a chip interaction event
@@ -154,19 +184,19 @@ export class ChipSet extends BaseElement {
    */
   protected _onChipRemoval(evt: CustomEvent) {
     const {
-      chipId,
-      root
+      chipId
     } = evt.detail;
 
-    console.log(evt.detail);
-    console.log(root && root.parentElement);
+    const chipIndex = this._findChipIndex(chipId);
+    const chip = this.chips[chipIndex];
+    const isSlotted = this.slottedChips.includes(chip);
 
-    if (this.autoRemove && root) {
-      const chipIndex = this._findChipIndex(chipId);
-      const chip = this.children[chipIndex];
-
-      this.removeChild(chip);
+    if (!isSlotted) {
+      this._removeListeners(chip);
     }
+
+    this._chips.splice(chipIndex, 1);
+    chip.remove();
 
     this.mdcFoundation.handleChipRemoval(chipId);
   }

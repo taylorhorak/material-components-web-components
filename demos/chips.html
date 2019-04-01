@@ -20,6 +20,8 @@ limitations under the License.
   <title>chips demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script  src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-textfield/mwc-textfield.js"></script>
+  <script type="module" src="../node_modules/@material/mwc-button/mwc-button.js"></script>
   <script type="module" src="../node_modules/@material/mwc-chips/mwc-chip.js"></script>
   <script type="module" src="../node_modules/@material/mwc-chips/mwc-chip-set.js"></script>
   <script type="module" src="../node_modules/@material/mwc-icon/mwc-icon.js"></script>
@@ -28,6 +30,14 @@ limitations under the License.
     mwc-chip-set {
       --mwc-theme-primary: lightblue;
       --mwc-theme-text-primary-on-primary: tomato;
+    }
+
+    .display-inline {
+      display: flex;
+    }
+
+    .display-inline> * {
+      margin: 5px;
     }
   </style>
 </head>
@@ -87,7 +97,13 @@ limitations under the License.
 
   <h3>Input</h3>
 
-  <mwc-chip-set input autoRemove>
+  <div class="display-inline">
+    <input type="text" placeholder="Chip text" id="newChipInput">
+    <mwc-button label="Add input chip" id="addChipBtn"></mwc-button>
+    <mwc-button label="Delete last chip" id="removeLastChipBtn"></mwc-button>
+  </div>
+
+  <mwc-chip-set input autoRemove id="chips">
     <mwc-chip label="Peyton Smith" avatar="http://lorempixel.com/20/20/people/1" trailingIcon="cancel"></mwc-chip>
     <mwc-chip label="Jonas Eckhart" avatar="J" trailingIcon="cancel"></mwc-chip>
     <mwc-chip label="Jhon Pella" avatar="http://lorempixel.com/20/20/people/2" trailingIcon="cancel"></mwc-chip>
@@ -97,6 +113,28 @@ limitations under the License.
 
   <script>
     addEventListener('load', () => document.body.classList.remove('unresolved'));
+
+    addChipBtn.addEventListener('click', () => {
+      const label = newChipInput.value;
+
+      if (!label.trim()) return;
+
+      const chip = document.createElement('mwc-chip');
+      chip.label = label;
+      chip.trailingIcon = 'close';
+      chips.addChip(chip);
+
+      newChipInput.value = '';
+      addChipBtn.blur();
+    });
+
+    removeLastChipBtn.addEventListener('click', () => {
+      const chip = chips.chips[chips.chips.length - 1];
+
+      if (chip) {
+        chip.beginExit();
+      }
+    })
   </script>
 </body>
 </html>

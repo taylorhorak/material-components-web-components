@@ -37,7 +37,6 @@ limitations under the License.
   @include mdc-chip-avatar-icon-size($mdc-chip-avatar-icon-size-default);
   @include mdc-chip-avatar-icon-margin();
   @include mdc-chip-checkmark-stroke-color();
-  @include mdc-chip-spacing(8px);
 
   flex: 1;
 
@@ -110,10 +109,11 @@ limitations under the License.
   }
 }
 
-.mdc-chip-choice,
-.mdc-chip-filter,
-.mdc-chip-input {
-  
+.mdc-chip--choice,
+.mdc-chip--filter,
+.mdc-chip--input,
+.mdc-chip--default {
+  @include mdc-chip-spacing(8px);
 }
 
 .mdc-chip--selected {

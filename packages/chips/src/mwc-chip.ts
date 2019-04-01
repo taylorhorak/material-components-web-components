@@ -82,6 +82,8 @@ export class Chip extends BaseElement {
 
   protected _isInput = false;
 
+  protected _isDefault = false;
+
   protected _handleInteraction = this._onInteraction.bind(this) as EventListenerOrEventListenerObject;
 
   protected _handleTrailingIconInteraction = this._onTrailingIconInteraction.bind(this) as EventListenerOrEventListenerObject;
@@ -221,7 +223,8 @@ export class Chip extends BaseElement {
       'mdc-chip--selected': this.selected,
       'mdc-chip--choice': this._isChoice,
       'mdc-chip--filter': this._isFilter,
-      'mdc-chip--input': this._isInput
+      'mdc-chip--input': this._isInput,
+      'mdc-chip--default': this._isDefault
     };
 
     return html`
@@ -242,7 +245,7 @@ export class Chip extends BaseElement {
     this.updateComplete
       .then(() => {
         this._initialize();
-        this._setParentType();
+        this.setParentType();
       });
   }
 
@@ -274,11 +277,12 @@ export class Chip extends BaseElement {
     }
   }
 
-  protected _setParentType() {
-    if (this.parentElement instanceof MWCChipSet) {
-      this._isChoice = this.parentElement.choice;
-      this._isFilter = this.parentElement.filter;
-      this._isInput = this.parentElement.input;
+  public setParentType(parentElement = this.parentElement) {
+    if (parentElement instanceof MWCChipSet) {
+      this._isChoice = parentElement.choice;
+      this._isFilter = parentElement.filter;
+      this._isInput = parentElement.input;
+      this._isDefault = !this._isChoice && !this._isFilter && !this._isInput;
 
       this.requestUpdate();
     }
