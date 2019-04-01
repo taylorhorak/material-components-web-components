@@ -38,19 +38,19 @@ export class ListItem extends LitElement {
   mdcRootPosition: any;
 
   @property({ type: Boolean })
-  protected listIsExpanded = false
+  protected accordionIsOpen = false
 
   @query(".mdc-list-item__modal-content")
   modalContent!: HTMLElement;
 
-  @query(".mdc-list-item__wrapper")
+  @query(".mdc-list-item__modal-wrapper")
   wrapper!: HTMLElement;
 
   @query(".mdc-list-item")
   mdcRoot!: HTMLElement;
 
   @property({ type: Boolean })
-  expandable = false;
+  accordion = false;
 
   @property({ type: Boolean })
   modal = false;
@@ -94,9 +94,9 @@ export class ListItem extends LitElement {
     this.wrapper.style.left = wrapperLeft;
   }
 
-  protected closeListItem(e): void {
+  protected closeModal(e): void {
     if (this.modal) {
-      this.wrapper.classList.remove("mdc-list-item__wrapper--modal");
+      this.wrapper.classList.remove("mdc-list-item__modal-wrapper--open");
       this.modalContent.style.transform = "translateY(0)";
 
       setTimeout(() => {
@@ -141,7 +141,7 @@ export class ListItem extends LitElement {
           `calc(100% + ${this.mdcRootPosition.left * 2}px)`,
           `-${this.mdcRootPosition.left}px`
         );
-        this.wrapper.classList.add("mdc-list-item__wrapper--modal");
+        this.wrapper.classList.add("mdc-list-item__modal-wrapper--open");
         this.modalContent.style.top = `${this.mdcRootPosition.top}px`;
         this.modalContent.style.transform = `translateY(-${
           this.mdcRootPosition.top
@@ -161,15 +161,15 @@ export class ListItem extends LitElement {
         @click="${this.openModal}"
         tabindex="${tabindex}"
         aria-disabled="${this.modal ? true : disabled}"
-        .ripple="${!this.expandable ? ripple({ unbounded: false }) : false}"
+        .ripple="${!this.accordion ? ripple({ unbounded: false }) : false}"
       >
-        ${this.expandable
+        ${this.accordion
           ? html`
               <mwc-icon
                 class="mdc-list-item__btn-expand"
                 @click="${this.toggleList}"
               >
-                ${this.listIsExpanded ? 'expand_less' : 'expand_more'}
+                ${this.accordionIsOpen ? 'expand_less' : 'expand_more'}
               </mwc-icon>
             `
           : null}
@@ -189,28 +189,28 @@ export class ListItem extends LitElement {
 
         ${this.modal
           ? html`
-              <div class="mdc-list-item__wrapper">
+              <div class="mdc-list-item__modal-wrapper">
                 <div class="mdc-list-item__modal-content">
                   <div>
                     <span
-                      class="mdc-list-item__close"
-                      @click="${this.closeListItem}"
+                      class="mdc-list-item__modal-close"
+                      @click="${this.closeModal}"
                     ></span>
-                    <slot name="expanded"></slot>
+                    <slot name="content"></slot>
                   </div>
                 </div>
               </div>
             `
           : null}
-        ${this.expandable
+        ${this.accordion
           ? html`
-              <div class="mdc-list-item__expanded-content">
+              <div class="mdc-list-item__accordion-content">
                 <div
-                  class="mdc-list-item__expanded-content-wrapper ${this.leading
-                    ? "mdc-list-item__expanded-content-wrapper--aligned"
+                  class="mdc-list-item__accordion-content-wrapper ${this.leading
+                    ? "mdc-list-item__accordion-content-wrapper--aligned"
                     : ""}"
                 >
-                  <slot name="expanded"></slot>
+                  <slot name="content"></slot>
                 </div>
               </div>
             `
@@ -242,9 +242,9 @@ export class ListItem extends LitElement {
   }
 
   protected toggleList() {
-    if (this.expandable) {
-      this.listIsExpanded = !this.listIsExpanded;
-      this.mdcRoot.classList.toggle("mdc-list-item--expanded");
+    if (this.accordion) {
+      this.accordionIsOpen = !this.accordionIsOpen;
+      this.mdcRoot.classList.toggle("mdc-list-item--accordion");
     }
   }
 }

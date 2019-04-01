@@ -45,7 +45,7 @@ limitations under the License.
             <span slot="primary-text" class="primaryText">Texto 1</span>
             <span slot="secondary-text" class="secondary-Text">Texto 2</span>
 
-            <div slot="expanded">
+            <div slot="content">
               <mwc-card outlined aspectRatio="square">
                 <div slot="media" class="my-media"></div>
 
@@ -72,7 +72,7 @@ limitations under the License.
             <span slot="primary-text" class="primaryText">Texto 1</span>
             <span slot="secondary-text" class="secondary-Text">Texto 2</span>
 
-            <div slot="expanded">
+            <div slot="content">
                 <mwc-button label="Normal" icon="explore"></mwc-button>
                 <mwc-button class="light" raised label="raised" icon="code"></mwc-button>
                 <mwc-button unelevated label="unelevated" icon="check"></mwc-button>
@@ -85,11 +85,11 @@ limitations under the License.
 
           <h4>Accordion - Expand and collapse</h4>
 
-          <mwc-list-item expandable>
+          <mwc-list-item accordion>
               <span slot="primary-text" class="primaryText">Texto 1</span>
               <span slot="secondary-text" class="secondary-Text">Texto 2</span>
 
-              <div slot="expanded">
+              <div slot="content">
                 <mwc-list-item>
                   <span slot="primary-text" class="primaryText">List Item</span>
                 </mwc-list-item>
@@ -104,11 +104,11 @@ limitations under the License.
               </div>
             </mwc-list-item>
 
-          <mwc-list-item expandable leading>
+          <mwc-list-item accordion leading>
               <mwc-icon slot="graphic">alarm_on</mwc-icon>
               <span slot="primary-text" class="primaryText">Texto 1</span>
 
-              <div slot="expanded">
+              <div slot="content">
                 <mwc-list-item>
                   <span slot="primary-text" class="primaryText">List Item</span>
                 </mwc-list-item>
