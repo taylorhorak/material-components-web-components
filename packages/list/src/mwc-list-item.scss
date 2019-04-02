@@ -17,7 +17,7 @@ limitations under the License.
 
 @import "@material/list/mdc-list.scss";
 @import "@material/ripple/mixins";
-@import "@material/mwc-icon/src/mwc-icon";
+@import "@material/mwc-icon/src/_mwc-icon.scss";
 
 $accordionEase: cubic-bezier(0.865, 0.14, 0.095, 0.87);
 $accordionTiming: 0.4s;
@@ -75,33 +75,52 @@ $modalEase: cubic-bezier(0.4, 0, 0.2, 1);
     position: absolute;
     right: 16px;
     top: 14px;
+    font-family: "Material Icons" !important;
+  }
+  .mdc-list-item__text {
+    text-align: left;
+  }
+
+  &__invisible-block {
+    width: 100%;
+    height: 55px;
+    display: none;
+
+    &--modal {
+      display: block;
+    }
   }
 
   &--modal {
-    overflow: visible;
+    overflow: hidden;
     white-space: normal;
     z-index: 10;
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0;
 
     &:before,
     &:after {
-      background: none;
+      background: none !important;
     }
     .mdc-list-item__text {
-      animation: opacityAnimation 0.25s;
+      opacity: 0;
     }
-    .mdc-list-item__close {
+    .mdc-list-item__modal-close {
       display: block;
     }
   }
 
   &__modal {
     &-close {
-      // display: none;
+      display: none;
       top: 15px;
       left: 15px;
       cursor: pointer;
       z-index: 1;
-
       position: absolute;
       width: 25px;
       height: 25px;
@@ -152,7 +171,8 @@ $modalEase: cubic-bezier(0.4, 0, 0.2, 1);
       top: 0;
       background: rgba(0, 0, 0, 0);
       transition: background-color 0.3s 0.15s, height 0.2s 0.45s, top 0s 0.95s;
-
+      width: 100%;
+      
       &--open {
         height: 100vh;
         transition: background-color 0.15s 0.15s;
@@ -161,7 +181,7 @@ $modalEase: cubic-bezier(0.4, 0, 0.2, 1);
         .mdc-list-item__modal-content {
           opacity: 1;
           height: 100vh;
-          transition: top 0.25s $modalEase 0s, opacity 0.3s 0.1s,
+          transition: top 0.25s $modalEase 0s, opacity 0.25s 0.1s,
             height 0.25s $modalEase 0.2s, transform 0.25s $modalEase 0.2s;
 
           * {
@@ -203,13 +223,4 @@ $modalEase: cubic-bezier(0.4, 0, 0.2, 1);
 .mdc-list-item--activated {
   @include mdc-list-item-primary-text-ink-color(primary);
   @include mdc-list-item-graphic-ink-color(primary);
-}
-
-@keyframes opacityAnimation {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
 }
