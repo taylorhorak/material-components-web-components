@@ -31,9 +31,9 @@ limitations under the License.
       min-height: calc(100vh - 4em);
     }
 
-    body {
+    /* body {
       --mwc-dialog-maxHeight: calc(100vh - 200px);
-    }
+    } */
 
   </style>
 </head>
@@ -60,7 +60,7 @@ limitations under the License.
       </mwc-dialog>
       <script type="module">
         button.addEventListener('click', (e) => {
-          dialog.opened = !dialog.opened;
+          dialog.open();
         });
 
         dialog.addEventListener('MDCDialog:closed', e => {
@@ -151,7 +151,7 @@ limitations under the License.
     </div>
     <script type="module">
       scrollingButton.addEventListener('click', (e) => {
-        scrollingDialog.opened = !scrollingDialog.opened;
+        scrollingDialog.open();
       });
 
       scrollingDialog.addEventListener('MDCDialog:closed', e => {
