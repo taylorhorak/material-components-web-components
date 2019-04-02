@@ -9,12 +9,13 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@material/dialog": "^1.1.0",
+    "@material/dom": "^1.1.0",
     "@material/mwc-base": "^0.5.0",
     "@material/mwc-button": "^0.5.0",
     "@material/mwc-ripple": "^0.5.0",
-    "@material/dialog": "^1.1.0",
-    "@material/dom": "^1.1.0",
-    "focus-trap": "^5.0.0",
+    "blocking-elements": "^0.0.2",
+    "wicg-inert": "^1.1.6",
     "lit-element": "^2.0.1"
   },
   "publishConfig": {
