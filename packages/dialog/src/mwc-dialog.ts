@@ -11,7 +11,7 @@ import { strings } from '@material/dialog/constants';
 // import { FocusTrap } from 'focus-trap';
 
 // Temporal solution due to focus-trap incompatibility
-import { areTopsMisaligned, isScrollable } from '@material/dialog/util';
+import { areTopsMisaligned, isScrollable } from './util';
 
 import { style } from './mwc-dialog-css';
 
@@ -19,7 +19,7 @@ const LAYOUT_EVENTS = [ 'resize', 'orientationchange' ];
 
 declare global {
   interface HTMLElementTagNameMap {
-      'mwc-dialog': Dialog;
+    'mwc-dialog': Dialog;
   }
 }
 
@@ -101,7 +101,7 @@ h
   }
 
   protected get _defaultButton() {
-    return this._buttons.find(item => item.classList.contains('mdc-dialog__button--default'));
+    return this._buttons.find(item => item.hasAttribute('data-mdc-dialog-default-action'));
   }
 
   // Commented due to focus-trap incompatibility
@@ -123,8 +123,8 @@ h
 
   protected createAdapter(): Adapter {
     return {
+      ...super.createAdapter(),
       addBodyClass: className => document.body.classList.add(className),
-      addClass: className => this.mdcRoot.classList.add(className),
       areButtonsStacked: () => areTopsMisaligned(this._buttons),
       clickDefaultButton: () => this._defaultButton && this._defaultButton.click(),
       eventTargetMatches: (target, selector) => target ? matches(target as Element, selector) : false,
@@ -135,7 +135,6 @@ h
         const element = closest(evt.target as Element, `[${strings.ACTION_ATTRIBUTE}]`);
         return element && element.getAttribute(strings.ACTION_ATTRIBUTE);
       },
-      hasClass: className => this.mdcRoot.classList.contains(className),
       isContentScrollable: () => isScrollable(this.contentEl) && this.scrollable,
       notifyClosed: action => emit(this, strings.CLOSED_EVENT, action ? { action } : {}),
       notifyClosing: action => emit(this, strings.CLOSING_EVENT, action ? { action } : {}),
@@ -149,7 +148,6 @@ h
         this.blur();
       },
       removeBodyClass: className => document.body.classList.remove(className),
-      removeClass: className => this.mdcRoot.classList.remove(className),
       reverseButtons: () => {
         this._buttons.reverse();
         this._buttons.forEach((button) => {
@@ -173,8 +171,7 @@ h
   _renderButton(label: String, action: String) {
     const classes = {
       'mdc-button': true,
-      'mdc-dialog__button': true,
-      'mdc-dialog__button--default': this.defaultAction === action
+      'mdc-dialog__button': true
     };
 
     return html`
@@ -182,6 +179,7 @@ h
         type="button"
         class="${classMap(classes)}"
         data-mdc-dialog-action="${action}"
+        ?data-mdc-dialog-default-action="${this.defaultAction === action}"
         .ripple="${ripple({ unbounded: false })}"
       >
         <span class="mdc-button__label">${label}</span>
@@ -222,6 +220,7 @@ h
 
   firstUpdated() {
     super.firstUpdated();
+    // Commented due to focus-trap incompatibility
     // this._focusTrap = createFocusTrapInstance(this.containerEl);
 
     this.mdcRoot.addEventListener('click', this._handleInteraction);
