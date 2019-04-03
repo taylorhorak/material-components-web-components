@@ -16,8 +16,6 @@ limitations under the License.
 */
 import {
   FormElement,
-  Foundation,
-  Adapter,
   customElement,
   query,
   html,
@@ -26,6 +24,7 @@ import {
   observer
 } from '@material/mwc-base/form-element';
 import MDCTextFieldFoundation from '@material/textfield/foundation';
+import MDCTextFieldAdapter from '@material/textfield/adapter';
 import { cssClasses } from '@material/textfield/constants';
 import { MDCLineRipple } from '@material/line-ripple';
 import { MDCFloatingLabel } from '@material/floating-label/index';
@@ -37,29 +36,7 @@ import { style } from './mwc-textfield-css';
 
 // elements to be registered ahead of time
 import '@material/mwc-icon/mwc-icon-font';
-
-export interface TextFieldFoundation extends Foundation {
-  setValue(value: string): void;
-  getValue(): string;
-  setDisabled(value: boolean): void;
-  setHelperTextContent(value: string): void;
-  styleValidity_(isValid):void;
-  getNativeInput_(): any;
-  isValid(): boolean;
-  setValid(bool: boolean): void;
-  isBadInput_(): boolean;
-  shouldFloat: boolean;
-  shouldAlwaysFloat_: boolean;
-  shouldShake: boolean;
-  isFocused_: boolean;
-  notchOutline(value: boolean): void;
-  adapter_: any;
-}
-
-export declare var TextFieldFoundation: {
-  prototype: TextFieldFoundation;
-  new(adapter: Adapter): TextFieldFoundation;
-}
+import { addHasRemoveClass } from '@material/mwc-base/base-element.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -240,15 +217,15 @@ export class TextField extends FormElement {
     return this._outlineInstance;
   }
 
-  protected readonly mdcFoundationClass: typeof TextFieldFoundation = MDCTextFieldFoundation;
+  protected readonly mdcFoundationClass = MDCTextFieldFoundation;
 
-  protected mdcFoundation!: TextFieldFoundation;
+  protected mdcFoundation!: MDCTextFieldFoundation;
 
   static styles = style;
 
-  protected createAdapter() {
+  protected createAdapter(): MDCTextFieldAdapter {
     return {
-      ...super.createAdapter(),
+      ...addHasRemoveClass(this.mdcRoot),
 
       /* Text Field Adapter Methods */
       registerTextFieldInteractionHandler: (evtType, handler) => this.mdcRoot.addEventListener(evtType, handler),
