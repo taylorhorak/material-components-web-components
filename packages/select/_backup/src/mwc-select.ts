@@ -16,8 +16,6 @@ limitations under the License.
 */
 import {
   FormElement,
-  Foundation,
-  Adapter,
   customElement,
   query,
   html,
@@ -25,14 +23,16 @@ import {
   property,
   observer
 } from '@material/mwc-base/form-element';
-import { findAssignedElement, emit } from '@material/mwc-base/utils';
+import { findAssignedElement, emit, addHasRemoveClass } from '@material/mwc-base/utils';
 import { Menu as MWCMenu } from '@material/mwc-menu/mwc-menu';
 import { ListItem } from '@material/mwc-list/mwc-list-item';
 import MDCSelectFoundation from '@material/select/foundation';
+import MDCSelectAdapter from '@material/select/adapter';
 import { MDCLineRipple } from '@material/line-ripple';
 import { MDCFloatingLabel } from '@material/floating-label';
 import { MDCNotchedOutline } from '@material/notched-outline';
 import { ripple } from '@material/mwc-ripple/ripple-directive';
+import { cssClasses, strings } from './constants';
 
 import { style } from './mwc-select-css';
 
@@ -40,15 +40,6 @@ import { style } from './mwc-select-css';
 import '@material/mwc-menu';
 import '@material/mwc-list';
 import '@material/mwc-list/mwc-list-item-separator';
-import { cssClasses, strings } from './constants';
-
-export interface SelectFoundation extends Foundation {
-  setValue(value: String): void;
-  setDisabled(value: Boolean): void;
-  setSelectedIndex(value: Number): void;
-  deactivateBottomLine(): void;
-  adapter_: any;
-}
 
 export interface SelectProxy {
   value?: string;
@@ -59,11 +50,6 @@ export interface SelectProxy {
   options?: any;
   items?: any;
   updateComplete?: Promise<any>;
-}
-
-export declare var SelectFoundation: {
-  prototype: SelectFoundation;
-  new(adapter: Adapter): SelectFoundation;
 }
 
 declare global {
@@ -291,18 +277,18 @@ export class Select extends FormElement {
     return this._outlineInstance;
   }
 
-  protected readonly mdcFoundationClass: typeof SelectFoundation = MDCSelectFoundation;
+  protected readonly mdcFoundationClass = MDCSelectFoundation;
 
-  protected mdcFoundation!: SelectFoundation;
+  protected mdcFoundation!: MDCSelectFoundation;
 
   protected _isMouseDown!: Boolean;
   protected _isFocused!: Boolean;
 
   static styles = style;
 
-  protected createAdapter() {
+  protected createAdapter(): MDCSelectAdapter {
     return {
-      ...super.createAdapter(),
+      ...addHasRemoveClass(this.mdcRoot),
       floatLabel: (value) => {
         if (this.menu && this.menu.open) {
           return;

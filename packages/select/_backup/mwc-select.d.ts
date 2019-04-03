@@ -14,18 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import { FormElement, Foundation, Adapter } from '@material/mwc-base/form-element';
+import { FormElement } from '@material/mwc-base/form-element';
 import { Menu as MWCMenu } from '@material/mwc-menu/mwc-menu';
+import MDCSelectFoundation from '@material/select/foundation';
+import MDCSelectAdapter from '@material/select/adapter';
 import '@material/mwc-menu';
 import '@material/mwc-list';
 import '@material/mwc-list/mwc-list-item-separator';
-export interface SelectFoundation extends Foundation {
-    setValue(value: String): void;
-    setDisabled(value: Boolean): void;
-    setSelectedIndex(value: Number): void;
-    deactivateBottomLine(): void;
-    adapter_: any;
-}
 export interface SelectProxy {
     value?: string;
     text?: string;
@@ -36,10 +31,6 @@ export interface SelectProxy {
     items?: any;
     updateComplete?: Promise<any>;
 }
-export declare var SelectFoundation: {
-    prototype: SelectFoundation;
-    new (adapter: Adapter): SelectFoundation;
-};
 declare global {
     interface HTMLElementTagNameMap {
         'mwc-select': Select;
@@ -94,23 +85,12 @@ export declare class Select extends FormElement {
     private readonly _label;
     private _outlineInstance;
     private readonly _outline;
-    protected readonly mdcFoundationClass: typeof SelectFoundation;
-    protected mdcFoundation: SelectFoundation;
+    protected readonly mdcFoundationClass: any;
+    protected mdcFoundation: MDCSelectFoundation;
     protected _isMouseDown: Boolean;
     protected _isFocused: Boolean;
     static styles: import("lit-element/lib/css-tag").CSSResult;
-    protected createAdapter(): {
-        floatLabel: (value: any) => void;
-        activateBottomLine: () => void;
-        deactivateBottomLine: () => void;
-        setDisabled: (disabled: any) => void;
-        registerInteractionHandler: (type: any, handler: any) => void;
-        deregisterInteractionHandler: (type: any, handler: any) => void;
-        getSelectedIndex: () => number;
-        setSelectedIndex: (index: any) => void;
-        getValue: () => string;
-        setValue: (value: any) => void;
-    };
+    protected createAdapter(): MDCSelectAdapter;
     firstUpdated(): Promise<void>;
     render(): import("lit-html/lib/template-result").TemplateResult;
     _renderHelperText(): import("lit-html/lib/template-result").TemplateResult | null;

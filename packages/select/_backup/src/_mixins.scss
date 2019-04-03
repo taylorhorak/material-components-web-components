@@ -22,33 +22,13 @@
 
 @import "@material/floating-label/mixins";
 @import "@material/line-ripple/mixins";
-// @import "@material/notched-outline/mixins";
+@import "@material/notched-outline/mixins";
 @import "@material/theme/mixins";
 @import "@material/shape/mixins";
 @import "@material/shape/functions";
 @import "./variables";
 @import "./functions";
 @import "@material/animation/variables";
-
-// Begin of notched outline 0.40.1 mixins
-@mixin mdc-notched-outline-idle-color($color) {
-  .mdc-notched-outline__idle {
-    @include mdc-theme-prop(border-color, $color);
-  }
-}
-
-@mixin mdc-notched-outline-color($color) {
-  .mdc-notched-outline__path {
-    @include mdc-theme-prop(stroke, $color);
-  }
-}
-
-@mixin mdc-notched-outline-stroke-width($width) {
-  .mdc-notched-outline__path {
-    stroke-width: $width;
-  }
-}
-// End of notched outline 0.40.1 mixins
 
 // Begin of Helper Text mixins
 @mixin mdc-select-helper-text-color($color) {
@@ -207,11 +187,11 @@
 // Baseline
 
 @mixin mdc-select-disabled_ {
-  @include mdc-select-bottom-line-color_($mdc-select-disabled-border);
-  @include mdc-select-ink-color_($mdc-select-disabled-ink-color);
-  @include mdc-select-label-ink-color_($mdc-select-disabled-label-color);
-  @include mdc-select-fullwidth-bottom-line-color_($mdc-select-fullwidth-bottom-line-color);
-  @include mdc-select-fill-color_($mdc-select-disabled-background);
+  // @include mdc-select-bottom-line-color_($mdc-select-disabled-border);
+  // @include mdc-select-ink-color_($mdc-select-disabled-ink-color);
+  // @include mdc-select-label-ink-color_($mdc-select-disabled-label-color);
+  // @include mdc-select-fullwidth-bottom-line-color_($mdc-select-fullwidth-bottom-line-color);
+  // @include mdc-select-fill-color_($mdc-select-disabled-background);
 
   border-bottom: none;
   pointer-events: none;
@@ -381,14 +361,14 @@
   // "notched" outline to have the same color. This covers two cases:
   // 1) text field renders with NO value in the "idle" state
   // 2) text field renders with a value in the "notched" state
-  @include mdc-notched-outline-idle-color($color);
+  // @include mdc-notched-outline-idle-color($color);
   @include mdc-notched-outline-color($color);
 }
 
 @mixin mdc-select-hover-outline-color_($color) {
   &:not(.mdc-select--focused) {
     &:hover {
-      @include mdc-notched-outline-idle-color($color);
+      // @include mdc-notched-outline-idle-color($color);
 
       // tldr; this doesn't break BEM:
       // We need to wrap this mixin with the .mdc-notched-outline

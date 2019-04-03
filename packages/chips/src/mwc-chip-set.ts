@@ -14,12 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import { BaseElement, customElement, html, property, classMap, query, Adapter } from '@material/mwc-base/base-element';
+import { BaseElement, customElement, html, property, classMap, query } from '@material/mwc-base/base-element';
 import { MDCChipSetFoundation } from '@material/chips/chip-set/foundation';
+import { MDCChipSetAdapter } from '@material/chips/chip-set/adapter';
 import { MDCChipFoundation } from '@material/chips/chip/foundation';
 import { Chip as MWCChip } from './mwc-chip';
 import { style } from './mwc-chip-set-css';
 import { findAssignedElements } from '@material/mwc-base/utils';
+import { addHasRemoveClass } from '@material/mwc-base/base-element.js';
 
 @customElement('mwc-chip-set' as any)
 export class ChipSet extends BaseElement {
@@ -69,9 +71,9 @@ export class ChipSet extends BaseElement {
 
   protected readonly mdcFoundationClass = MDCChipSetFoundation;
 
-  protected createAdapter(): Adapter {
+  protected createAdapter(): MDCChipSetAdapter {
     return {
-      ...super.createAdapter(),
+      ...addHasRemoveClass(this.mdcRoot),
       removeChip: (chipId) => {
         const index = this._findChipIndex(chipId);
         

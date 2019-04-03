@@ -1,14 +1,11 @@
-import { BaseElement, Adapter, customElement, html, query, property, queryAll, classMap, observer } from '@material/mwc-base/base-element';
-import { emit, findAssignedElements } from '@material/mwc-base/utils';
+import { BaseElement, customElement, html, query, property, queryAll, classMap, observer } from '@material/mwc-base/base-element';
+import { emit, findAssignedElements, addHasRemoveClass } from '@material/mwc-base/utils';
 import { MDCDialogFoundation } from '@material/dialog/foundation';
+import { MDCDialogAdapter } from '@material/dialog/adapter';
 import { Button as MWCButton } from '@material/mwc-button';
 import { ripple } from '@material/mwc-ripple/ripple-directive';
 import { closest, matches } from '@material/dom/ponyfill';
 import { strings } from '@material/dialog/constants';
-
-// Commented due to focus-trap incompatibility
-// import { areTopsMisaligned, isScrollable } from '@material/dialog/util';
-// import { FocusTrap } from 'focus-trap';
 
 // Temporal solution due to focus-trap incompatibility
 import { areTopsMisaligned, isScrollable } from './util';
@@ -20,6 +17,13 @@ const LAYOUT_EVENTS = [ 'resize', 'orientationchange' ];
 declare global {
   interface HTMLElementTagNameMap {
     'mwc-dialog': Dialog;
+  }
+
+  interface Document {
+    $blockingElements: {
+      push(HTMLElement): void;
+      remove(HTMLElement): Boolean;
+    }
   }
 }
 
@@ -121,9 +125,9 @@ h
 
   protected readonly mdcFoundationClass = MDCDialogFoundation;
 
-  protected createAdapter(): Adapter {
+  protected createAdapter(): MDCDialogAdapter {
     return {
-      ...super.createAdapter(),
+      ...addHasRemoveClass(this.mdcRoot),
       addBodyClass: className => document.body.classList.add(className),
       areButtonsStacked: () => areTopsMisaligned(this._buttons),
       clickDefaultButton: () => this._defaultButton && this._defaultButton.click(),
@@ -141,11 +145,7 @@ h
       notifyOpened: () => emit(this, strings.OPENED_EVENT, {}),
       notifyOpening: () => emit(this, strings.OPENING_EVENT, {}),
       releaseFocus: () => {
-        // Commented due to focus-trap incompatibility
-        // this._focusTrap.deactivate()
-
-        // Temporal solution to focus-trap incompatibility
-        this.blur();
+        document.$blockingElements.remove(this);
       },
       removeBodyClass: className => document.body.classList.remove(className),
       reverseButtons: () => {
@@ -155,10 +155,8 @@ h
         });
       },
       trapFocus: () => {
-        // Commented due to focus-trap incompatibility
-        // this._focusTrap.activate()
+        document.$blockingElements.push(this);
 
-        // Temporal solution to focus-trap uncopatibillity
         if (this._defaultButton) {
           this._defaultButton.focus();
         }
@@ -220,9 +218,7 @@ h
 
   firstUpdated() {
     super.firstUpdated();
-    // Commented due to focus-trap incompatibility
-    // this._focusTrap = createFocusTrapInstance(this.containerEl);
-
+    
     this.mdcRoot.addEventListener('click', this._handleInteraction);
     this.addEventListener('keydown', this._handleInteraction);
     this.addEventListener(strings.OPENING_EVENT, this._handleOpening);

@@ -14,13 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import { BaseElement, customElement, html, property, classMap, query, Adapter, observer } from '@material/mwc-base/base-element';
+import { BaseElement, customElement, html, property, classMap, query, observer } from '@material/mwc-base/base-element';
 import { MDCChipFoundation } from '@material/chips/chip/foundation';
+import { MDCChipAdapter } from '@material/chips/chip/adapter';
 import { ChipSet as MWCChipSet } from './mwc-chip-set';
 import { styleMap } from 'lit-html/directives/style-map';
 import { strings } from '@material/chips/chip/constants';
 import { ripple } from '@material/mwc-ripple/ripple-directive';
-import { emit } from '@material/mwc-base/utils';
+import { emit, addHasRemoveClass } from '@material/mwc-base/utils';
 import { style } from './mwc-chip-css';
 
 import "@material/mwc-icon/mwc-icon-font";
@@ -110,18 +111,18 @@ export class Chip extends BaseElement {
 
   protected readonly mdcFoundationClass = MDCChipFoundation;
 
-  protected createAdapter(): Adapter {
+  protected createAdapter(): MDCChipAdapter {
     return {
-      ...super.createAdapter(),
+      ...addHasRemoveClass(this.mdcRoot),
       addClassToLeadingIcon: className => {
         if (this.leadingIconEl) {
           this.leadingIconEl.classList.add(className);
         }
       },
-      eventTargetHasClass: (target, className) => { return target ? target.classList.contains(className) : false; },
-      getCheckmarkBoundingClientRect: () => { return this.checkmarkEl ? this.checkmarkEl.getBoundingClientRect() : null; },
-      getComputedStyleValue: propertyName => { return window.getComputedStyle(this.mdcRoot).getPropertyValue(propertyName); },
-      getRootBoundingClientRect: () => { return this.mdcRoot.getBoundingClientRect(); },
+      eventTargetHasClass: (target: HTMLElement, className) => target ? target.classList.contains(className) : false,
+      getCheckmarkBoundingClientRect: () => this.checkmarkEl ? this.checkmarkEl.getBoundingClientRect() : null,
+      getComputedStyleValue: propertyName => window.getComputedStyle(this.mdcRoot).getPropertyValue(propertyName),
+      getRootBoundingClientRect: () => this.mdcRoot.getBoundingClientRect(),
       hasLeadingIcon: () => Boolean(this.leadingIconEl),
       notifyInteraction: () => this._onNotifyInteraction(),
       notifyRemoval: () => {
@@ -135,7 +136,7 @@ export class Chip extends BaseElement {
           this.leadingIconEl.classList.remove(className);
         }
       },
-      setStyleProperty: (propertyName, value) => { return this.mdcRoot.style.setProperty(propertyName, value); },
+      setStyleProperty: (propertyName, value) => this.mdcRoot.style.setProperty(propertyName, value),
     }
   }
 
