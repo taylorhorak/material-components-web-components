@@ -99,6 +99,9 @@ export class TextField extends FormElement {
   @query(strings.OUTLINE_SELECTOR)
   protected outlineElement!: HTMLElement;
 
+  @query(cssClasses.HELPER_LINE)
+  protected helperLine!: HTMLElement;
+
   @queryAll(strings.ICON_SELECTOR)
   protected iconElements!: HTMLElement[];
 
@@ -264,26 +267,19 @@ export class TextField extends FormElement {
     this.mdcFoundation.setUseNativeValidation(value);
   }
 
-  protected get _hasHelperLine() {
-    return !!(
-      this.mdcRoot.nextElementSibling &&
-      this.mdcRoot.nextElementSibling.classList.contains(cssClasses.HELPER_LINE)
-    );
-  }
+  protected _characterCounter!: MDCTextFieldCharacterCounter | null;
 
-  private _characterCounter!: MDCTextFieldCharacterCounter | null;
+  protected _helperText!: MDCTextFieldHelperText | null;
 
-  private _helperText!: MDCTextFieldHelperText | null;
+  protected _label!: MDCFloatingLabel | null;
 
-  private _label!: MDCFloatingLabel | null;
+  protected _leadingIcon!: MDCTextFieldIcon | null;
 
-  private _leadingIcon!: MDCTextFieldIcon | null;
+  protected _lineRipple!: MDCLineRipple | null;
 
-  private _lineRipple!: MDCLineRipple | null;
+  protected _outline!: MDCNotchedOutline | null;
 
-  private _outline!: MDCNotchedOutline | null;
-
-  private _trailingIcon!: MDCTextFieldIcon | null;
+  protected _trailingIcon!: MDCTextFieldIcon | null;
 
   protected _handleInput = this._onInput.bind(this) as EventListenerOrEventListenerObject;
 
@@ -329,7 +325,10 @@ export class TextField extends FormElement {
   protected _getInputAdapterMethods(): MDCTextFieldInputAdapter {
     return {
       getNativeInput: () => this.formElement,
-      isFocused: () => document.activeElement === this.formElement,
+      isFocused: () => {
+        const activeElement = (this as any).getRootNode().activeElement;
+        return activeElement === this.formElement;
+      },
       registerInputInteractionHandler: (evtType, handler) => this.formElement.addEventListener(evtType, handler),
       deregisterInputInteractionHandler: (evtType, handler) => this.formElement.removeEventListener(evtType, handler)
     };
@@ -498,12 +497,10 @@ export class TextField extends FormElement {
     this._lineRipple = this.lineRippleElement ? lineRippleFactory(this.lineRippleElement) : null;
     this._outline = this.outlineElement ? outlineFactory(this.outlineElement) : null;
     
-    const nextElementSibling = this.mdcRoot.nextElementSibling;
-    
     // Helper text
     const helperTextStrings = MDCTextFieldHelperTextFoundation.strings;
-    const helperTextEl = this._hasHelperLine && nextElementSibling
-      ? nextElementSibling.querySelector(helperTextStrings.ROOT_SELECTOR)
+    const helperTextEl = this.helperLine
+      ? this.helperLine.querySelector(helperTextStrings.ROOT_SELECTOR)
       : null;
     this._helperText = helperTextEl ? helperTextFactory(helperTextEl) : null;
 
@@ -511,8 +508,8 @@ export class TextField extends FormElement {
     const characterCounterStrings = MDCTextFieldCharacterCounterFoundation.strings;
     let characterCounterEl = this.mdcRoot.querySelector(characterCounterStrings.ROOT_SELECTOR);
     // If character counter is not found in root element search in sibling element.
-    if (!characterCounterEl && this._hasHelperLine && nextElementSibling) {
-      characterCounterEl = nextElementSibling.querySelector(characterCounterStrings.ROOT_SELECTOR);
+    if (!characterCounterEl && this.helperLine) {
+      characterCounterEl = this.helperLine.querySelector(characterCounterStrings.ROOT_SELECTOR);
     }
     this._characterCounter = characterCounterEl ? characterCounterFactory(characterCounterEl) : null;
 
@@ -581,7 +578,7 @@ export class TextField extends FormElement {
   /**
    * @return A map of all subcomponents to subfoundations.
    */
-  private _getFoundationMap(): Partial<MDCTextFieldFoundationMap> {
+  protected _getFoundationMap(): Partial<MDCTextFieldFoundationMap> {
     return {
       characterCounter: this._characterCounter ? this._characterCounter.foundation : undefined,
       helperText: this._helperText ? this._helperText.foundation : undefined,
