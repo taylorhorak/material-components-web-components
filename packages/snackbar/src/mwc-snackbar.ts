@@ -112,7 +112,7 @@ export class Snackbar extends BaseElement {
   }
 
   close(reason = '') {
-    this.mdcFoundation. close(reason);
+    this.mdcFoundation.close(reason);
   }
 
   _handleKeydown(e: KeyboardEvent) {

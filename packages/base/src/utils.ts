@@ -54,7 +54,7 @@ export function findAssignedElements(slot: HTMLSlotElement, selector: string) {
  */
 export function emit(target: HTMLElement, evtType: string, evtData = {}, shouldBubble = false) {
   let evt;
-  
+
   if (typeof CustomEvent === 'function') {
     evt = new CustomEvent(evtType, {
       detail: evtData,

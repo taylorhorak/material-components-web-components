@@ -20,8 +20,8 @@ limitations under the License.
     <title>list demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-    <script type="module" src="../node_modules/@material/mwc-list/mwc-list.js"></script>
-    <script type="module" src="../node_modules/@material/mwc-list/mwc-list-item.js"></script>
+    <script type="module" src="../node_modules/@material/mwc-list/mwc-list-item.js"
+    ></script>
     <script type="module" src="../node_modules/@material/mwc-icon/mwc-icon.js"></script>
     <script type="module" src="../node_modules/@material/mwc-radio/mwc-radio.js"></script>
     <script type="module" src="../node_modules/@material/mwc-checkbox/mwc-checkbox.js"></script>
@@ -39,109 +39,6 @@ limitations under the License.
 
     <main>
       <div>
-
-        <section>
-          <h2>Simple</h2>
-          <mwc-list>
-            <mwc-list-item>
-              Luis Sardon
-              <span slot="secondary">4 children</span>
-              <span slot="graphic">
-                <mwc-icon>wifi</mwc-icon>
-              </span>
-            </mwc-list-item>
-            <mwc-list-item>
-              Timothy Johnson
-            </mwc-list-item>
-            <mwc-list-item>
-              Molly Micheux
-            </mwc-list-item>
-            <mwc-list-item>
-              Rodrigo Aguilar
-            </mwc-list-item>
-          </mwc-list>
-        </section>
-
-        <section>
-          <h2>Non Interactive</h2>
-          <mwc-list nonInteractive>
-            <mwc-list-item>
-              Luis Sardon
-              <span slot="secondary">4 children</span>
-              <span slot="graphic">
-                <mwc-icon>wifi</mwc-icon>
-              </span>
-            </mwc-list-item>
-            <mwc-list-item>
-              Timothy Johnson
-            </mwc-list-item>
-            <mwc-list-item>
-              Molly Micheux
-            </mwc-list-item>
-            <mwc-list-item>
-              Rodrigo Aguilar
-            </mwc-list-item>
-          </mwc-list>
-        </section>
-
-        <section>
-            <h2>Two-line Variant</h2>
-            <mwc-list lines="2">
-              <mwc-list-item>
-                Luis Sardon
-                <span slot="secondary">4 children</span>
-              </mwc-list-item>
-              <mwc-list-item>
-                Timothy Johnson
-                <span slot="secondary">4 children</span>
-              </mwc-list-item>
-              <mwc-list-item>
-                Molly Micheux
-                <span slot="secondary">nope</span>
-              </mwc-list-item>
-              <mwc-list-item>
-                Rodrigo Aguilar
-                <span slot="secondary">who knows?</span>
-              </mwc-list-item>
-              <mwc-list-item disabled>
-                Steve Jansen
-                <span slot="secondary">3 babies</span>
-              </mwc-list-item>
-            </mwc-list>
-          </section>
-
-        <section>
-            <h2>With Icon/Graphics</h2>
-            <mwc-list>
-                <mwc-list-item>
-                  <mwc-icon slot="graphic">wifi</mwc-icon>
-                  Wireless Networking Available
-                </mwc-list-item>
-                <mwc-list-item>
-                  <mwc-icon slot="graphic">bluetooth</mwc-icon>
-                  Ur teeth will be blue
-                </mwc-list-item>
-                <mwc-list-item>
-                  <mwc-icon slot="graphic">data_usage</mwc-icon>
-                  IDK what this means
-                </mwc-list-item>
-              </mwc-list>
-        </section>
-
-        <section>
-            <h2>AvatarList Variant with Graphics</h2>
-            <mwc-list avatarList>
-              <mwc-list-item>
-                <img slot='graphic' width="40" height="40" src="https://avatars2.githubusercontent.com/u/1566?s=460&v=4" />
-                Timothy Johnson
-              </mwc-list-item>
-              <mwc-list-item>
-                <img slot='graphic' width="40" height="40" src="https://avatars2.githubusercontent.com/u/1566?s=460&v=4" />
-                Timbo Jojo
-              </mwc-list-item>
-            </mwc-list>
-      </section>
-
         <section>
           <h4>Accordion - Open on modal</h4>
           <mwc-list-item modal>
