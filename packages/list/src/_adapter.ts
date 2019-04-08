@@ -49,6 +49,8 @@ export interface MDCListAdapter {
    */
   focusItemAtIndex(index: number): void;
 
+  inputType(): string;
+
   /**
    * Sets the tabindex to the value specified for all button/a element children of
    * the list item at the index specified.

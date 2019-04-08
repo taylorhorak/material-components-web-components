@@ -24,10 +24,10 @@
 import {MDCComponent} from '@material/base/component';
 import {SpecificEventListener} from '@material/base/types';
 import {ponyfill} from '@material/dom/index';
-import {MDCListAdapter} from './adapter';
-import {cssClasses, strings} from './constants';
-import {MDCListFoundation} from './foundation';
-import {MDCListActionEventDetail, MDCListIndex} from './types';
+import {MDCListAdapter} from './_adapter';
+import {cssClasses, strings} from './_constants';
+import {MDCListFoundation} from './_foundation';
+import {MDCListActionEventDetail, MDCListIndex} from './_types';
 
 export type MDCListFactory = (el: Element, foundation?: MDCListFoundation) => MDCList;
 
@@ -145,6 +145,7 @@ export class MDCList extends MDCComponent<MDCListFoundation> {
           element.focus();
         }
       },
+      inputType: () => "boo",
       getAttributeForElementIndex: (index, attr) => this.listElements[index].getAttribute(attr),
       getFocusedElementIndex: () => this.listElements.indexOf(document.activeElement!),
       getListItemCount: () => this.listElements.length,

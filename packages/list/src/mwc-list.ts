@@ -61,6 +61,12 @@ export class List extends BaseElement {
   @property({type: Boolean})
   nonInteractive = false;
 
+  @property({type: String})
+  inputType = 'none';
+
+  @property({type: String})
+  inputAction = 'primary';
+
   @observer(function(this: List, value: boolean) {
     this.mdcFoundation && this.mdcFoundation.setVerticalOrientation(!value);
   })
@@ -115,11 +121,11 @@ export class List extends BaseElement {
     return {
       ...addHasRemoveClass(this.mdcRoot),
       getListItemCount: () => this.listElements.length,
+      inputType: () => this.inputType,
       getFocusedElementIndex: () => {
-        this.listElements.forEach( (ele, index) => {
-          if (Number(ele.getAttribute('tabindex')) >= 0) return index;
-        });
-        return 0;
+        return this.listElements.map( (ele, index) => {
+          return (ele && Number(ele.getAttribute('tabindex')) >= 0) ? index : -1;
+        }).filter( e => e !== -1 )[0];
       },
       getAttributeForElementIndex: (index, attr) => {
         const ele = this.listElements[index] as ListItem;
@@ -166,16 +172,6 @@ export class List extends BaseElement {
   }
 
   public layout() {
-    // List items need to have at least tabindex=-1 to be focusable.
-    [].slice.call(this.mdcRoot.querySelectorAll('.mdc-list-item:not([tabindex])'))
-        .forEach((el: Element) => {
-          el.setAttribute('tabindex', '-1');
-        });
-
-    // Child button/a elements are not tabbable until the list item is focused.
-    [].slice.call(this.mdcRoot.querySelectorAll(strings.FOCUSABLE_CHILD_ELEMENTS))
-        .forEach((el: Element) => el.setAttribute('tabindex', '-1'));
-
     this.mdcFoundation.layout();
   }
 
@@ -187,45 +183,26 @@ export class List extends BaseElement {
    * Initialize selectedIndex value based on pre-selected checkbox list items, single selection or radio.
    */
   public initializeListType() {
-    const checkboxListItems = this.mdcRoot.querySelectorAll(strings.ARIA_ROLE_CHECKBOX_SELECTOR);
-    const singleSelectedListItem = this.mdcRoot.querySelector(`
-      .${cssClasses.LIST_ITEM_ACTIVATED_CLASS},
-      .${cssClasses.LIST_ITEM_SELECTED_CLASS}
-    `);
-    const radioSelectedListItem = this.mdcRoot.querySelector(strings.ARIA_CHECKED_RADIO_SELECTOR);
-
-    if (checkboxListItems.length) {
-      const preselectedItems = this.mdcRoot.querySelectorAll(strings.ARIA_CHECKED_CHECKBOX_SELECTOR);
-      this.selectedIndex =
-          ([].map.call(preselectedItems, (listItem: Element) => this.listElements.indexOf(listItem)) as number[])[0];
-    } else if (singleSelectedListItem) {
-      if (singleSelectedListItem.classList.contains(cssClasses.LIST_ITEM_ACTIVATED_CLASS)) {
-        this.mdcFoundation.setUseActivatedClass(true);
-      }
-
-      this.singleSelection = true;
-      this.selectedIndex = this.listElements.indexOf(singleSelectedListItem);
-    } else if (radioSelectedListItem) {
-      this.selectedIndex = this.listElements.indexOf(radioSelectedListItem);
-    }
+    this.mdcFoundation.setUseActivatedClass(this.listElements.filter(e => e.activated).length > 0);
+    this.selectedIndex = this.listElements.indexOf(this.listElements.filter(e => e.selected)[0]);
   }
 
-  get listElements(): Element[] {
-    return findAssignedElements(this.slotEl, 'mwc-list-item');
+  get listElements(): ListItem[] {
+    return findAssignedElements(this.slotEl, 'mwc-list-item') as ListItem[];
   }
 
-  private getListItemIndex_(evt: Event) {
+  private getListItemIndex_(evt: Event): number {
+    return this.getIndex(this.getListItem_(evt))
+  }
+
+  private getListItem_(evt: Event): ListItem | null {
     const eventTarget = evt.target as Element;
-    const nearestParent = closest(eventTarget, `mwc-list-item, mwc-list`);
-
-    // Get the index of the element if it is a list item.
-    if (nearestParent && matches(nearestParent, `mwc-list-item`)) {
-      return this.listElements.indexOf(nearestParent);
-    }
-
-    return -1;
+    return closest(eventTarget, `mwc-list-item`) as ListItem || null;
   }
 
+  private getIndex(item): number {
+    return item ? this.listElements.indexOf(item) : -1
+  }
   /**
    * Used to figure out which element was clicked before sending the event to the foundation.
    */
@@ -249,6 +226,7 @@ export class List extends BaseElement {
   private handleKeydownEvent_(evt: KeyboardEvent) {
     const index = this.getListItemIndex_(evt);
     const target = evt.target as Element;
+    console.log('keydown', evt, target)
 
     if (index >= 0 && !this.nonInteractive) {
       this.mdcFoundation!.handleKeydown(evt, target.classList.contains(cssClasses.LIST_ITEM_CLASS), index);

@@ -62,10 +62,15 @@ export class ListItem extends LitElement {
   @property({type: Boolean})
   trailingInput = false;
 
+  @property({type: Number})
+  tabindex = -1;
+
   protected _lines = 1;
   protected _ripple = false;
   protected _avatarList = false;
   protected _nonInteractive = false;
+  protected _inputType = 'none';
+  protected _inputAction = '';
 
   static styles = style;
 
@@ -80,9 +85,11 @@ export class ListItem extends LitElement {
       "mdc-list-item--activated": this.activated,
     };
     return html`
-      <li class="${classMap(classes)}">
+      <li class="${classMap(classes)}" tabindex="${this.tabindex}">
         ${this.renderGraphic()}
-        ${this._lines === 1 ? this.renderSingleLine() : this.renderDoubleLine()}
+        <span class="mdc-list-item__text">
+          ${this._lines === 1 ? this.renderSingleLine() : this.renderDoubleLine()}
+        </span>
         ${this.renderMeta()}
       </li>
     `;
@@ -100,16 +107,14 @@ export class ListItem extends LitElement {
 
   renderSingleLine() {
     return html`
-      <span class="mdc-list-item__text"><slot></slot></span>
+      <slot></slot>
     `;
   }
 
   renderDoubleLine() {
     return html`
-      <span class="mdc-list-item__text">
-        <span class="mdc-list-item__primary-text"><slot></slot></span>
-        <span class="mdc-list-item__secondary-text"><slot name='secondary'></slot></span>
-      </span>
+      <span class="mdc-list-item__primary-text"><slot></slot></span>
+      <span class="mdc-list-item__secondary-text"><slot name='secondary'></slot></span>
     `;
   }
 
@@ -141,12 +146,22 @@ export class ListItem extends LitElement {
     this[attr] = value;
   }
 
+  public setFocused(focus:boolean) {
+    if (focus) {
+      // TODO: children of this will be focusable with tabindex
+    } else {
+      // TODO: children need to have their tabindex set to -1
+    }
+  }
+
   public setParentType(parentElement = this.parentElement) {
     if (parentElement instanceof MWCList) {
       this._lines = parentElement.lines;
       this._ripple = parentElement.ripple;
       this._avatarList = parentElement.avatarList;
       this._nonInteractive = parentElement.nonInteractive;
+      this._inputType = parentElement.inputType;
+      this._inputAction = parentElement.inputAction;
       this.requestUpdate();
     }
   }

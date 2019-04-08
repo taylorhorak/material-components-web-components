@@ -30,6 +30,21 @@ limitations under the License.
     <script type="module" src="../node_modules/@material/mwc-button/mwc-button.js"></script>
     <link rel="stylesheet" href="demo-component.css" />
   </head>
+  <style>
+    body.hidden {
+      background-color: #ffcccc;
+    }
+    body.visible {
+      background-color: #ffffff;
+    }
+  </style>
+  <script src='./ifvisible.js'>
+
+
+    // var refresh_on_blur = (secs) => {
+    //   var 
+    // }
+  </script>
   <body class="unresolved">
     <header>
       <a href="index.html"
@@ -84,10 +99,6 @@ limitations under the License.
           <mwc-list>
             <mwc-list-item>
               Luis Sardon
-              <span slot="secondary">4 children</span>
-              <span slot="graphic">
-                <mwc-icon>wifi</mwc-icon>
-              </span>
             </mwc-list-item>
             <mwc-list-item>
               Timothy Johnson
@@ -106,10 +117,6 @@ limitations under the License.
           <mwc-list nonInteractive>
             <mwc-list-item>
               Luis Sardon
-              <span slot="secondary">4 children</span>
-              <span slot="graphic">
-                <mwc-icon>wifi</mwc-icon>
-              </span>
             </mwc-list-item>
             <mwc-list-item>
               Timothy Johnson
@@ -128,7 +135,7 @@ limitations under the License.
             <mwc-list lines="2">
               <mwc-list-item>
                 Luis Sardon
-                <span slot="secondary">4 children</span>
+                <span slot="secondary">4 niños</span>
               </mwc-list-item>
               <mwc-list-item>
                 Timothy Johnson
@@ -136,15 +143,15 @@ limitations under the License.
               </mwc-list-item>
               <mwc-list-item>
                 Molly Micheux
-                <span slot="secondary">nope</span>
+                <span slot="secondary">not gonna happen</span>
               </mwc-list-item>
               <mwc-list-item>
                 Rodrigo Aguilar
-                <span slot="secondary">who knows?</span>
+                <span slot="secondary">it's a mystery</span>
               </mwc-list-item>
               <mwc-list-item disabled>
                 Steve Jansen
-                <span slot="secondary">3 babies</span>
+                <span slot="secondary">3 wahoos</span>
               </mwc-list-item>
             </mwc-list>
           </section>
@@ -181,6 +188,7 @@ limitations under the License.
             </mwc-list>
       </section>
 
+      <h1> Older stuff below </h1>
         <section>
           <h4>Accordion - Open on modal</h4>
           <mwc-list-item modal>

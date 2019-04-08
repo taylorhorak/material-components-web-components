@@ -61,6 +61,7 @@ export class MDCListFoundation extends MDCFoundation<MDCListAdapter> {
       setAttributeForElementIndex: () => undefined,
       setCheckedCheckboxOrRadioAtIndex: () => undefined,
       setTabIndexForListItemChildren: () => undefined,
+      inputType: () => 'undefined',
     };
   }
 
@@ -83,9 +84,9 @@ export class MDCListFoundation extends MDCFoundation<MDCListAdapter> {
       return;
     }
 
-    if (this.adapter_.hasCheckboxAtIndex(0)) {
+    if (this.adapter_.inputType() === 'checkbox') {
       this.isCheckboxList_ = true;
-    } else if (this.adapter_.hasRadioAtIndex(0)) {
+    } else if (this.adapter_.inputType() === 'radio') {
       this.isRadioList_ = true;
     }
   }
