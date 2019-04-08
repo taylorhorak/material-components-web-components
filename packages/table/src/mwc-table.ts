@@ -20,7 +20,6 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { findAssignedElement } from '@authentic/mwc-base/utils';
 import { observer } from '@authentic/mwc-base/observer';
 import { cssClasses } from './constants';
-import { Checkbox as MWCCheckbox } from '@authentic/mwc-checkbox';
 
 import { style } from './mwc-table-css';
 
@@ -108,7 +107,7 @@ export class Table extends LitElement {
       : [];
   }
 
-  protected get _headerRow(): MWCCheckbox|null {
+  protected get _headerRow(): HTMLTableRowElement|null {
     return this.mdcRoot.querySelector('thead tr');
   }
 

@@ -16,8 +16,6 @@ limitations under the License.
 */
 import {
   BaseElement,
-  Foundation,
-  Adapter,
   customElement,
   query,
   html,
@@ -29,23 +27,9 @@ import { MDCList } from '@material/list';
 import { MDCMenuFoundation, Corner } from '@material/menu';
 import { MDCMenuSurface } from '@material/menu-surface';
 import { AnchorMargin } from '@material/menu-surface/foundation';
-import { emit } from '@authentic/mwc-base/utils';
+import { emit, addHasRemoveClass } from '@authentic/mwc-base/utils';
 
 import { style } from './mwc-menu-css.js';
-
-export interface MenuFoundation extends Foundation {
-  handleKeydown(evt: KeyboardEvent): void;
-  handleClick(evt: MouseEvent): void;
-  addClassToElementAtIndex(index: number): void;
-  removeClassFromElementAtIndex(index: number): void;
-  addAttributeToElementAtIndex(index: number): void;
-  removeAttributeFromElementAtIndex(index: number): void;
-}
-
-export declare var MenuFoundation: {
-  prototype: MenuFoundation;
-  new(adapter: Adapter): MenuFoundation;
-}
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -274,9 +258,9 @@ export class Menu extends BaseElement {
     return this._listInstance;
   }
 
-  protected readonly mdcFoundationClass: typeof MenuFoundation = MDCMenuFoundation;
+  protected readonly mdcFoundationClass = MDCMenuFoundation;
 
-  protected mdcFoundation!: MenuFoundation;
+  protected mdcFoundation!: MDCMenuFoundation;
 
   protected _preventClose = false;
 
@@ -284,7 +268,7 @@ export class Menu extends BaseElement {
 
   protected createAdapter() {
     return {
-      ...super.createAdapter(),
+      ...addHasRemoveClass(this.mdcRoot),
       addClassToElementAtIndex: (index, className) => {
         const list = this.items;
         list[index].classList.add(className);
