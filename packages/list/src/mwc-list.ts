@@ -62,10 +62,10 @@ export class List extends BaseElement {
   nonInteractive = false;
 
   @observer(function(this: List, value: boolean) {
-    this.mdcFoundation && this.mdcFoundation.setVerticalOrientation(value);
+    this.mdcFoundation && this.mdcFoundation.setVerticalOrientation(!value);
   })
   @property({type: Boolean})
-  vertical = true;
+  horizontal = false;
 
   @observer(function(this: List, value: boolean) {
     this.mdcFoundation && this.mdcFoundation.setWrapFocus(value);
@@ -115,25 +115,53 @@ export class List extends BaseElement {
     return {
       ...addHasRemoveClass(this.mdcRoot),
       getListItemCount: () => this.listElements.length,
-      getFocusedElementIndex: () => 1,
-      getAttributeForElementIndex: (index, attr) => `${index} , ${attr}`,
-      setAttributeForElementIndex: (index, attr, value) => { return `${index} , ${attr}, ${value}` },
+      getFocusedElementIndex: () => {
+        this.listElements.forEach( (ele, index) => {
+          if (Number(ele.getAttribute('tabindex')) >= 0) return index;
+        });
+        return 0;
+      },
+      getAttributeForElementIndex: (index, attr) => {
+        const ele = this.listElements[index] as ListItem;
+        if (ele) return ele.getAttribute(attr); //temporary
+      },
+      setAttributeForElementIndex: (index, attr, value) => {
+        const ele = this.listElements[index] as ListItem;
+        if (ele) ele.setAttribute(attr, value); // temporary
+      },
       addClassForElementIndex: (index, className) => {
         const ele = this.listElements[index] as ListItem;
-        if (ele) ele.addClass(className); // not sure about this
+        if (ele) ele.addClass(className); // temp solution
       },
       removeClassForElementIndex: (index, className) => {
         const ele = this.listElements[index] as ListItem;
-        if (ele) ele.removeClass(className); // not sure about this
+        if (ele) ele.removeClass(className); // temp solution
       },
-      focusItemAtIndex: (index: number) => { return `${index} ` },
-      setTabIndexForListItemChildren: (listItemIndex: number, tabIndexValue: string) => { return `${listItemIndex} , ${tabIndexValue}` },
-      hasRadioAtIndex: (index: number) => { return index === 0 ? false : false },
-      hasCheckboxAtIndex: (index: number) => { return index === 0 ? false : false },
-      isCheckboxCheckedAtIndex: (index: number) => { return index === 0 ? false : false },
-      setCheckedCheckboxOrRadioAtIndex: (index: number) => { return index === 0 ? false : false },
+      focusItemAtIndex: (index: number) => {
+        const ele = this.listElements[index] as ListItem;
+        if (ele) ele.focus(); // temp?
+      },
+      setTabIndexForListItemChildren: (listItemIndex: number, tabIndexValue: string) => {
+        return `${listItemIndex} , ${tabIndexValue}`; // TODO
+      },
+      hasRadioAtIndex: (index: number) =>  {
+        const ele = this.listElements[index] as ListItem;
+        return ele ? ele.radio : false;
+      },
+      hasCheckboxAtIndex: (index: number) => {
+        const ele = this.listElements[index] as ListItem;
+        return ele ? ele.checkbox : false;
+      },
+      isCheckboxCheckedAtIndex: (index: number) => {
+        const ele = this.listElements[index] as ListItem;
+        return ele ? ele.selected : false;
+      },
+      setCheckedCheckboxOrRadioAtIndex: (index: number) => {
+        const ele = this.listElements[index] as ListItem;
+        if (ele) ele.selected = true;
+      },
       notifyAction: (index: number) => { emit(this, strings.ACTION_EVENT, { listIndex: index }, true) },
-      isFocusInsideList: () => { return true },
+      isFocusInsideList: () :boolean => ( this.mdcRoot.querySelectorAll(":focus").length > 0 ),
     }
   }
 

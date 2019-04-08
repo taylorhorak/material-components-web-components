@@ -53,6 +53,15 @@ export class ListItem extends LitElement {
   @property({type: Boolean})
   activated = false;
 
+  @property({type: Boolean})
+  checkbox = false;
+
+  @property({type: Boolean})
+  radio = false;
+
+  @property({type: Boolean})
+  trailingInput = false;
+
   protected _lines = 1;
   protected _ripple = false;
   protected _avatarList = false;
@@ -97,8 +106,10 @@ export class ListItem extends LitElement {
 
   renderDoubleLine() {
     return html`
-      <span class="mdc-list-item__primary-text"><slot></slot></span>
-      <span class="mdc-list-item__secondary-text"><slot name='secondary'></slot></span>
+      <span class="mdc-list-item__text">
+        <span class="mdc-list-item__primary-text"><slot></slot></span>
+        <span class="mdc-list-item__secondary-text"><slot name='secondary'></slot></span>
+      </span>
     `;
   }
 
@@ -120,6 +131,14 @@ export class ListItem extends LitElement {
 
   public removeClass(className) {
     this.mdcRoot.classList.remove(className)
+  }
+
+  public getAttribute(attr) {
+    return this[attr];
+  }
+
+  public setAttribute(attr, value) {
+    this[attr] = value;
   }
 
   public setParentType(parentElement = this.parentElement) {
