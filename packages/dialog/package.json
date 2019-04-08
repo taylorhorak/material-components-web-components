@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-dialog",
-  "version": "0.5.0",
+  "version": "0.5.0-rc.6",
   "description": "",
   "main": "mwc-dialog.js",
   "scripts": {
@@ -9,14 +9,14 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@authentic/mwc-base": "^0.5.0-rc.6",
+    "@authentic/mwc-button": "^0.5.0-rc.6",
+    "@authentic/mwc-ripple": "^0.5.0-rc.6",
     "@material/dialog": "^1.1.0",
     "@material/dom": "^1.1.0",
-    "@authentic/mwc-base": "^0.5.0",
-    "@authentic/mwc-button": "^0.5.0",
-    "@authentic/mwc-ripple": "^0.5.0",
     "blocking-elements": "^0.0.2",
-    "wicg-inert": "^1.1.6",
-    "lit-element": "^2.0.1"
+    "lit-element": "^2.0.1",
+    "wicg-inert": "^1.1.6"
   },
   "publishConfig": {
     "access": "public"
