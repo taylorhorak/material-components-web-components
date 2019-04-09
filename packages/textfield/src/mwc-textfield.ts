@@ -472,7 +472,7 @@ export class TextField extends FormElement {
       'mdc-text-field': true,
       'mdc-text-field--no-label': !hasLabel,
       'mdc-text-field--outlined': this.outlined,
-      'mdc-text-field--textarea': this.type === 'textarea',
+      'mdc-text-field--textarea': isTextarea,
       'mdc-text-field--fullwidth': this.fullWidth,
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--with-leading-icon': hasLeadingIcon,
