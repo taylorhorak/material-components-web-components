@@ -460,7 +460,7 @@ export class TextField extends FormElement {
   render() {
     const isTextarea = this.type === 'textarea';
     const hasOutline = this.outlined || isTextarea;
-    const hasLabel = this.label && !this.fullWidth;
+    const hasLabel = this.label && (!this.fullWidth || isTextarea);
     const hasLeadingIcon = this.leadingIconContent;
     const hasTrailingIcon = this.trailingIconContent;
     const hasHelperLine = !!(

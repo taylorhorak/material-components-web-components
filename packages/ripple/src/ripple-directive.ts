@@ -28,6 +28,7 @@ const supportsCssVariables = util.supportsCssVariables(window);
 type Handler = EventListenerOrEventListenerObject;
 
 export interface RippleOptions {
+  adapter?: any;
   interactionNode?: HTMLElement;
   unbounded?: boolean;
   disabled?: boolean;
@@ -98,6 +99,7 @@ export const rippleNode = (options: RippleNodeOptions) => {
       surfaceNode.style.setProperty(varName, value),
     computeBoundingRect: () => interactionNode.getBoundingClientRect(),
     getWindowPageOffset: () => ({x: window.pageXOffset, y: window.pageYOffset}),
+    ...options.adapter
   };
   const rippleFoundation = new MDCRippleFoundation(adapter);
   rippleFoundation.init();
