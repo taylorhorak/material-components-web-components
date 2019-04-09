@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-select",
-  "version": "0.5.0-rc.6",
+  "version": "0.5.0-rc.7",
   "description": "",
   "main": "mwc-select.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@authentic/mwc-base": "^0.5.0-rc.6",
-    "@authentic/mwc-ripple": "^0.5.0-rc.6",
+    "@authentic/mwc-ripple": "^0.5.0-rc.7",
     "@material/animation": "^1.0.0",
     "@material/floating-label": "^1.1.0",
     "@material/line-ripple": "^1.1.0",

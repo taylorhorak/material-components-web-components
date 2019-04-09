@@ -1,6 +1,6 @@
 {
   "name": "@authentic/mwc-menu",
-  "version": "0.5.0-rc.6",
+  "version": "0.5.0-rc.7",
   "description": "",
   "main": "mwc-menu.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@authentic/mwc-base": "^0.5.0-rc.6",
-    "@authentic/mwc-list": "^0.5.0-rc.6",
+    "@authentic/mwc-list": "^0.5.0-rc.7",
     "@material/list": "^0.44.1",
     "@material/menu": "^0.44.1",
     "@material/menu-surface": "^0.44.1",
