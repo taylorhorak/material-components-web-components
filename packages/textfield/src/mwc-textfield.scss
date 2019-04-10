@@ -41,3 +41,15 @@ limitations under the License.
     opacity: 0;
   }
 }
+
+.mdc-text-field--with-trailing-icon-interaction {
+  .mdc-text-field__icon--trailing {
+    pointer-events: all;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+      color: $mdc-text-field-label;
+    }
+  }
+}

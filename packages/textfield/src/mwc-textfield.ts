@@ -53,6 +53,7 @@ import {
 import { MDCTextFieldIcon, MDCTextFieldIconFactory } from '@material/textfield/icon';
 import { MDCTextFieldFoundationMap } from '@material/textfield/types';
 import { ripple } from '@material/mwc-ripple/ripple-directive';
+import { emit } from '@material/mwc-base/utils';
 
 import { style } from './mwc-textfield-css.js';
 
@@ -170,6 +171,9 @@ export class TextField extends FormElement {
     this.mdcFoundation && this.mdcFoundation.setTrailingIconContent(value);
   })
   public trailingIconContent = '';
+
+  @property({ type: Boolean })
+  public trailingIconInteraction = false;
 
   @property({ type: Boolean })
   @observer(function(this: TextField, value: boolean) {
@@ -385,6 +389,8 @@ export class TextField extends FormElement {
           aria-label="${this.label}"
           ?required="${this.required}"
           ?disabled="${this.disabled}"
+          @focus="${evt => this._handleInteractionEvent(evt)}"
+          @blur="${evt => this._handleInteractionEvent(evt)}"
           .value="${this.value}"
         ></textarea>
       `
@@ -397,7 +403,8 @@ export class TextField extends FormElement {
           aria-label="${this.label}"
           ?required="${this.required}"
           ?disabled="${this.disabled}"
-          .ripple="${this.outlined && ripple({ unbounded: false })}"
+          @focus="${evt => this._handleInteractionEvent(evt)}"
+          @blur="${evt => this._handleInteractionEvent(evt)}"
           .value="${this.value}">
       `;
   }
@@ -484,10 +491,11 @@ export class TextField extends FormElement {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--with-leading-icon': hasLeadingIcon,
       'mdc-text-field--with-trailing-icon': hasTrailingIcon,
+      'mdc-text-field--with-trailing-icon-interaction' : this.trailingIconInteraction
     };
 
     return html`
-      <div class="${classMap(classes)}">
+      <div class="${classMap(classes)}" .ripple="${!hasOutline && ripple({ unbounded: false })}">
         ${hasCharacterCounter && isTextarea ? this._renderCharacterCounter() : ''}
         ${hasLeadingIcon ? this._renderIcon('leading') : ''}
         ${this._renderInput()}
@@ -554,6 +562,10 @@ export class TextField extends FormElement {
 
     this.formElement.addEventListener('input', this._handleInput);
     this.formElement.addEventListener('blur', this._handleBlur);
+
+    if (this._trailingIcon) {
+      this._trailingIcon.listen('click', () => this._onTrailingIconAction());
+    }
   }
 
   createFoundation() {
@@ -578,6 +590,20 @@ export class TextField extends FormElement {
    */
   protected _onBlur() {
     this._setValidity(this.valid);
+  }
+
+  /**
+   * Handle trailing icon action event
+   */
+  protected _onTrailingIconAction() {
+    emit(this, 'MDCTextfield:trailingIconInteraction');
+  }
+
+  /**
+   * Handle formElement interaction event
+   */
+  protected _handleInteractionEvent(evt) {
+    emit(this.mdcRoot, evt.type, {}, true);
   }
 
   protected _setValidity(isValid: boolean) {
