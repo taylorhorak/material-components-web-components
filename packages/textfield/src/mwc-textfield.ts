@@ -566,7 +566,8 @@ export class TextField extends FormElement {
     this.formElement.addEventListener('blur', this._handleBlur);
 
     if (this._trailingIcon) {
-      this._trailingIcon.listen('click', () => this._onTrailingIconAction());
+      this._trailingIcon.listen('click', evt => this._onTrailingIconAction(evt));
+      this._trailingIcon.listen('keydown', evt => this._onTrailingIconAction(evt));
     }
   }
 
@@ -597,7 +598,16 @@ export class TextField extends FormElement {
   /**
    * Handle trailing icon action event
    */
-  protected _onTrailingIconAction() {
+  protected _onTrailingIconAction(evt) {
+    if (evt.type === 'keydown') {
+      const isSpace = evt.key === 'Space' || evt.keyCode === 32;
+      const isEnter = evt.key === 'Enter' || evt.keyCode === 13;
+
+      if (!isSpace && !isEnter) return;
+
+      if (isSpace) evt.preventDefault();
+    }
+
     emit(this, 'MDCTextfield:trailingIconInteraction');
   }
 
