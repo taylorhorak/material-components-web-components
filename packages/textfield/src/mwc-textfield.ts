@@ -436,11 +436,12 @@ export class TextField extends FormElement {
 
   _renderHelperLine() {
     const isTextarea = this.type === 'textarea';
+    const hasCharacterCounter = this.maxLength && this.maxLength > 0;
 
     return html`
       <div class="mdc-text-field-helper-line">
         ${this.helperTextContent || this.validationMessage ? this._renderHelperText() : ''}
-        ${this.maxLength && this.maxLength > 0 && !isTextarea ? this._renderCharacterCounter() : ''}
+        ${hasCharacterCounter && !isTextarea ? this._renderCharacterCounter() : ''}
       </div>
     `;
   }
@@ -468,10 +469,11 @@ export class TextField extends FormElement {
     const hasLabel = this.label && (!this.fullWidth || isTextarea);
     const hasLeadingIcon = this.leadingIconContent;
     const hasTrailingIcon = this.trailingIconContent;
+    const hasCharacterCounter = this.maxLength && this.maxLength > 0;
     const hasHelperLine = !!(
       this.helperTextContent || this.validationMessage
     ) || !!(
-      this.maxLength && this.maxLength > 0 && !isTextarea
+      hasCharacterCounter && !isTextarea
     );
     const classes = {
       'mdc-text-field': true,
@@ -486,7 +488,7 @@ export class TextField extends FormElement {
 
     return html`
       <div class="${classMap(classes)}">
-        ${this.maxLength && isTextarea ? this._renderCharacterCounter() : ''}
+        ${hasCharacterCounter && isTextarea ? this._renderCharacterCounter() : ''}
         ${hasLeadingIcon ? this._renderIcon('leading') : ''}
         ${this._renderInput()}
         ${hasLabel && !hasOutline ? this._renderFloatingLabel() : ''}
