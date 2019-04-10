@@ -99,7 +99,7 @@ export class TextField extends FormElement {
   @query(strings.OUTLINE_SELECTOR)
   protected outlineElement!: HTMLElement;
 
-  @query(cssClasses.HELPER_LINE)
+  @query(`.${cssClasses.HELPER_LINE}`)
   protected helperLine!: HTMLElement;
 
   @queryAll(strings.ICON_SELECTOR)
@@ -428,9 +428,9 @@ export class TextField extends FormElement {
     `;
   }
 
-  _renderIcon() {
+  _renderIcon(variant: string) {
     return html`
-      <i class="material-icons mdc-text-field__icon"></i>
+      <i class="material-icons mdc-text-field__icon mdc-text-field__icon--${variant}"></i>
     `;
   }
 
@@ -440,14 +440,19 @@ export class TextField extends FormElement {
     return html`
       <div class="mdc-text-field-helper-line">
         ${this.helperTextContent || this.validationMessage ? this._renderHelperText() : ''}
-        ${this.maxLength && !isTextarea ? this._renderCharacterCounter() : ''}
+        ${this.maxLength && this.maxLength > 0 && !isTextarea ? this._renderCharacterCounter() : ''}
       </div>
     `;
   }
 
   _renderHelperText() {
+    const classes = {
+      'mdc-text-field-helper-text': true,
+      'mdc-text-field-helper-text--persistent': this.persistentHelperText
+    };
+
     return html`
-      <div class="mdc-text-field-helper-text"></div>
+      <div class="${classMap(classes)}">${this.helperTextContent}</div>
     `
   }
 
@@ -466,7 +471,7 @@ export class TextField extends FormElement {
     const hasHelperLine = !!(
       this.helperTextContent || this.validationMessage
     ) || !!(
-      this.maxLength && !isTextarea
+      this.maxLength && this.maxLength > 0 && !isTextarea
     );
     const classes = {
       'mdc-text-field': true,
@@ -482,10 +487,10 @@ export class TextField extends FormElement {
     return html`
       <div class="${classMap(classes)}">
         ${this.maxLength && isTextarea ? this._renderCharacterCounter() : ''}
-        ${hasLeadingIcon ? this._renderIcon() : ''}
+        ${hasLeadingIcon ? this._renderIcon('leading') : ''}
         ${this._renderInput()}
         ${hasLabel && !hasOutline ? this._renderFloatingLabel() : ''}
-        ${hasTrailingIcon ? this._renderIcon() : ''}
+        ${hasTrailingIcon ? this._renderIcon('trailing') : ''}
         ${hasOutline ? this._renderNotchedOutline() : this._renderLineRipple()}
       </div>
       ${hasHelperLine ? this._renderHelperLine() : ''}
@@ -529,12 +534,17 @@ export class TextField extends FormElement {
       }
     }
 
-    // set intial input props
+    // // set intial input props
     INPUT_PROPS.forEach(prop => {
       const value = this[prop];
 
-      if (value) {
-        this.formElement[prop] = value;
+      switch(prop) {
+        case 'maxLength':
+          if (value && value > 0) this.formElement[prop] = value;
+          break;
+        default:
+          if (value) this.formElement[prop] = value;
+          break;
       }
     });
 
