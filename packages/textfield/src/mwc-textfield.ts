@@ -436,8 +436,10 @@ export class TextField extends FormElement {
   }
 
   _renderIcon(variant: string) {
+    const isTrailingIconInteraction = variant === 'trailing' && this.trailingIconInteraction;
+
     return html`
-      <i class="material-icons mdc-text-field__icon mdc-text-field__icon--${variant}" tabindex="${this.trailingIconInteraction ? 0 : -1}"></i>
+      <i class="material-icons mdc-text-field__icon mdc-text-field__icon--${variant}" tabindex="${isTrailingIconInteraction ? 0 : -1}"></i>
     `;
   }
 
