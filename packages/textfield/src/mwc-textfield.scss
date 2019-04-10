@@ -46,10 +46,11 @@ limitations under the License.
   .mdc-text-field__icon--trailing {
     pointer-events: all;
     cursor: pointer;
+    outline: none;
 
     &:hover {
       opacity: 1;
-      color: $mdc-text-field-label;
+      color: $mdc-text-field-ink-color;
     }
   }
 }
