@@ -48,7 +48,8 @@ limitations under the License.
     cursor: pointer;
     outline: none;
 
-    &:hover {
+    &:hover,
+    &:focus {
       opacity: 1;
       color: $mdc-text-field-ink-color;
     }
